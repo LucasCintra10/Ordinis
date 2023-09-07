@@ -22,6 +22,9 @@ const config: Config = {
       spacing: {
         '500': '500px',
       },
+      borderRadius: {
+        '10xl': '40px',
+      },
       backgroundImage: {
         'btn-pattern': "url('/bg-btn.svg')",
         'btn-pattern-big': "url('/bg-btn-big.svg')",
