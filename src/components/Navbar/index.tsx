@@ -3,6 +3,25 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import * as Icon from "@heroicons/react/24/outline";
+
+type NavBarItemProps = {
+  icon: React.ElementType;
+  text: string;
+  address: string;
+};
+
+const NavBarItem = ({ icon: IconComponent, text, address }: NavBarItemProps) => {
+  return (
+    <Link
+      href={address}
+      className="w-44 h-12 flex items-center rounded  text-c2 font-bold text-base ml-2 gap-2 transition-colors hover:bg-c2 hover:text-p3"
+    >
+      <IconComponent className="w-5 h-5" />
+      {text}
+    </Link>
+  );
+};
 
 export default function Navbar() {
   return (
@@ -13,12 +32,12 @@ export default function Navbar() {
           <Image src="ordinis.svg" alt="Ordinis" width={167} height={27} />
         </div>
         <ul className=" w-full flex flex-col justify-center items-center gap-6">
-          <Link href="/" className="w-44 h-12 flex items-center  text-c2 font-bold text-base">Home</Link>
-          <Link href="/" className="w-44 h-12  flex items-center text-c2 font-bold text-base">Registros</Link>
-          <Link href="/"className="w-44 h-12 flex items-center  text-c2 font-bold text-base">Relatórios</Link>
-          <Link href="/"className="w-44 h-12 flex items-center  text-c2 font-bold text-base">Configurações</Link>
-          <Link href="/"className="w-44 h-12 flex items-center  text-c2 font-bold text-base">Ajuda</Link>
-          <Link href="/"className="w-44 h-12 flex items-center  text-c2 font-bold text-base">Sair</Link>
+          <NavBarItem icon={Icon.HomeIcon} text="Home" address="/home" />
+          <NavBarItem icon={Icon.ArchiveBoxIcon} text="Registros" address="/" />
+          <NavBarItem icon={Icon.DocumentTextIcon} text="Relatórios" address="/" />
+          <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/" />
+          <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/" />
+          <NavBarItem icon={Icon.ArrowLeftOnRectangleIcon} text="Sair" address="/" />
         </ul>
       </div>
     </>
