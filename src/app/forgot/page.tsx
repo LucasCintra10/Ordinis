@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default function ForgotPage() {
   return (
     <main className="w-screen h-screen flex justify-center items-center">
       <Image src="/vector9.svg" alt="Ilustração" width={300} height={300} className="absolute top-0 right-0" />
@@ -13,10 +13,9 @@ export default function LoginPage() {
           <Image src="ordinis.svg" alt="Ordinis" width={167} height={27} />
         </div>
         <form className="w-96 flex flex-col items-center gap-6">
+            <h2 className="text-c2">Informe o email da conta</h2>
           <input type="email" placeholder="E-mail" className="w-full h-12 rounded-xl p-2 box-border" />
-          <input type="password" placeholder="Senha" className="w-full h-12 rounded-xl p-2 box-border" />
-          <button className="w-44 h-12 rounded-xl bg-btn-pattern text-white font-bold text-xl">Entrar</button>
-          <Link href="/forgot" className="text-c3 opacity-1">Esqueceu a senha?</Link>
+          <button className="w-full h-12 rounded-xl bg-btn-pattern-big bg-no-repeat bg-cover text-white font-bold text-xl">Enviar link de recuperação</button>
         </form>
 
       </div>
