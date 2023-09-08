@@ -17,9 +17,9 @@ export default function LoginPage() {
       <Image src="/vector10.svg" alt="Ilustração" width={300} height={300} className="absolute bottom-0 left-0" />
 
       <div className="w-500 h-500 bg-c4 rounded-2xl flex flex-col  items-center  ">
-        <div className="flex flex-col justify-center items-center my-12 ">
+        <div className="flex flex-col justify-center items-center my-8 ">
           <Image src="/logo.svg" alt="Logo" width={100} height={95} />
-          <Image src="ordinis.svg" alt="Ordinis" width={167} height={27} />
+          <Image src="/ordinis.svg" alt="Ordinis" width={167} height={27} />
         </div>
         <form className="w-96 flex flex-col items-center gap-6" onSubmit={handleLogin}>
           <input type="email" placeholder="E-mail" className="w-full h-12 rounded p-2 box-border outline-none transition-transform focus:scale-105" />
