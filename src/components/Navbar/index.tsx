@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@heroicons/react/24/outline";
 
-type NavBarItemProps = {
+interface INavBarItemProps{
   icon: React.ElementType;
   text: string;
   address: string;
 };
 
-const NavBarItem = ({ icon: IconComponent, text, address }: NavBarItemProps) => {
+const NavBarItem: React.FC<INavBarItemProps> = ({ icon: IconComponent, text, address }) => {
   return (
     <Link
       href={address}

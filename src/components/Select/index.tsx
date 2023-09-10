@@ -2,13 +2,13 @@ import React from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import * as Icon from "@heroicons/react/24/outline";
 
-interface ISelect {
+interface ISelectProps {
   selected: any;
   setSelected: any;
   options: any;
 }
 
-const Select: React.FC<ISelect> = ({ selected, setSelected, options }) => {
+const Select: React.FC<ISelectProps> = ({ selected, setSelected, options }) => {
   return (
     <>
       <Listbox value={selected} onChange={setSelected}>
