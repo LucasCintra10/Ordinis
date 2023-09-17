@@ -2,13 +2,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import api from "@/tools/api";
+import React from "react";
+import { User } from "@/models/user";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
   const router = useRouter();
 
-  const handleLogin =  async (event: React.FormEvent<HTMLFormElement>) => {
+  const [user, setUser] = React.useState({} as User);
+
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push("/home");
+    api
+      .post("/login", user)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        router.push("/home");
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
   };
 
   return (
@@ -22,9 +37,19 @@ export default function LoginPage() {
           <Image src="/ordinis.svg" alt="Ordinis" width={167} height={27} />
         </div>
         <form className="w-96 flex flex-col items-center gap-6" onSubmit={handleLogin}>
-          <input type="email" placeholder="E-mail" className="w-full h-12 rounded p-2 box-border outline-none transition-transform focus:scale-105" />
-          <input type="password" placeholder="Senha" className="w-full h-12 rounded p-2 box-border outline-none transition-transform focus:scale-105" />
-          <button type ="submit" className="w-44 h-12 rounded bg-p3 text-white font-bold text-xl">
+          <input
+            type="email"
+            placeholder="E-mail"
+            className="w-full h-12 rounded p-2 box-border outline-none transition-transform focus:scale-105"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+          />
+          <input
+            type="password"
+            placeholder="Senha"
+            className="w-full h-12 rounded p-2 box-border outline-none transition-transform focus:scale-105"
+            onChange={(e) => setUser({ ...user, senha: e.target.value })}
+          />
+          <button type="submit" className="w-44 h-12 rounded bg-p3 text-white font-bold text-xl">
             Entrar
           </button>
           <Link href="/forgot" className="text-c3">
@@ -32,6 +57,7 @@ export default function LoginPage() {
           </Link>
         </form>
       </div>
+      <ToastContainer position="top-center" autoClose={3000} theme="colored" />
     </main>
   );
 }

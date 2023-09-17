@@ -8,13 +8,15 @@ interface INavBarItemProps{
   icon: React.ElementType;
   text: string;
   address: string;
+  onClick?: () => void;
 };
 
-const NavBarItem: React.FC<INavBarItemProps> = ({ icon: IconComponent, text, address }) => {
+const NavBarItem: React.FC<INavBarItemProps> = ({ icon: IconComponent, text, address, onClick }) => {
   return (
     <Link
       href={address}
       className="w-44 h-12 flex items-center rounded  text-c2 font-bold text-base ml-2 gap-2 transition-colors hover:bg-c2 hover:text-p3"
+      onClick={onClick}
     >
       <IconComponent className="w-5 h-5" />
       {text}
@@ -36,7 +38,7 @@ export default function Navbar() {
           <NavBarItem icon={Icon.DocumentTextIcon} text="Relatórios" address="/" />
           <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/" />
           <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/" />
-          <NavBarItem icon={Icon.ArrowLeftOnRectangleIcon} text="Sair" address="/" />
+          <NavBarItem icon={Icon.ArrowLeftOnRectangleIcon} text="Sair" address="/" onClick={() => localStorage.removeItem("token")} />
         </ul>
       </div>
     </>

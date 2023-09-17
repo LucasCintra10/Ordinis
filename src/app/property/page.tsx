@@ -4,12 +4,11 @@ import Image from "next/image";
 import * as Icon from "@heroicons/react/24/outline";
 import React from "react";
 import Select from "@/components/Select";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { Condition } from "@/models/condition";
 
 export default function PropertyPage() {
-  type Condition = {
-    id: number;
-    name: string;
-  };
 
   const conditions: Condition[] = [
     { id: 1, name: "Regular" },
@@ -17,8 +16,20 @@ export default function PropertyPage() {
     { id: 3, name: "Ruim" },
   ];
 
+  const router = useRouter();
+
+
   const [selectedCondition, setSelectedCondition] = React.useState<Condition>(conditions[0]);
   const [display, setDisplay] = React.useState("property");
+
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/");
+      toast.warning("Você precisa estar logado para acessar")
+    }
+  }, []);
 
   return (
     <main className="w-screen h-screen flex">
