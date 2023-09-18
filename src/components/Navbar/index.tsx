@@ -3,13 +3,14 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@heroicons/react/24/outline";
-
-interface INavBarItemProps{
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+interface INavBarItemProps {
   icon: React.ElementType;
   text: string;
   address: string;
   onClick?: () => void;
-};
+}
 
 const NavBarItem: React.FC<INavBarItemProps> = ({ icon: IconComponent, text, address, onClick }) => {
   return (
@@ -25,6 +26,16 @@ const NavBarItem: React.FC<INavBarItemProps> = ({ icon: IconComponent, text, add
 };
 
 export default function Navbar() {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/");
+      toast.warning("Você precisa estar logado para acessar");
+    }
+  }, []);
+
   return (
     <>
       <div className="w-60 h-screen bg-c4 flex flex-col items-center rounded-r-10xl shrink-0">
@@ -34,11 +45,17 @@ export default function Navbar() {
         </div>
         <ul className=" w-full flex flex-col justify-center items-center gap-6">
           <NavBarItem icon={Icon.HomeIcon} text="Home" address="/home" />
-          <NavBarItem icon={Icon.ArchiveBoxIcon} text="Registros" address="/property" />
+          <NavBarItem icon={Icon.ArchiveBoxIcon} text="Patrimônio" address="/property" />
+          <NavBarItem icon={Icon.WrenchScrewdriverIcon} text="Manutenção" address="/" />
           <NavBarItem icon={Icon.DocumentTextIcon} text="Relatórios" address="/" />
           <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/" />
           <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/" />
-          <NavBarItem icon={Icon.ArrowLeftOnRectangleIcon} text="Sair" address="/" onClick={() => localStorage.removeItem("token")} />
+          <NavBarItem
+            icon={Icon.ArrowLeftOnRectangleIcon}
+            text="Sair"
+            address="/"
+            onClick={() => localStorage.removeItem("token")}
+          />
         </ul>
       </div>
     </>
