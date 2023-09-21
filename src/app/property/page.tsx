@@ -13,7 +13,7 @@ export default function PropertyPage() {
 
   return (
     <main className="w-screen h-screen flex">
-      <Image src="/vector9.svg" alt="Ilustração" width={300} height={300} className="absolute top-0 right-0" />
+      <Image src="/vectorTR.svg" alt="Ilustração" width={300} height={300} className="absolute top-0 right-0" />
       <Navbar />
       <div className="w-full h-full flex flex-col ml-8 box-border items-center">
         <div className="w-full h-1/6 flex items-center justify-center">
