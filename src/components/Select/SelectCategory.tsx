@@ -1,6 +1,7 @@
 import React from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import * as Icon from "@heroicons/react/24/outline";
+import { Category } from "@/models/category";
 
 interface ISelectProps {
   selected: any;
@@ -8,13 +9,13 @@ interface ISelectProps {
   options: any;
 }
 
-const Select: React.FC<ISelectProps> = ({ selected, setSelected, options }) => {
+const SelectCategory: React.FC<ISelectProps> = ({ selected, setSelected, options }) => {
   return (
     <>
       <Listbox value={selected} onChange={setSelected}>
         <div className="h-full relative ">
           <Listbox.Button className="w-60 h-full bg-c1 rounded text-center relative">
-            {selected?.name}
+            {selected}
             <Icon.ChevronDownIcon className="w-4 h-4 absolute right-1 top-3" />
           </Listbox.Button>
           <Transition
@@ -24,9 +25,9 @@ const Select: React.FC<ISelectProps> = ({ selected, setSelected, options }) => {
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute z-10 w-60 py-1 overflow-auto bg-c1 rounded text-center">
-              {options?.map((option: any) => (
+              {options?.map((option: Category) => (
                 <Listbox.Option key={option.id} value={option} className="hover:cursor-pointer hover:bg-c2 py-1">
-                  {option.name}
+                  {option.descricao}
                 </Listbox.Option>
               ))}
             </Listbox.Options>
@@ -37,4 +38,4 @@ const Select: React.FC<ISelectProps> = ({ selected, setSelected, options }) => {
   );
 };
 
-export default Select;
+export default SelectCategory;

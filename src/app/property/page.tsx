@@ -3,22 +3,23 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import * as Icon from "@heroicons/react/24/outline";
 import React from "react";
-import RegisterProperty from "@/components/Property/Register";
+import AddProperty from "@/components/Property/Add";
 import EditProperty from "@/components/Property/Edit";
 
 export default function PropertyPage() {
+
   const [display, setDisplay] = React.useState("register");
+
 
   return (
     <main className="w-screen h-screen flex">
       <Image src="/vector9.svg" alt="Ilustração" width={300} height={300} className="absolute top-0 right-0" />
-
       <Navbar />
       <div className="w-full h-full flex flex-col ml-8 box-border items-center">
         <div className="w-full h-1/6 flex items-center justify-center">
           <h1 className="text-5xl font-bold text-c5 ">Patrimônios</h1>
         </div>
-        <div className="w-full flex gap-10 justify-center">
+        <div className="w-2/5 flex gap-10 justify-center">
           <button
             className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
               display === "register" ? "bg-c4 text-c2" : "bg-c2 text-c5"
@@ -47,8 +48,7 @@ export default function PropertyPage() {
             Edição
           </button>
         </div>
-        {display === "register" && <RegisterProperty />}
-        {display === "edit" && <RegisterProperty />}
+        {display === "register" && <AddProperty />}
       </div>
     </main>
   );

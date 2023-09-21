@@ -5,16 +5,20 @@ import { useRouter } from "next/navigation";
 import api from "@/tools/api";
 import React from "react";
 import { User } from "@/models/user";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TailSpin } from "react-loader-spinner";
 
 export default function LoginPage() {
+
   const router = useRouter();
 
   const [user, setUser] = React.useState({} as User);
+  const [loading, setLoading] = React.useState(false);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     api
       .post("/login", user)
       .then((res) => {
@@ -23,6 +27,9 @@ export default function LoginPage() {
       })
       .catch((err) => {
         toast.error(err.response.data.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -49,15 +56,18 @@ export default function LoginPage() {
             className="w-full h-12 rounded p-2 box-border outline-none transition-transform focus:scale-105"
             onChange={(e) => setUser({ ...user, senha: e.target.value })}
           />
-          <button type="submit" className="w-44 h-12 rounded bg-p3 text-white font-bold text-xl">
-            Entrar
-          </button>
+          {loading ? (
+            <TailSpin color="#4F63D7" height={50} width={50}  />
+          ) : (
+            <button type="submit" className="w-44 h-12 rounded bg-p3 text-white font-bold text-xl">
+              Entrar
+            </button>
+          )}
           <Link href="/forgot" className="text-c3">
             Esqueceu a senha?
           </Link>
         </form>
       </div>
-      <ToastContainer position="top-center" autoClose={3000} theme="colored" />
     </main>
   );
 }
