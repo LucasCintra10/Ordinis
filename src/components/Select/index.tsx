@@ -14,7 +14,7 @@ const Select: React.FC<ISelectProps> = ({ selected, setSelected, options }) => {
       <Listbox value={selected} onChange={setSelected}>
         <div className="h-full relative ">
           <Listbox.Button className="w-60 h-full bg-c1 rounded text-center relative">
-            {selected?.name}
+            {selected}
             <Icon.ChevronDownIcon className="w-4 h-4 absolute right-1 top-3" />
           </Listbox.Button>
           <Transition
@@ -26,7 +26,7 @@ const Select: React.FC<ISelectProps> = ({ selected, setSelected, options }) => {
             <Listbox.Options className="absolute z-10 w-60 py-1 overflow-auto bg-c1 rounded text-center">
               {options?.map((option: any) => (
                 <Listbox.Option key={option.id} value={option} className="hover:cursor-pointer hover:bg-c2 py-1">
-                  {option.name}
+                  {option.descricao}
                 </Listbox.Option>
               ))}
             </Listbox.Options>

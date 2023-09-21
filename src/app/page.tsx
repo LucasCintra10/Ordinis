@@ -47,13 +47,13 @@ export default function LoginPage() {
           <input
             type="email"
             placeholder="E-mail"
-            className="w-full h-12 rounded p-2 box-border outline-none transition-transform focus:scale-105"
+            className="w-full h-12 rounded p-2 box-border outline-none transition-transform"
             onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
           <input
             type="password"
             placeholder="Senha"
-            className="w-full h-12 rounded p-2 box-border outline-none transition-transform focus:scale-105"
+            className="w-full h-12 rounded p-2 box-border outline-none transition-transform"
             onChange={(e) => setUser({ ...user, senha: e.target.value })}
           />
           {loading ? (

@@ -19,7 +19,7 @@ export default function PropertyPage() {
         <div className="w-full h-1/6 flex items-center justify-center">
           <h1 className="text-5xl font-bold text-c5 ">Patrimônios</h1>
         </div>
-        <div className="w-2/5 flex gap-10 justify-center">
+        <div className="w-[50%] flex gap-10 justify-between">
           <button
             className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
               display === "register" ? "bg-c4 text-c2" : "bg-c2 text-c5"

@@ -3,7 +3,7 @@ import * as React from "react";
 import { Modal } from "@/models/modal";
 import * as Icon from "@heroicons/react/24/outline";
 import api from "@/tools/api";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 
 const AddCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
 

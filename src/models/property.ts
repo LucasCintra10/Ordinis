@@ -5,6 +5,6 @@ export interface Property {
   valor: number;
   data_entrada: Date;
   resp_entrega: string;
-  id_localizacap: string;
+  id_localizacao: string;
   id_categoria: string;
 }
