@@ -4,7 +4,7 @@ import * as Icon from "@heroicons/react/24/outline";
 
 interface ISelectProps {
   selected: any;
-  setSelected: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  setSelected: (event: any) => void;
   options: any;
 }
 

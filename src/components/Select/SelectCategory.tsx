@@ -5,7 +5,7 @@ import { Category } from "@/models/category";
 
 interface ISelectProps {
   selected: any;
-  setSelected: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  setSelected: (event: any) => void;
   options: any;
 }
 

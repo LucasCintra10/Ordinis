@@ -9,13 +9,12 @@ import AddCategoryModal from "../Modals/category/AddCategoryModal";
 import SelectCategory from "../Select/SelectCategory";
 
 const AddProperty: React.FC = () => {
-
   const conditions: Condition[] = [
     { id: 1, name: "Regular" },
     { id: 2, name: "Bom" },
     { id: 3, name: "Ruim" },
   ];
-  
+
   const [selected, setSelected] = React.useState({
     category: "",
     condition: "",
@@ -23,7 +22,6 @@ const AddProperty: React.FC = () => {
 
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [property, setProperty] = React.useState({} as Property);
-
 
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
 
@@ -34,11 +32,11 @@ const AddProperty: React.FC = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((response) => {
+      .then((response : any) => {
         setCategories(response.data);
         console.log(response.data);
       })
-      .catch((error) => {
+      .catch((error : any) => {
         console.log(error);
       });
   };
@@ -46,10 +44,7 @@ const AddProperty: React.FC = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setProperty({ ...property, [event.target.name]: event.target.value });
-  }
-
-  
-  
+  };
 
   const openModal = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -59,7 +54,7 @@ const AddProperty: React.FC = () => {
     getCategories();
   }, []);
 
-  console.log(property)
+  console.log(property);
 
   return (
     <>
@@ -98,22 +93,25 @@ const AddProperty: React.FC = () => {
             </button>
             <SelectCategory
               selected={selected.category}
-              setSelected={(e) => (setProperty({ ...property, id_categoria: e.id}), setSelected({ ...selected, category: e.descricao}))}
+              setSelected={(e) => (
+                setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
+              )}
               options={categories}
             />
           </div>
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Conservação</label>
-          <Select
-            selected={property.estado}
-            setSelected={(e) => setProperty({ ...property, estado: e })}
-            options={conditions}
-          />
+          <Select selected={property.estado} setSelected={(e) => setProperty({ ...property, estado: e })} options={conditions} />
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Data de Entrada</label>
-          <input name="data_entrada" type="date" className="w-96 h-full bg-c1 rounded text-center" onChange={(e) => handleInputChange(e)} />
+          <input
+            name="data_entrada"
+            type="date"
+            className="w-96 h-full bg-c1 rounded text-center"
+            onChange={(e) => handleInputChange(e)}
+          />
         </div>
 
         <button className="w-full h-32  self-center bg-p3 text-white text-xl rounded flex justify-center items-center gap-2  transition-all hover:opacity-90">
