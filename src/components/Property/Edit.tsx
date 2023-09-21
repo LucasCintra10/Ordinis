@@ -4,9 +4,9 @@ import { Condition } from "@/models/condition";
 
 const EditProperty: React.FC = () => {
   const conditions: Condition[] = [
-    { id: 1, name: "Regular" },
-    { id: 2, name: "Bom" },
-    { id: 3, name: "Ruim" },
+    { id: 1, descricao: "Regular" },
+    { id: 2, descricao: "Bom" },
+    { id: 3, descricao: "Ruim" },
   ];
 
   const [selectedCondition, setSelectedCondition] = React.useState<Condition>(conditions[0]);

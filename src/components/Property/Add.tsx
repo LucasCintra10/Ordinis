@@ -6,7 +6,6 @@ import { Category } from "@/models/category";
 import { Property } from "@/models/property";
 import * as Icon from "@heroicons/react/24/outline";
 import AddCategoryModal from "../Modals/property/AddCategoryModal";
-import SelectCategory from "../Select/SelectCategory";
 import AddLocationModal from "../Modals/property/AddLocationModal";
 
 const AddProperty: React.FC = () => {
