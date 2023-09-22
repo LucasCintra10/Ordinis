@@ -36,6 +36,7 @@ const EditProperty: React.FC = () => {
 
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
   const [addLocationModal, setAddLocationModal] = React.useState(false);
+  const [disabled, setDisabled] = React.useState(true);
 
   const getCategories = async () => {
     api
@@ -81,8 +82,6 @@ const EditProperty: React.FC = () => {
     getLocations();
   }, []);
 
-  console.log(property)
-
   const getProperty = async (event: React.MouseEvent) => {
     event.preventDefault();
     api
@@ -91,11 +90,12 @@ const EditProperty: React.FC = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         params: {
-          placa: property.placa,
+          placa: property?.placa,
         },
       })
       .then((response: any) => {
         setProperty(response.data.data[0]);
+        setDisabled(false);
       })
       .catch((error: any) => {
         toast.error("Erro ao buscar patrimônio");
@@ -111,27 +111,27 @@ const EditProperty: React.FC = () => {
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className="text-c5 font-medium ">Placa</label>
           <div className="w-96 h-full flex items-center justify-between">
-          <input
-            name="placa"
-            type="text"
-            className="w-72 h-full bg-c1 rounded"
-            onChange={(e) => handleInputChange(e)}
-          />
-          <button
-            type="submit"
-            className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
-            onClick={(event) => {
-              getProperty(event);
-            }}
-          >
-            <Icon.MagnifyingGlassIcon className="w-6 h-6 " />
-          </button>
+            <input
+              name="placa"
+              type="text"
+              className="w-72 h-full bg-c1 rounded"
+              onChange={(e) => handleInputChange(e)}
+            />
+            <button
+              type="submit"
+              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
+              onClick={(event) => {
+                getProperty(event);
+              }}
+            >
+              <Icon.MagnifyingGlassIcon className="w-6 h-6 " />
+            </button>
           </div>
         </div>
-      
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
           <label className="w-auto text-c5 font-medium ">Descrição</label>
           <input
+            disabled={disabled}
             name="descricao"
             value={property?.descricao}
             type="text"
@@ -139,14 +139,21 @@ const EditProperty: React.FC = () => {
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
           <label className=" text-c5 font-medium ">Valor</label>
-          <input value={property?.valor} name="valor" className="w-96 h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
+          <input
+            disabled={disabled}
+            value={property?.valor}
+            name="valor"
+            className="w-96 h-full bg-c1 rounded"
+            onChange={(e) => handleInputChange(e)}
+          />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
           <label className=" text-c5 font-medium ">Localização</label>
           <div className="w-96 h-full flex items-center justify-between">
             <button
+              disabled={disabled}
               className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
               onClick={(event) => {
                 openModal(event, setAddLocationModal);
@@ -155,6 +162,7 @@ const EditProperty: React.FC = () => {
               <Icon.PlusIcon className="w-6 h-6 " />
             </button>
             <Select
+              disabled={disabled}
               selected={selected.location}
               setSelected={(e) => (
                 setProperty({ ...property, id_localizacao: e.id }), setSelected({ ...selected, location: e.descricao })
@@ -163,10 +171,12 @@ const EditProperty: React.FC = () => {
             />
           </div>
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+
           <label className=" text-c5 font-medium ">Categoria</label>
           <div className="w-96 h-full flex items-center justify-between">
             <button
+              disabled={disabled}
               className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
               onClick={(event) => {
                 openModal(event, setAddCategoryModal);
@@ -175,7 +185,8 @@ const EditProperty: React.FC = () => {
               <Icon.PlusIcon className="w-6 h-6 " />
             </button>
             <Select
-              selected={selected.category }
+              disabled={disabled}
+              selected={selected.category}
               setSelected={(e) => (
                 setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
               )}
@@ -183,9 +194,11 @@ const EditProperty: React.FC = () => {
             />
           </div>
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+
           <label className=" text-c5 font-medium ">Conservação</label>
           <Select
+            disabled={disabled}
             selected={selected.condition || property?.estado}
             setSelected={(e) => {
               setProperty({ ...property, estado: e.descricao }), setSelected({ ...selected, condition: e.descricao });
@@ -193,9 +206,11 @@ const EditProperty: React.FC = () => {
             options={conditions}
           />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+
           <label className=" text-c5 font-medium ">Origem</label>
           <Select
+            disabled={disabled}
             selected={selected.origin || property?.origem}
             setSelected={(e) => {
               setProperty({ ...property, origem: e.descricao }), setSelected({ ...selected, origin: e.descricao });
@@ -203,18 +218,22 @@ const EditProperty: React.FC = () => {
             options={origins}
           />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+
           <label className=" text-c5 font-medium ">Data de Entrada</label>
           <input
+            disabled={disabled}
             name="data_entrada"
             type="date"
             className="w-96 h-full bg-c1 rounded text-center"
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+
           <label className="w-auto text-c5 font-medium ">Responsável</label>
           <input
+            disabled={disabled}
             value={property?.resp_entrega}
             name="resp_entrega"
             type="text"
@@ -223,8 +242,9 @@ const EditProperty: React.FC = () => {
           />
         </div>
         <button
+          disabled={disabled}
           type="submit"
-          className="w-full h-32  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90"
+          className={`w-full h-32  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90 ${disabled && "opacity-60"}`}
         >
           Editar
         </button>

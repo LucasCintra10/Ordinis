@@ -6,12 +6,13 @@ interface ISelectProps {
   selected: any;
   setSelected: (event: any) => void;
   options: any;
+  disabled?: boolean;
 }
 
-const Select: React.FC<ISelectProps> = ({ selected, setSelected, options }) => {
+const Select: React.FC<ISelectProps> = ({ selected, setSelected, options, disabled }) => {
   return (
     <>
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox value={selected} onChange={setSelected} disabled={disabled}>
         <div className="h-full relative ">
           <Listbox.Button className="w-60 h-full bg-c1 rounded text-center relative">
             {selected}
