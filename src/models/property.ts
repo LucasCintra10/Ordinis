@@ -2,7 +2,8 @@ export interface Property {
   placa: string;
   descricao: string;
   estado: string;
-  valor: number;
+  valor: string;
+  origem: string;
   data_entrada: Date;
   resp_entrega: string;
   id_localizacao: string;

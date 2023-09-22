@@ -7,19 +7,27 @@ import { Property } from "@/models/property";
 import * as Icon from "@heroicons/react/24/outline";
 import AddCategoryModal from "../Modals/property/AddCategoryModal";
 import AddLocationModal from "../Modals/property/AddLocationModal";
+import { Origin } from "@/models/origin";
+import { toast } from "react-toastify";
 
 const AddProperty: React.FC = () => {
 
   const conditions: Condition[] = [
-    { id: 1, descricao: "Regular" },
-    { id: 2, descricao: "Bom" },
-    { id: 3, descricao: "Ruim" },
+    { id: 2, descricao: "OTIMO" },
+    { id: 3, descricao: "REGULAR" },
+    { id: 4, descricao: "RUIM" },
+  ];
+
+  const origins: Origin[] = [
+    { id: 1, descricao: "NV" },
+    { id: 2, descricao: "PREFEITURA" },
   ];
 
   const [selected, setSelected] = React.useState({
     category: "",
     condition: "",
     location: "",
+    origin: "",
   });
 
   const [categories, setCategories] = React.useState<Category[]>([]);
@@ -38,7 +46,6 @@ const AddProperty: React.FC = () => {
       })
       .then((response: any) => {
         setCategories(response.data);
-        console.log(response.data);
       })
       .catch((error: any) => {
         console.log(error);
@@ -63,20 +70,24 @@ const AddProperty: React.FC = () => {
   const AddProperty = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     api
-      .post("/patrimonio/create", {
-        ...property,
-        valor: Number(property.valor),
-        data_entrada: new Date(property.data_entrada),
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      .post(
+        "/patrimonio/create",
+        {
+          ...property,
+          valor: Number.parseFloat(property.valor),
+          data_entrada: new Date(property.data_entrada),
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
       .then((response: any) => {
-        console.log(response.data);
+        toast.success("Patrimônio cadastrado com sucesso!");
       })
       .catch((error: any) => {
-        console.log(error);
+        toast.error("Erro ao cadastrar patrimônio!");
       });
   };
 
@@ -94,8 +105,6 @@ const AddProperty: React.FC = () => {
     getLocations();
   }, []);
 
-  console.log(property);
-
   return (
     <>
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
@@ -106,19 +115,25 @@ const AddProperty: React.FC = () => {
       >
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className="text-c5 font-medium ">Placa</label>
-          <input name="placa" type="text" className="w-96 h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
-        </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
-          <label className="text-c5 font-medium ">Origem</label>
-          <input name="origem" type="text" className=" w-96 h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
+          <input
+            name="placa"
+            type="text"
+            className="w-96 h-full bg-c1 rounded"
+            onChange={(e) => handleInputChange(e)}
+          />
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className="w-auto text-c5 font-medium ">Descrição</label>
-          <input name="descricao" type="text" className="w-96 h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
+          <input
+            name="descricao"
+            type="text"
+            className="w-96 h-full bg-c1 rounded"
+            onChange={(e) => handleInputChange(e)}
+          />
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Valor</label>
-          <input name="valor" type="number" className="w-96 h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
+          <input name="valor" className="w-96 h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Localização</label>
@@ -171,6 +186,17 @@ const AddProperty: React.FC = () => {
           />
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
+          <label className=" text-c5 font-medium ">Origem</label>
+          <Select
+            selected={selected.origin}
+            setSelected={(e) => {
+              setProperty({ ...property, origem: e.descricao }), setSelected({ ...selected, origin: e.descricao });
+            }}
+            options={origins}
+          />
+        </div>
+
+        <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Data de Entrada</label>
           <input
             name="data_entrada"
@@ -181,7 +207,12 @@ const AddProperty: React.FC = () => {
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className="w-auto text-c5 font-medium ">Responsável</label>
-          <input name="resp_entrega" type="text" className="w-96 h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
+          <input
+            name="resp_entrega"
+            type="text"
+            className="w-96 h-full bg-c1 rounded"
+            onChange={(e) => handleInputChange(e)}
+          />
         </div>
         <button
           type="submit"

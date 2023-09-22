@@ -49,6 +49,7 @@ export default function PropertyPage() {
           </button>
         </div>
         {display === "register" && <AddProperty />}
+        {display === "edit" && <EditProperty />}
       </div>
     </main>
   );
