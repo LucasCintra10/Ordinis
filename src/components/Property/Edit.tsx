@@ -10,6 +10,7 @@ import AddLocationModal from "../Modals/property/AddLocationModal";
 import { Origin } from "@/models/origin";
 import { Location } from "@/models/location";
 import { toast } from "react-toastify";
+import { ColorRing } from "react-loader-spinner";
 
 const EditProperty: React.FC = () => {
   const conditions: Condition[] = [
@@ -37,6 +38,7 @@ const EditProperty: React.FC = () => {
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
   const [addLocationModal, setAddLocationModal] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
 
   const getCategories = async () => {
     api
@@ -77,13 +79,10 @@ const EditProperty: React.FC = () => {
     event.preventDefault();
     setModal(true);
   };
-  React.useEffect(() => {
-    getCategories();
-    getLocations();
-  }, []);
 
   const getProperty = async (event: React.MouseEvent) => {
     event.preventDefault();
+    setLoading(true);
     api
       .get("/patrimonio/search", {
         headers: {
@@ -99,33 +98,76 @@ const EditProperty: React.FC = () => {
       })
       .catch((error: any) => {
         toast.error("Erro ao buscar patrimônio");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const updateProperty = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    api
+      .put(
+        `/patrimonio/update/${property?.id}`,
+        {
+          placa: property?.placa,
+          descricao: property?.descricao,
+          valor: Number.parseFloat(property?.valor),
+          origem: property?.origem,
+          estado: property?.estado,
+          id_localizacao: property?.id_localizacao,
+          id_categoria: property?.id_categoria,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        toast.success("Patrimônio atualizado com sucesso");
+      })
+      .catch((error: any) => {
+        toast.error("Erro ao atualizar patrimônio");
         console.log(error);
       });
   };
+
+  React.useEffect(() => {
+    getCategories();
+    getLocations();
+  }, []);
 
   return (
     <>
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
-      <form className="w-[50%] h-2/3 mt-4 bg-white z-1 rounded-xl z-10 p-4 flex flex-col gap-4 box-border">
+      <form
+        onSubmit={(e) => updateProperty(e)}
+        className="w-[50%] h-2/3 mt-4 bg-white z-1 rounded-xl z-10 p-4 flex flex-col gap-4 box-border"
+      >
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className="text-c5 font-medium ">Placa</label>
           <div className="w-96 h-full flex items-center justify-between">
             <input
               name="placa"
               type="text"
-              className="w-72 h-full bg-c1 rounded"
+              className="w-72 h-full bg-c1 rounded pl-2"
               onChange={(e) => handleInputChange(e)}
             />
-            <button
-              type="submit"
-              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
-              onClick={(event) => {
-                getProperty(event);
-              }}
-            >
-              <Icon.MagnifyingGlassIcon className="w-6 h-6 " />
-            </button>
+            {loading ? (
+              <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={45} width={45} />
+            ) : (
+              <button
+                type="submit"
+                className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
+                onClick={(event) => {
+                  getProperty(event);
+                }}
+              >
+                <Icon.MagnifyingGlassIcon className="w-5 h-5 " />
+              </button>
+            )}
           </div>
         </div>
         <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
@@ -135,7 +177,7 @@ const EditProperty: React.FC = () => {
             name="descricao"
             value={property?.descricao}
             type="text"
-            className="w-96 h-full bg-c1 rounded"
+            className="w-96 h-full bg-c1 rounded pl-2"
             onChange={(e) => handleInputChange(e)}
           />
         </div>
@@ -145,7 +187,7 @@ const EditProperty: React.FC = () => {
             disabled={disabled}
             value={property?.valor}
             name="valor"
-            className="w-96 h-full bg-c1 rounded"
+            className="w-96 h-full bg-c1 rounded pl-2"
             onChange={(e) => handleInputChange(e)}
           />
         </div>
@@ -159,7 +201,7 @@ const EditProperty: React.FC = () => {
                 openModal(event, setAddLocationModal);
               }}
             >
-              <Icon.PlusIcon className="w-6 h-6 " />
+              <Icon.PlusIcon className="w-5 h-5 " />
             </button>
             <Select
               disabled={disabled}
@@ -172,7 +214,6 @@ const EditProperty: React.FC = () => {
           </div>
         </div>
         <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-
           <label className=" text-c5 font-medium ">Categoria</label>
           <div className="w-96 h-full flex items-center justify-between">
             <button
@@ -182,7 +223,7 @@ const EditProperty: React.FC = () => {
                 openModal(event, setAddCategoryModal);
               }}
             >
-              <Icon.PlusIcon className="w-6 h-6 " />
+              <Icon.PlusIcon className="w-5 h-5 " />
             </button>
             <Select
               disabled={disabled}
@@ -195,7 +236,6 @@ const EditProperty: React.FC = () => {
           </div>
         </div>
         <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-
           <label className=" text-c5 font-medium ">Conservação</label>
           <Select
             disabled={disabled}
@@ -207,7 +247,6 @@ const EditProperty: React.FC = () => {
           />
         </div>
         <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-
           <label className=" text-c5 font-medium ">Origem</label>
           <Select
             disabled={disabled}
@@ -219,8 +258,7 @@ const EditProperty: React.FC = () => {
           />
         </div>
         <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-
-          <label className=" text-c5 font-medium ">Data de Entrada</label>
+          <label className=" text-c5 font-medium w-40">Data de Entrada</label>
           <input
             disabled={disabled}
             name="data_entrada"
@@ -230,21 +268,22 @@ const EditProperty: React.FC = () => {
           />
         </div>
         <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-
           <label className="w-auto text-c5 font-medium ">Responsável</label>
           <input
             disabled={disabled}
             value={property?.resp_entrega}
             name="resp_entrega"
             type="text"
-            className="w-96 h-full bg-c1 rounded"
+            className="w-96 h-full bg-c1 rounded pl-2"
             onChange={(e) => handleInputChange(e)}
           />
         </div>
         <button
           disabled={disabled}
           type="submit"
-          className={`w-full h-32  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90 ${disabled && "opacity-60"}`}
+          className={`w-full h-32  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90 ${
+            disabled && "opacity-60"
+          }`}
         >
           Editar
         </button>

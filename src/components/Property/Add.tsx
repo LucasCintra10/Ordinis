@@ -118,7 +118,7 @@ const AddProperty: React.FC = () => {
           <input
             name="placa"
             type="text"
-            className="w-96 h-full bg-c1 rounded"
+            className="w-96 h-full bg-c1 rounded pl-2"
             onChange={(e) => handleInputChange(e)}
           />
         </div>
@@ -127,13 +127,13 @@ const AddProperty: React.FC = () => {
           <input
             name="descricao"
             type="text"
-            className="w-96 h-full bg-c1 rounded"
+            className="w-96 h-full bg-c1 rounded pl-2"
             onChange={(e) => handleInputChange(e)}
           />
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Valor</label>
-          <input name="valor" className="w-96 h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
+          <input name="valor" className="w-96 h-full bg-c1 rounded pl-2" onChange={(e) => handleInputChange(e)} />
         </div>
         <div className="w-full h-32 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Localização</label>
@@ -144,7 +144,7 @@ const AddProperty: React.FC = () => {
                 openModal(event, setAddLocationModal);
               }}
             >
-              <Icon.PlusIcon className="w-6 h-6 " />
+              <Icon.PlusIcon className="w-5 h-5 " />
             </button>
             <Select
               selected={selected.location}
@@ -164,7 +164,7 @@ const AddProperty: React.FC = () => {
                 openModal(event, setAddCategoryModal);
               }}
             >
-              <Icon.PlusIcon className="w-6 h-6 " />
+              <Icon.PlusIcon className="w-5 h-5 " />
             </button>
             <Select
               selected={selected.category}
@@ -197,7 +197,7 @@ const AddProperty: React.FC = () => {
         </div>
 
         <div className="w-full h-32 flex justify-between items-center gap-2">
-          <label className=" text-c5 font-medium ">Data de Entrada</label>
+          <label className=" text-c5 font-medium w-40">Data de Entrada</label>
           <input
             name="data_entrada"
             type="date"
@@ -210,7 +210,7 @@ const AddProperty: React.FC = () => {
           <input
             name="resp_entrega"
             type="text"
-            className="w-96 h-full bg-c1 rounded"
+            className="w-96 h-full bg-c1 rounded pl-2"
             onChange={(e) => handleInputChange(e)}
           />
         </div>

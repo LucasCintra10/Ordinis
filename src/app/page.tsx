@@ -7,7 +7,7 @@ import React from "react";
 import { User } from "@/models/user";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { TailSpin } from "react-loader-spinner";
+import { ColorRing } from "react-loader-spinner";
 
 export default function LoginPage() {
 
@@ -56,7 +56,7 @@ export default function LoginPage() {
             onChange={(e) => setUser({ ...user, senha: e.target.value })}
           />
           {loading ? (
-            <TailSpin color="#4F63D7" height={50} width={50}  />
+            <ColorRing colors={['#1E35C6', '#3146D0', '#4F63D7', '#677BEC', '#37407A']} height={80} width={80}  />
           ) : (
             <button type="submit" className="w-44 h-12 rounded bg-p3 text-white font-bold text-xl">
               Entrar

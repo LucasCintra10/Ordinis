@@ -5,11 +5,10 @@ import * as Icon from "@heroicons/react/24/outline";
 import React from "react";
 import AddProperty from "@/components/Property/Add";
 import EditProperty from "@/components/Property/Edit";
+import RemoveProperty from "@/components/Property/Remove";
 
 export default function PropertyPage() {
-
   const [display, setDisplay] = React.useState("register");
-
 
   return (
     <main className="w-screen h-screen flex">
@@ -50,6 +49,7 @@ export default function PropertyPage() {
         </div>
         {display === "register" && <AddProperty />}
         {display === "edit" && <EditProperty />}
+        {display === "remove" && <RemoveProperty />}
       </div>
     </main>
   );
