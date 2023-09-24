@@ -46,10 +46,10 @@ export default function Navbar() {
         <ul className=" w-full flex flex-col justify-center items-center gap-6">
           <NavBarItem icon={Icon.HomeIcon} text="Home" address="/home" />
           <NavBarItem icon={Icon.ArchiveBoxIcon} text="Patrimônio" address="/property" />
-          <NavBarItem icon={Icon.WrenchScrewdriverIcon} text="Manutenção" address="/" />
+          <NavBarItem icon={Icon.WrenchScrewdriverIcon} text="Manutenção" address="/home" />
           <NavBarItem icon={Icon.DocumentTextIcon} text="Relatórios" address="/reports" />
-          <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/" />
-          <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/" />
+          <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/home" />
+          <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/home" />
           <NavBarItem
             icon={Icon.ArrowLeftOnRectangleIcon}
             text="Sair"

@@ -49,7 +49,7 @@ export default function ReportsPage() {
         <div className="w-[90%] h-1/6 flex items-center">
           <h1 className="text-5xl font-bold text-c5 ">Relatórios</h1>
         </div>
-        <div className="w-[90%] h-[80%] flex flex-col items-center bg-white z-10 rounded-xl p-2">
+        <div className="w-[90%] max-h-[80%] flex flex-col items-center bg-white z-10 rounded-xl p-2">
           {loading ? (
             <div className="w-full h-full flex justify-center items-center">
               <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />

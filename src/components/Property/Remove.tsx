@@ -175,7 +175,7 @@ const RemoveProperty: React.FC = () => {
           <label className=" text-c5 font-medium ">Localização</label>
           <Select
             disabled={true}
-            selected={selected.location}
+            selected={selected.location || property?.localizacao?.descricao}
             setSelected={(e) => (
               setProperty({ ...property, id_localizacao: e.id }), setSelected({ ...selected, location: e.descricao })
             )}
@@ -186,7 +186,7 @@ const RemoveProperty: React.FC = () => {
           <label className=" text-c5 font-medium ">Categoria</label>
           <Select
             disabled={true}
-            selected={selected.category}
+            selected={selected.category || property?.categoria?.descricao}
             setSelected={(e) => (
               setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
             )}
