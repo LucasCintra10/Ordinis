@@ -100,6 +100,7 @@ const AddProperty: React.FC = () => {
     event.preventDefault();
     setModal(true);
   };
+  
   React.useEffect(() => {
     getCategories();
     getLocations();

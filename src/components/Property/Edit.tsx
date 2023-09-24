@@ -94,6 +94,7 @@ const EditProperty: React.FC = () => {
       })
       .then((response: any) => {
         setProperty(response.data.data[0]);
+        console.log(response.data.data[0])
         setDisabled(false);
       })
       .catch((error: any) => {
@@ -115,8 +116,8 @@ const EditProperty: React.FC = () => {
           valor: Number.parseFloat(property?.valor),
           origem: property?.origem,
           estado: property?.estado,
-          id_localizacao: property?.id_localizacao,
-          id_categoria: property?.id_categoria,
+          id_localizacao: property?.id_localizacao || property?.localizacao?.id,
+          id_categoria: property?.id_categoria || property?.categoria?.id,
         },
         {
           headers: {
@@ -205,7 +206,7 @@ const EditProperty: React.FC = () => {
             </button>
             <Select
               disabled={disabled}
-              selected={selected.location}
+              selected={selected.location || property?.localizacao?.descricao}
               setSelected={(e) => (
                 setProperty({ ...property, id_localizacao: e.id }), setSelected({ ...selected, location: e.descricao })
               )}
@@ -227,7 +228,7 @@ const EditProperty: React.FC = () => {
             </button>
             <Select
               disabled={disabled}
-              selected={selected.category}
+              selected={selected.category || property?.categoria?.descricao}
               setSelected={(e) => (
                 setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
               )}

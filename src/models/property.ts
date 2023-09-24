@@ -11,4 +11,12 @@ export interface Property {
   resp_retirada: string;
   id_localizacao: string;
   id_categoria: string;
+  localizacao: {
+    id: string;
+    descricao: string;
+  };
+  categoria: {
+    id: string;
+    descricao: string;
+  }
 }
