@@ -225,8 +225,17 @@ const RemoveProperty: React.FC = () => {
             onChange={(e) => handleInputChange(e)}
           />
         </div>
+        <div className="w-full h-32 flex justify-between items-center gap-2">
+          <label className="w-auto text-c5 font-medium ">Responsável de Entrega </label>
+          <input
+            name="resp_entrega"
+            type="text"
+            className="w-96 h-full bg-c1 rounded pl-2"
+            onChange={(e) => handleInputChange(e)}
+          />
+        </div>
         <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className="w-auto text-c5 font-medium ">Responsável</label>
+          <label className="w-auto text-c5 font-medium ">Responsável da Retirada</label>
           <input
             disabled={disabled}
             name="resp_retirada"

@@ -13,8 +13,8 @@ const Select: React.FC<ISelectProps> = ({ selected, setSelected, options, disabl
   return (
     <>
       <Listbox value={selected} onChange={setSelected} disabled={disabled}>
-        <div className="h-full relative ">
-          <Listbox.Button className="w-60 h-full bg-c1 rounded text-center relative">
+        <div className="w-full h-full relative ">
+          <Listbox.Button className="w-full h-full bg-c1 rounded text-center relative">
             {selected}
             <Icon.ChevronDownIcon className="w-4 h-4 absolute right-1 top-3" />
           </Listbox.Button>

@@ -111,34 +111,41 @@ const AddProperty: React.FC = () => {
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
       <form
-        className="w-[50%] h-2/3 mt-4 bg-white z-1 rounded-xl z-10 p-4 flex flex-col gap-4 box-border"
+        className="w-[85%]  mt-4 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between box-border"
         onSubmit={(e) => AddProperty(e)}
       >
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
           <label className="text-c5 font-medium ">Placa</label>
           <input
             name="placa"
             type="text"
-            className="w-96 h-full bg-c1 rounded pl-2"
+            className="w-full h-full bg-c1 rounded pl-2"
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
           <label className="w-auto text-c5 font-medium ">Descrição</label>
           <input
             name="descricao"
             type="text"
-            className="w-96 h-full bg-c1 rounded pl-2"
+            className="w-full h-full bg-c1 rounded pl-2"
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Valor</label>
-          <input name="valor" className="w-96 h-full bg-c1 rounded pl-2" onChange={(e) => handleInputChange(e)} />
+          <input name="valor" className="w-full h-full bg-c1 rounded pl-2" onChange={(e) => handleInputChange(e)} />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Localização</label>
           <div className="w-96 h-full flex items-center justify-between">
+            <Select
+              selected={selected.location}
+              setSelected={(e) => (
+                setProperty({ ...property, id_localizacao: e.id }), setSelected({ ...selected, location: e.descricao })
+              )}
+              options={locations}
+            />
             <button
               className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
               onClick={(event) => {
@@ -147,18 +154,19 @@ const AddProperty: React.FC = () => {
             >
               <Icon.PlusIcon className="w-5 h-5 " />
             </button>
-            <Select
-              selected={selected.location}
-              setSelected={(e) => (
-                setProperty({ ...property, id_localizacao: e.id }), setSelected({ ...selected, location: e.descricao })
-              )}
-              options={locations}
-            />
           </div>
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Categoria</label>
           <div className="w-96 h-full flex items-center justify-between">
+            
+            <Select
+              selected={selected.category}
+              setSelected={(e) => (
+                setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
+              )}
+              options={categories}
+            />
             <button
               className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
               onClick={(event) => {
@@ -167,16 +175,9 @@ const AddProperty: React.FC = () => {
             >
               <Icon.PlusIcon className="w-5 h-5 " />
             </button>
-            <Select
-              selected={selected.category}
-              setSelected={(e) => (
-                setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
-              )}
-              options={categories}
-            />
           </div>
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Conservação</label>
           <Select
             selected={selected.condition}
@@ -186,7 +187,7 @@ const AddProperty: React.FC = () => {
             options={conditions}
           />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Origem</label>
           <Select
             selected={selected.origin}
@@ -197,7 +198,7 @@ const AddProperty: React.FC = () => {
           />
         </div>
 
-        <div className="w-full h-32 flex justify-between items-center gap-2">
+        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium w-40">Data de Entrada</label>
           <input
             name="data_entrada"
@@ -206,18 +207,9 @@ const AddProperty: React.FC = () => {
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
-          <label className="w-auto text-c5 font-medium ">Responsável</label>
-          <input
-            name="resp_entrega"
-            type="text"
-            className="w-96 h-full bg-c1 rounded pl-2"
-            onChange={(e) => handleInputChange(e)}
-          />
-        </div>
         <button
           type="submit"
-          className="w-full h-32  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90"
+          className="w-full h-10  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90 uppercase"
         >
           Cadastrar
         </button>
