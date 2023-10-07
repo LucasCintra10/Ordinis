@@ -43,19 +43,19 @@ export default function ReportsPage() {
 
   return (
     <main className="w-screen h-screen flex">
-      <Image src="/vectorBR.svg" alt="Ilustração" width={700} height={700} className="absolute bottom-0 right-0" />
+      <Image src="/vectorBR.svg" alt="Ilustração" width={400} height={400} className="absolute bottom-0 right-0" />
       <Navbar />
-      <div className="w-full h-full flex flex-col ml-8 box-border items-center">
-        <div className="w-[90%] h-1/6 flex items-center">
+      <div className="w-full h-full flex flex-col ml-8 box-border">
+        <div className="w-[95%] h-1/6 flex items-center">
           <h1 className="text-5xl font-bold text-c5 ">Relatórios</h1>
         </div>
-        <div className="w-[90%] max-h-[80%] flex flex-col items-center bg-white z-10 rounded-xl p-2">
+        <div className="w-[95%] max-h-[80%] flex flex-col items-center bg-white z-10 rounded-xl p-2">
           {loading ? (
             <div className="w-full h-full flex justify-center items-center">
               <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
             </div>
           ) : (
-            <table className="w-full h-auto flex flex-col items-center border-solid border-2 border-c4 rounded-xl overflow-auto">
+            <table className="w-full h-auto flex flex-col items-center  rounded-xl overflow-auto">
               <thead className="w-full h-1/6 flex justify-between items-center">
                 <tr className="w-full h-auto flex justify-between items-center bg-c1 p-4 ">
                   <th className="w-1/6 h-full flex  items-center">Placa</th>

@@ -2,6 +2,7 @@ import AddCategoryModal from "../Modals/property/AddCategoryModal";
 import AddLocationModal from "../Modals/property/AddLocationModal";
 import * as Icon from "@heroicons/react/24/outline";
 import { Condition } from "@/models/condition";
+import { Transition } from "@headlessui/react";
 import { Category } from "@/models/category";
 import { Property } from "@/models/property";
 import Select from "@/components/Select";
@@ -13,7 +14,6 @@ import api from "@/tools/api";
 import React from "react";
 
 const AddProperty: React.FC = () => {
-  
   const conditions: Condition[] = [
     { id: 1, descricao: "EXCELENTE" },
     { id: 2, descricao: "OTIMO" },
@@ -40,6 +40,7 @@ const AddProperty: React.FC = () => {
 
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
   const [addLocationModal, setAddLocationModal] = React.useState(false);
+  const [isShowing, setIsShowing] = React.useState(false);
 
   const getCategories = async () => {
     api
@@ -106,6 +107,7 @@ const AddProperty: React.FC = () => {
   };
 
   React.useEffect(() => {
+    setIsShowing(true);
     getCategories();
     getLocations();
   }, []);
@@ -114,85 +116,97 @@ const AddProperty: React.FC = () => {
     <>
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
-      <form
-        className="w-[95%]  mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
-        onSubmit={(e) => AddProperty(e)}
+      <Transition
+        appear={true}
+        show={isShowing}
+        enter={`transition-all ease-in-out duration-700`}
+        enterFrom="opacity-0 translate-y-6"
+        enterTo="opacity-100 translate-y-0"
+        leave="transition-all ease-in-out duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
       >
-        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
-          <Input label="Placa" name="placa" type="text" onChange={(e) => handleInputChange(e)} />
-        </div>
-        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
-          <Input label="Descrição" name="descricao" type="text" onChange={(e) => handleInputChange(e)} />
-        </div>
-        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
-          <Input label="Valor" name="valor" type="text" onChange={(e) => handleInputChange(e)} />
-        </div>
-        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
-          <label className="w-auto text-c5 font-medium ">Localização</label>
-          <div className="w-full h-full flex items-center justify-between">
-            <Select
-              selected={selected.location}
-              setSelected={(e) => (
-                setProperty({ ...property, id_localizacao: e.id }), setSelected({ ...selected, location: e.descricao })
-              )}
-              options={locations}
-            />
-            <button
-              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ml-4 hover:opacity-90 "
-              onClick={(event) => {
-                openModal(event, setAddLocationModal);
-              }}
-            >
-              <Icon.PlusIcon className="w-5 h-5 " />
-            </button>
+        <form
+          className="w-[95%] mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
+          onSubmit={(e) => AddProperty(e)}
+        >
+          <div className="w-[48%] h-10 flex justify-between items-center">
+            <Input label="Placa" name="placa" type="text" onChange={(e) => handleInputChange(e)} />
           </div>
-        </div>
-        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
-          <label className="w-auto text-c5 font-medium ">Categoria</label>
-          <div className="w-full h-full flex items-center justify-between">
-            <Select
-              selected={selected.category}
-              setSelected={(e) => (
-                setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
-              )}
-              options={categories}
-            />
-            <button
-              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ml-4 hover:opacity-90 "
-              onClick={(event) => {
-                openModal(event, setAddCategoryModal);
-              }}
-            >
-              <Icon.PlusIcon className="w-5 h-5 " />
-            </button>
+          <div className="w-[48%] h-10 flex justify-between items-center">
+            <Input label="Descrição" name="descricao" type="text" onChange={(e) => handleInputChange(e)} />
           </div>
-        </div>
-        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
-          <label className=" text-c5 font-medium ">Conservação</label>
-          <Select
-            selected={selected.condition}
-            setSelected={(e) => {
-              setProperty({ ...property, estado: e.descricao }), setSelected({ ...selected, condition: e.descricao });
-            }}
-            options={conditions}
-          />
-        </div>
-        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
-          <label className=" text-c5 font-medium ">Origem</label>
-          <Select
-            selected={selected.origin}
-            setSelected={(e) => {
-              setProperty({ ...property, origem: e.descricao }), setSelected({ ...selected, origin: e.descricao });
-            }}
-            options={origins}
-          />
-        </div>
+          <div className="w-[48%] h-10 flex justify-between items-center">
+            <Input label="Valor" name="valor" type="text" onChange={(e) => handleInputChange(e)} />
+          </div>
+          <div className="w-[48%] h-10 flex justify-between items-center">
+            <label className="w-36 text-c5 font-medium shrink-0">Localização</label>
+            <div className="w-full h-full flex items-center justify-between">
+              <Select
+                selected={selected.location}
+                setSelected={(e) => (
+                  setProperty({ ...property, id_localizacao: e.id }),
+                  setSelected({ ...selected, location: e.descricao })
+                )}
+                options={locations}
+              />
+              <button
+                className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ml-4 hover:opacity-90 "
+                onClick={(event) => {
+                  openModal(event, setAddLocationModal);
+                }}
+              >
+                <Icon.PlusIcon className="w-5 h-5 " />
+              </button>
+            </div>
+          </div>
+          <div className="w-[48%] h-10 flex justify-between items-center">
+            <label className="w-36 text-c5 font-medium shrink-0">Categoria</label>
+            <div className="w-full h-full flex items-center justify-between">
+              <Select
+                selected={selected.category}
+                setSelected={(e) => (
+                  setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
+                )}
+                options={categories}
+              />
+              <button
+                className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ml-4 hover:opacity-90 "
+                onClick={(event) => {
+                  openModal(event, setAddCategoryModal);
+                }}
+              >
+                <Icon.PlusIcon className="w-5 h-5 " />
+              </button>
+            </div>
+          </div>
+          <div className="w-[48%] h-10 flex justify-between items-center">
+            <label className="w-36 text-c5 font-medium shrink-0">Conservação</label>
+            <Select
+              selected={selected.condition}
+              setSelected={(e) => {
+                setProperty({ ...property, estado: e.descricao }), setSelected({ ...selected, condition: e.descricao });
+              }}
+              options={conditions}
+            />
+          </div>
+          <div className="w-[48%] h-10 flex justify-between items-center">
+            <label className=" w-36 text-c5 font-medium shrink-0">Origem</label>
+            <Select
+              selected={selected.origin}
+              setSelected={(e) => {
+                setProperty({ ...property, origem: e.descricao }), setSelected({ ...selected, origin: e.descricao });
+              }}
+              options={origins}
+            />
+          </div>
 
-        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
-          <Input label="Data de entrada" name="data_entrada" type="date" onChange={(e) => handleInputChange(e)} />
-        </div>
-        <Button label="Cadastrar" type="submit" />
-      </form>
+          <div className="w-[48%] h-10 flex justify-between items-center">
+            <Input label="Data de entrada" name="data_entrada" type="date" onChange={(e) => handleInputChange(e)} />
+          </div>
+          <Button label="Cadastrar" type="submit" />
+        </form>
+      </Transition>
     </>
   );
 };
