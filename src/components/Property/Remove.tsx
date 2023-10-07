@@ -1,14 +1,16 @@
-import React from "react";
-import Select from "@/components/Select";
+import * as Icon from "@heroicons/react/24/outline";
+import { ColorRing } from "react-loader-spinner";
 import { Condition } from "@/models/condition";
-import api from "@/tools/api";
 import { Category } from "@/models/category";
 import { Property } from "@/models/property";
-import * as Icon from "@heroicons/react/24/outline";
-import { Origin } from "@/models/origin";
 import { Location } from "@/models/location";
+import Select from "@/components/Select";
+import { Origin } from "@/models/origin";
 import { toast } from "react-toastify";
-import { ColorRing } from "react-loader-spinner";
+import api from "@/tools/api";
+import React from "react";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 
 const RemoveProperty: React.FC = () => {
   const conditions: Condition[] = [
@@ -124,54 +126,38 @@ const RemoveProperty: React.FC = () => {
     <>
       <form
         onSubmit={(e) => deleteProperty(e)}
-        className="w-[50%] h-2/3 mt-4 bg-white z-1 rounded-xl z-10 p-4 flex flex-col gap-4 box-border"
+        className="w-[95%]  mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
       >
-        <div className="w-full h-32 flex justify-between items-center gap-2">
-          <label className="text-c5 font-medium ">Placa</label>
-          <div className="w-96 h-full flex items-center justify-between">
-            <input
-              name="placa"
-              type="text"
-              className="w-72 h-full bg-c1 rounded pl-2"
-              onChange={(e) => handleInputChange(e)}
-            />
-            {loading ? (
-              <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={45} width={45} />
-            ) : (
-              <button
-                type="submit"
-                className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
-                onClick={(event) => {
-                  getProperty(event);
-                }}
-              >
-                <Icon.MagnifyingGlassIcon className="w-5 h-5 " />
-              </button>
-            )}
-          </div>
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
+          <Input name="placa" label="Placa" type="text" onChange={(e) => handleInputChange(e)} />
+          {loading ? (
+            <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={45} width={45} />
+          ) : (
+            <button
+              type="submit"
+              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4 "
+              onClick={(event) => {
+                getProperty(event);
+              }}
+            >
+              <Icon.MagnifyingGlassIcon className="w-5 h-5 " />
+            </button>
+          )}
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2  opacity-60`}>
-          <label className="w-auto text-c5 font-medium ">Descrição</label>
-          <input
-            disabled={true}
+
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2  opacity-60`}>
+          <Input
+            label="Descrição"
             name="descricao"
-            value={property?.descricao}
             type="text"
-            className="w-96 h-full bg-c1 rounded pl-2"
+            disabled={disabled}
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2  opacity-60`}>
-          <label className=" text-c5 font-medium ">Valor</label>
-          <input
-            disabled={true}
-            value={property?.valor}
-            name="valor"
-            className="w-96 h-full bg-c1 rounded pl-2"
-            onChange={(e) => handleInputChange(e)}
-          />
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2  opacity-60`}>
+          <Input label="Valor" name="valor" type="text" disabled={disabled} onChange={(e) => handleInputChange(e)} />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2  opacity-60`}>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2  opacity-60`}>
           <label className=" text-c5 font-medium ">Localização</label>
           <Select
             disabled={true}
@@ -182,7 +168,7 @@ const RemoveProperty: React.FC = () => {
             options={locations}
           />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2  opacity-60`}>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2  opacity-60`}>
           <label className=" text-c5 font-medium ">Categoria</label>
           <Select
             disabled={true}
@@ -193,7 +179,7 @@ const RemoveProperty: React.FC = () => {
             options={categories}
           />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2  opacity-60`}>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2  opacity-60`}>
           <label className=" text-c5 font-medium ">Conservação</label>
           <Select
             disabled={true}
@@ -204,7 +190,7 @@ const RemoveProperty: React.FC = () => {
             options={conditions}
           />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2  opacity-60`}>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2  opacity-60`}>
           <label className=" text-c5 font-medium ">Origem</label>
           <Select
             disabled={true}
@@ -215,44 +201,34 @@ const RemoveProperty: React.FC = () => {
             options={origins}
           />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className=" text-c5 font-medium w-40">Data de Saida</label>
-          <input
-            disabled={disabled}
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+          <Input
+            label="Data de Saída"
             name="data_saida"
             type="date"
-            className="w-96 h-full bg-c1 rounded text-center"
-            onChange={(e) => handleInputChange(e)}
-          />
-        </div>
-        <div className="w-full h-32 flex justify-between items-center gap-2">
-          <label className="w-auto text-c5 font-medium ">Responsável de Entrega </label>
-          <input
-            name="resp_entrega"
-            type="text"
-            className="w-96 h-full bg-c1 rounded pl-2"
-            onChange={(e) => handleInputChange(e)}
-          />
-        </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className="w-auto text-c5 font-medium ">Responsável da Retirada</label>
-          <input
             disabled={disabled}
+            onChange={(e) => handleInputChange(e)}
+          />
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+          <Input
+            label="Data de Aquisição"
+            name="data_aquisicao"
+            type="date"
+            disabled={disabled}
+            onChange={(e) => handleInputChange(e)}
+          />
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+          <Input
+            label="Responsável pela retirada"
             name="resp_retirada"
             type="text"
-            className="w-96 h-full bg-c1 rounded pl-2"
+            disabled={disabled}
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <button
-          disabled={disabled}
-          type="submit"
-          className={`w-full h-32  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90 ${
-            disabled && "opacity-60"
-          }`}
-        >
-          Baixar
-        </button>
+        <Button label="Baixar" type="submit" disabled={disabled} />
       </form>
     </>
   );

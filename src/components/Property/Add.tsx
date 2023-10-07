@@ -1,21 +1,25 @@
-import React from "react";
-import Select from "@/components/Select";
-import { Condition } from "@/models/condition";
-import api from "@/tools/api";
-import { Category } from "@/models/category";
-import { Property } from "@/models/property";
-import * as Icon from "@heroicons/react/24/outline";
 import AddCategoryModal from "../Modals/property/AddCategoryModal";
 import AddLocationModal from "../Modals/property/AddLocationModal";
+import * as Icon from "@heroicons/react/24/outline";
+import { Condition } from "@/models/condition";
+import { Category } from "@/models/category";
+import { Property } from "@/models/property";
+import Select from "@/components/Select";
 import { Origin } from "@/models/origin";
+import Button from "@/components/Button";
 import { toast } from "react-toastify";
+import Input from "@/components/Input";
+import api from "@/tools/api";
+import React from "react";
 
 const AddProperty: React.FC = () => {
-
+  
   const conditions: Condition[] = [
+    { id: 1, descricao: "EXCELENTE" },
     { id: 2, descricao: "OTIMO" },
     { id: 3, descricao: "REGULAR" },
     { id: 4, descricao: "RUIM" },
+    { id: 5, descricao: "PESSIMO" },
   ];
 
   const origins: Origin[] = [
@@ -100,7 +104,7 @@ const AddProperty: React.FC = () => {
     event.preventDefault();
     setModal(true);
   };
-  
+
   React.useEffect(() => {
     getCategories();
     getLocations();
@@ -111,34 +115,21 @@ const AddProperty: React.FC = () => {
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
       <form
-        className="w-[85%]  mt-4 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between box-border"
+        className="w-[95%]  mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
         onSubmit={(e) => AddProperty(e)}
       >
-        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
-          <label className="text-c5 font-medium ">Placa</label>
-          <input
-            name="placa"
-            type="text"
-            className="w-full h-full bg-c1 rounded pl-2"
-            onChange={(e) => handleInputChange(e)}
-          />
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
+          <Input label="Placa" name="placa" type="text" onChange={(e) => handleInputChange(e)} />
         </div>
-        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
-          <label className="w-auto text-c5 font-medium ">Descrição</label>
-          <input
-            name="descricao"
-            type="text"
-            className="w-full h-full bg-c1 rounded pl-2"
-            onChange={(e) => handleInputChange(e)}
-          />
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
+          <Input label="Descrição" name="descricao" type="text" onChange={(e) => handleInputChange(e)} />
         </div>
-        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
-          <label className=" text-c5 font-medium ">Valor</label>
-          <input name="valor" className="w-full h-full bg-c1 rounded pl-2" onChange={(e) => handleInputChange(e)} />
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
+          <Input label="Valor" name="valor" type="text" onChange={(e) => handleInputChange(e)} />
         </div>
-        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
-          <label className=" text-c5 font-medium ">Localização</label>
-          <div className="w-96 h-full flex items-center justify-between">
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
+          <label className="w-auto text-c5 font-medium ">Localização</label>
+          <div className="w-full h-full flex items-center justify-between">
             <Select
               selected={selected.location}
               setSelected={(e) => (
@@ -147,7 +138,7 @@ const AddProperty: React.FC = () => {
               options={locations}
             />
             <button
-              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
+              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ml-4 hover:opacity-90 "
               onClick={(event) => {
                 openModal(event, setAddLocationModal);
               }}
@@ -156,10 +147,9 @@ const AddProperty: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
-          <label className=" text-c5 font-medium ">Categoria</label>
-          <div className="w-96 h-full flex items-center justify-between">
-            
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
+          <label className="w-auto text-c5 font-medium ">Categoria</label>
+          <div className="w-full h-full flex items-center justify-between">
             <Select
               selected={selected.category}
               setSelected={(e) => (
@@ -168,7 +158,7 @@ const AddProperty: React.FC = () => {
               options={categories}
             />
             <button
-              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
+              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ml-4 hover:opacity-90 "
               onClick={(event) => {
                 openModal(event, setAddCategoryModal);
               }}
@@ -177,7 +167,7 @@ const AddProperty: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Conservação</label>
           <Select
             selected={selected.condition}
@@ -187,7 +177,7 @@ const AddProperty: React.FC = () => {
             options={conditions}
           />
         </div>
-        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
           <label className=" text-c5 font-medium ">Origem</label>
           <Select
             selected={selected.origin}
@@ -198,21 +188,10 @@ const AddProperty: React.FC = () => {
           />
         </div>
 
-        <div className="w-[45%] h-10 flex justify-between items-center gap-2">
-          <label className=" text-c5 font-medium w-40">Data de Entrada</label>
-          <input
-            name="data_entrada"
-            type="date"
-            className="w-96 h-full bg-c1 rounded text-center"
-            onChange={(e) => handleInputChange(e)}
-          />
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
+          <Input label="Data de entrada" name="data_entrada" type="date" onChange={(e) => handleInputChange(e)} />
         </div>
-        <button
-          type="submit"
-          className="w-full h-10  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90 uppercase"
-        >
-          Cadastrar
-        </button>
+        <Button label="Cadastrar" type="submit" />
       </form>
     </>
   );

@@ -2,14 +2,14 @@ import React from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import * as Icon from "@heroicons/react/24/outline";
 
-interface ISelectProps {
+interface SelectProps {
   selected: any;
   setSelected: (event: any) => void;
   options: any;
   disabled?: boolean;
 }
 
-const Select: React.FC<ISelectProps> = ({ selected, setSelected, options, disabled }) => {
+const Select: React.FC<SelectProps> = ({ selected, setSelected, options, disabled }) => {
   return (
     <>
       <Listbox value={selected} onChange={setSelected} disabled={disabled}>
@@ -24,9 +24,9 @@ const Select: React.FC<ISelectProps> = ({ selected, setSelected, options, disabl
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-10 w-60 py-1 overflow-auto bg-c1 rounded text-center">
+            <Listbox.Options className="w-full h-32 absolute z-10 py-1 overflow-auto bg-c1 rounded text-center mt-2">
               {options?.map((option: any) => (
-                <Listbox.Option key={option.id} value={option} className="hover:cursor-pointer hover:bg-c2 py-1">
+                <Listbox.Option key={option.id} value={option} className="hover:cursor-pointer hover:text-p2 py-1">
                   {option.descricao}
                 </Listbox.Option>
               ))}

@@ -1,22 +1,26 @@
-import React from "react";
-import Select from "@/components/Select";
-import { Condition } from "@/models/condition";
-import api from "@/tools/api";
-import { Category } from "@/models/category";
-import { Property } from "@/models/property";
-import * as Icon from "@heroicons/react/24/outline";
 import AddCategoryModal from "../Modals/property/AddCategoryModal";
 import AddLocationModal from "../Modals/property/AddLocationModal";
-import { Origin } from "@/models/origin";
-import { Location } from "@/models/location";
-import { toast } from "react-toastify";
+import * as Icon from "@heroicons/react/24/outline";
 import { ColorRing } from "react-loader-spinner";
+import { Condition } from "@/models/condition";
+import { Category } from "@/models/category";
+import { Property } from "@/models/property";
+import { Location } from "@/models/location";
+import { Origin } from "@/models/origin";
+import Select from "@/components/Select";
+import Button from "@/components/Button";
+import { toast } from "react-toastify";
+import Input from "@/components/Input";
+import api from "@/tools/api";
+import React from "react";
 
 const EditProperty: React.FC = () => {
   const conditions: Condition[] = [
+    { id: 1, descricao: "EXCELENTE" },
     { id: 2, descricao: "OTIMO" },
     { id: 3, descricao: "REGULAR" },
     { id: 4, descricao: "RUIM" },
+    { id: 5, descricao: "PESSIMO" },
   ];
 
   const origins: Origin[] = [
@@ -94,7 +98,7 @@ const EditProperty: React.FC = () => {
       })
       .then((response: any) => {
         setProperty(response.data.data[0]);
-        console.log(response.data.data[0])
+        console.log(response.data.data[0]);
         setDisabled(false);
       })
       .catch((error: any) => {
@@ -145,65 +149,33 @@ const EditProperty: React.FC = () => {
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
       <form
         onSubmit={(e) => updateProperty(e)}
-        className="w-[50%] h-2/3 mt-4 bg-white z-1 rounded-xl z-10 p-4 flex flex-col gap-4 box-border"
+        className="w-[95%]  mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
       >
-        <div className="w-full h-32 flex justify-between items-center gap-2">
-          <label className="text-c5 font-medium ">Placa</label>
-          <div className="w-96 h-full flex items-center justify-between">
-            <input
-              name="placa"
-              type="text"
-              className="w-72 h-full bg-c1 rounded pl-2"
-              onChange={(e) => handleInputChange(e)}
-            />
-            {loading ? (
-              <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={45} width={45} />
-            ) : (
-              <button
-                type="submit"
-                className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
-                onClick={(event) => {
-                  getProperty(event);
-                }}
-              >
-                <Icon.MagnifyingGlassIcon className="w-5 h-5 " />
-              </button>
-            )}
-          </div>
-        </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className="w-auto text-c5 font-medium ">Descrição</label>
-          <input
-            disabled={disabled}
-            name="descricao"
-            value={property?.descricao}
-            type="text"
-            className="w-96 h-full bg-c1 rounded pl-2"
-            onChange={(e) => handleInputChange(e)}
-          />
-        </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className=" text-c5 font-medium ">Valor</label>
-          <input
-            disabled={disabled}
-            value={property?.valor}
-            name="valor"
-            className="w-96 h-full bg-c1 rounded pl-2"
-            onChange={(e) => handleInputChange(e)}
-          />
-        </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className=" text-c5 font-medium ">Localização</label>
-          <div className="w-96 h-full flex items-center justify-between">
+        <div className="w-[48%] h-10 flex justify-between items-center gap-2">
+          <Input name="placa" label="Placa" type="text" onChange={(e) => handleInputChange(e)} />
+          {loading ? (
+            <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={45} width={45} />
+          ) : (
             <button
-              disabled={disabled}
-              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
+              type="submit"
+              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
               onClick={(event) => {
-                openModal(event, setAddLocationModal);
+                getProperty(event);
               }}
             >
-              <Icon.PlusIcon className="w-5 h-5 " />
+              <Icon.MagnifyingGlassIcon className="w-5 h-5 " />
             </button>
+          )}
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+          <Input label="Descrição" name="descricao" type="text" disabled={disabled} onChange={(e) => handleInputChange(e)} />
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+          <Input label="Valor" name="valor" type="text" disabled={disabled} onChange={(e) => handleInputChange(e)} />
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+          <label className=" text-c5 font-medium ">Localização</label>
+          <div className="w-96 h-full flex items-center justify-between">
             <Select
               disabled={disabled}
               selected={selected.location || property?.localizacao?.descricao}
@@ -212,20 +184,20 @@ const EditProperty: React.FC = () => {
               )}
               options={locations}
             />
-          </div>
-        </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className=" text-c5 font-medium ">Categoria</label>
-          <div className="w-96 h-full flex items-center justify-between">
             <button
               disabled={disabled}
-              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 "
+              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4 "
               onClick={(event) => {
-                openModal(event, setAddCategoryModal);
+                openModal(event, setAddLocationModal);
               }}
             >
               <Icon.PlusIcon className="w-5 h-5 " />
             </button>
+          </div>
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+          <label className=" text-c5 font-medium ">Categoria</label>
+          <div className="w-96 h-full flex items-center justify-between">
             <Select
               disabled={disabled}
               selected={selected.category || property?.categoria?.descricao}
@@ -234,9 +206,18 @@ const EditProperty: React.FC = () => {
               )}
               options={categories}
             />
+            <button
+              disabled={disabled}
+              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
+              onClick={(event) => {
+                openModal(event, setAddCategoryModal);
+              }}
+            >
+              <Icon.PlusIcon className="w-5 h-5 " />
+            </button>
           </div>
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
           <label className=" text-c5 font-medium ">Conservação</label>
           <Select
             disabled={disabled}
@@ -247,7 +228,7 @@ const EditProperty: React.FC = () => {
             options={conditions}
           />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
           <label className=" text-c5 font-medium ">Origem</label>
           <Select
             disabled={disabled}
@@ -258,36 +239,10 @@ const EditProperty: React.FC = () => {
             options={origins}
           />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className=" text-c5 font-medium w-40">Data de Entrada</label>
-          <input
-            disabled={disabled}
-            name="data_entrada"
-            type="date"
-            className="w-96 h-full bg-c1 rounded text-center"
-            onChange={(e) => handleInputChange(e)}
-          />
+        <div className={`w-[48%] h-10 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
+          <Input label="Data de Aquisição" name="data_aquisicao" disabled={disabled} type="date" onChange={(e) => handleInputChange(e)} />
         </div>
-        <div className={`w-full h-32 flex justify-between items-center gap-2 ${disabled && "opacity-60"}`}>
-          <label className="w-auto text-c5 font-medium ">Responsável</label>
-          <input
-            disabled={disabled}
-            value={property?.resp_entrega}
-            name="resp_entrega"
-            type="text"
-            className="w-96 h-full bg-c1 rounded pl-2"
-            onChange={(e) => handleInputChange(e)}
-          />
-        </div>
-        <button
-          disabled={disabled}
-          type="submit"
-          className={`w-full h-32  self-center bg-p3 text-white rounded flex justify-center items-center gap-2  transition-all hover:opacity-90 ${
-            disabled && "opacity-60"
-          }`}
-        >
-          Editar
-        </button>
+      <Button label="Editar" type="submit" disabled={disabled} />
       </form>
     </>
   );
