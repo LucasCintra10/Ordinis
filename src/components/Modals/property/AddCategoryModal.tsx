@@ -40,7 +40,7 @@ const AddCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
 
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-10">
+      <Dialog as="div" onClose={closeModal} className="relative z-10">
         <Transition.Child
           as={React.Fragment}
           enter="ease-out duration-300"

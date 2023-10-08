@@ -1,13 +1,13 @@
 "use client";
-import RemoveProperty from "@/components/Property/Remove";
-import EditProperty from "@/components/Property/Edit";
+import RemoveProperty from "@/components/Patrimonio/Remove";
+import EditProperty from "@/components/Patrimonio/Edit";
 import * as Icon from "@heroicons/react/24/outline";
-import AddProperty from "@/components/Property/Add";
+import AddProperty from "@/components/Patrimonio/Add";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import React from "react";
 
-export default function PropertyPage() {
+export default function PatrimoniosPage() {
   
   const [display, setDisplay] = React.useState("register");
 
