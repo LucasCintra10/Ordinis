@@ -171,7 +171,7 @@ const EditProperty: React.FC = () => {
             ) : (
               <button
                 type="submit"
-                className="w-16 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
+                className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
                 onClick={(event) => {
                   getProperty(event);
                 }}

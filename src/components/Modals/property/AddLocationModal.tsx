@@ -4,6 +4,8 @@ import { Modal } from "@/models/modal";
 import * as Icon from "@heroicons/react/24/outline";
 import api from "@/tools/api";
 import { toast } from "react-toastify";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 
 const AddLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
 
@@ -48,7 +50,7 @@ const AddLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         </Transition.Child>
         <form className="fixed inset-0 overflow-y-auto" onSubmit={(e) => addCategory(e)}>
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
               as={React.Fragment}
               enter="ease-out duration-300"
@@ -58,19 +60,16 @@ const AddLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-auto transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all flex flex-col items-center justify-center gap-6">
-                <Dialog.Title className="text-2xl font-bold text-c5">Adicionar localização</Dialog.Title>
+              <Dialog.Panel className="w-auto transform overflow-hidden rounded-2xl bg-white p-4 text-left align-middle shadow-xl transition-all flex flex-col justify-center gap-6">
+                <Dialog.Title className="text-xl font-bold text-c5">Adicionar localização</Dialog.Title>
                 <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-4 cursor-pointer" onClick={closeModal} />
                 <Dialog.Description className="w-full">
                   <div className="w-full h-12 flex justify-evenly items-center gap-4">
-                    <span className=" text-c5 font-medium ">Nome</span>
-                    <input type="text" className="w-full h-full bg-c1 rounded" onChange={(e) => handleInputChange(e)} />
+                    <Input type="text" label="Localização" name="location" onChange={handleInputChange} />
                   </div>
                 </Dialog.Description>
                 <Dialog.Description className="w-full">
-                  <button type="submit" className="w-full h-12 bg-p3 text-white text-xl rounded flex justify-center items-center gap-2  transition-all hover:opacity-90">
-                    Adicionar
-                  </button>
+                 <Button type="submit" label="Adicionar" />
                 </Dialog.Description>
               </Dialog.Panel>
             </Transition.Child>
