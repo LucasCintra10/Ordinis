@@ -1,13 +1,14 @@
 "use client";
+import RemoveProperty from "@/components/Property/Remove";
+import EditProperty from "@/components/Property/Edit";
+import * as Icon from "@heroicons/react/24/outline";
+import AddProperty from "@/components/Property/Add";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
-import * as Icon from "@heroicons/react/24/outline";
 import React from "react";
-import AddProperty from "@/components/Property/Add";
-import EditProperty from "@/components/Property/Edit";
-import RemoveProperty from "@/components/Property/Remove";
 
 export default function PropertyPage() {
+  
   const [display, setDisplay] = React.useState("register");
 
   return (
