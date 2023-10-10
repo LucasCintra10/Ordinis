@@ -13,6 +13,7 @@ import { Origin } from "@/models/origin";
 import Image from "next/image";
 import * as React from "react";
 import api from "@/tools/api";
+import * as XLSX from "xlsx";
 
 export default function RelatoriosPage() {
   const [property, setProperty] = React.useState<Property[]>([]);
@@ -51,25 +52,6 @@ export default function RelatoriosPage() {
     location: "",
     origin: "",
   });
-
-  const getAllPatrimonios = async () => {
-    setLoading(true);
-    api
-      .get("/patrimonio/get-all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response: any) => {
-        setProperty(response.data.data);
-      })
-      .catch((error: any) => {
-        setProperty([]);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   const getPatrimonios = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
@@ -128,10 +110,10 @@ export default function RelatoriosPage() {
       });
   };
 
-  const moneyFormat = (value: number) => {
+  const moneyFormat = (value: any) => {
     return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   };
-  const dateFormat = (value: string) => {
+  const dateFormat = (value: any) => {
     const date = new Date(value);
     return date.toLocaleDateString("pt-BR");
   };
@@ -152,6 +134,35 @@ export default function RelatoriosPage() {
     setPlaca("");
   };
 
+  const exportToExcel = () => {
+    const sheetName = "Patrimônios"; 
+    const fileName = "patrimonios.xlsx"; 
+    const data = [
+      ["Placa", "Categoria", "Localização", "Valor", "Origem", "Conservação", "Data de Entrada"],
+      ...property.map(patrimonio => [
+        patrimonio.placa,
+        patrimonio.categoria.descricao,
+        patrimonio.localizacao.descricao,
+        moneyFormat(patrimonio?.valor),
+        patrimonio.origem,
+        patrimonio.estado,
+        dateFormat(patrimonio.data_entrada)
+      ])
+    ];
+
+   
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+    
+    const workbook = XLSX.utils.book_new();
+
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+
+  
+    XLSX.writeFile(workbook, fileName);
+  };
+
   React.useEffect(() => {
     setIsShowing(true);
     getCategories();
@@ -161,7 +172,6 @@ export default function RelatoriosPage() {
   React.useEffect(() => {
     if (display === "all") {
       clearFilter();
-      getAllPatrimonios();
     }
   }, [display]);
 
@@ -194,7 +204,7 @@ export default function RelatoriosPage() {
             onClick={() => setDisplay("filter")}
           >
             {(filter.categoria || filter.localizacao || filter.origem || filter.conservacao) && (
-              <XCircleIcon className="w-6 h-6 absolute top-5 -right-2" onClick={clearFilter} />
+              <XCircleIcon className="w-6 h-6 absolute -top-1 -right-1" onClick={clearFilter} />
             )}
             <Icon.FunnelIcon className="w-5 h-5" />
             Filtrar
@@ -203,6 +213,7 @@ export default function RelatoriosPage() {
             className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
               display === "edit" ? "bg-c4 text-c2" : "bg-c2 text-c5"
             }`}
+            onClick={exportToExcel}
           >
             <Icon.ArrowTopRightOnSquareIcon className="w-5 h-5" />
             Exportar
