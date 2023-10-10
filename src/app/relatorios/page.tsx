@@ -1,5 +1,6 @@
 "use client";
 import * as Icon from "@heroicons/react/24/outline";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 import { ColorRing } from "react-loader-spinner";
 import { Transition } from "@headlessui/react";
 import { Condition } from "@/models/condition";
@@ -22,6 +23,7 @@ export default function RelatoriosPage() {
   const [isShowing, setIsShowing] = React.useState(false);
 
   const [display, setDisplay] = React.useState("all");
+  const [placa, setPlaca] = React.useState("");
 
   const origins: Origin[] = [
     { id: 1, descricao: "NV" },
@@ -37,7 +39,6 @@ export default function RelatoriosPage() {
   ];
 
   const [filter, setFilter] = React.useState({
-    placa: "",
     categoria: "",
     localizacao: "",
     origem: "",
@@ -70,7 +71,8 @@ export default function RelatoriosPage() {
       });
   };
 
-  const getPatrimonios = async () => {
+  const getPatrimonios = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
     setLoading(true);
     api
       .get(`/patrimonio/search`, {
@@ -78,6 +80,7 @@ export default function RelatoriosPage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         params: {
+          ...(placa && { placa: placa }),
           ...(filter.conservacao && { estado: filter.conservacao }),
           ...(filter.categoria && { categoria: filter.categoria }),
           ...(filter.localizacao && { localizacao: filter.localizacao }),
@@ -125,17 +128,28 @@ export default function RelatoriosPage() {
       });
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setFilter({ ...filter, [event.target.name]: event.target.value });
-  };
-
   const moneyFormat = (value: number) => {
     return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   };
   const dateFormat = (value: string) => {
     const date = new Date(value);
     return date.toLocaleDateString("pt-BR");
+  };
+
+  const clearFilter = () => {
+    setSelected({
+      category: "",
+      condition: "",
+      location: "",
+      origin: "",
+    });
+    setFilter({
+      categoria: "",
+      localizacao: "",
+      origem: "",
+      conservacao: "",
+    });
+    setPlaca("");
   };
 
   React.useEffect(() => {
@@ -146,6 +160,7 @@ export default function RelatoriosPage() {
 
   React.useEffect(() => {
     if (display === "all") {
+      clearFilter();
       getAllPatrimonios();
     }
   }, [display]);
@@ -173,11 +188,14 @@ export default function RelatoriosPage() {
             Todos
           </button>
           <button
-            className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
+            className={`w-48 h-16 cursor-pointer relative rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
               display === "filter" ? "bg-c4 text-c2" : "bg-c2 text-c5"
             }`}
             onClick={() => setDisplay("filter")}
           >
+            {(filter.categoria || filter.localizacao || filter.origem || filter.conservacao) && (
+              <XCircleIcon className="w-6 h-6 absolute top-5 -right-2" onClick={clearFilter} />
+            )}
             <Icon.FunnelIcon className="w-5 h-5" />
             Filtrar
           </button>
@@ -217,7 +235,12 @@ export default function RelatoriosPage() {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <div className="w-[95%] bg-white flex justify-center z-10 gap-2 p-2 rounded-xl mt-6 ">
+                <form
+                  className="w-[95%] bg-white flex justify-center z-10 gap-2 p-2 rounded-xl mt-6"
+                  onSubmit={(e) => {
+                    getPatrimonios(e);
+                  }}
+                >
                   <div className="w-[20%] justify-between items-center">
                     <label className=" text-c5 font-medium shrink-0 ">Placa</label>
                     <input
@@ -225,7 +248,7 @@ export default function RelatoriosPage() {
                       type="text"
                       className="w-full h-10 bg-c1 rounded pl-2 outline-none"
                       onChange={(e) => {
-                        handleInputChange(e);
+                        setPlaca(e.target.value);
                       }}
                     />
                   </div>
@@ -281,7 +304,7 @@ export default function RelatoriosPage() {
                       />
                     </div>
                   </div>
-                </div>
+                </form>
               </Transition>
             )}
             <div
