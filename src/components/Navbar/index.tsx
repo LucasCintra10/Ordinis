@@ -48,7 +48,7 @@ export default function Navbar() {
           <NavBarItem icon={Icon.ArchiveBoxIcon} text="Patrimônio" address="/patrimonios" />
           <NavBarItem icon={Icon.WrenchScrewdriverIcon} text="Manutenção" address="/home" />
           <NavBarItem icon={Icon.DocumentTextIcon} text="Relatórios" address="/relatorios" />
-          <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/home" />
+          <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/configs" />
           <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/home" />
           <NavBarItem
             icon={Icon.ArrowLeftOnRectangleIcon}

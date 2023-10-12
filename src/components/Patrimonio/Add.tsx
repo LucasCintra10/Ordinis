@@ -204,7 +204,7 @@ const AddProperty: React.FC = () => {
           <div className="w-[48%] h-10 flex justify-between items-center">
             <Input label="Data de entrada" name="data_entrada" type="date" onChange={(e) => handleInputChange(e)} />
           </div>
-          <Button label="Cadastrar" type="submit" />
+          <Button label="Cadastrar" type="submit"  />
         </form>
       </Transition>
     </>
