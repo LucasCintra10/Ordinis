@@ -1,6 +1,8 @@
 "use client";
-import AddCategoryModal from "@/components/Modals/property/AddCategoryModal";
-import AddLocationModal from "@/components/Modals/property/AddLocationModal";
+import AddCategoryModal from "@/components/Modals/categoria/AddCategoryModal";
+import RemoveCategoryModal from "@/components/Modals/categoria/RemoveCategoryModal";
+import AddLocationModal from "@/components/Modals/localizacao/AddLocationModal";
+import RemoveLocationModal from "@/components/Modals/localizacao/RemoveLocationModal";
 import * as Icon from "@heroicons/react/24/outline";
 import { Transition } from "@headlessui/react";
 import Button from "@/components/Button";
@@ -11,12 +13,16 @@ import * as React from "react";
 export default function ConfiguracoesPage() {
   const [isShowing, setIsShowing] = React.useState(true);
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
+  const [removeCategoryModal, setRemoveCategoryModal] = React.useState(false);
   const [addLocationModal, setAddLocationModal] = React.useState(false);
+  const [removeLocationModal, setRemoveLocationModal] = React.useState(false);
 
   return (
     <>
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
+      <RemoveCategoryModal isOpen={removeCategoryModal} setIsOpen={setRemoveCategoryModal} />
+      <RemoveLocationModal isOpen={removeLocationModal} setIsOpen={setRemoveLocationModal} />
       <main className="w-screen h-screen flex relative">
         <Image src="/vectorBR.svg" alt="Ilustração" width={400} height={400} className="absolute bottom-0 right-0" />
         <Navbar />
@@ -62,7 +68,13 @@ export default function ConfiguracoesPage() {
                     />
                   </div>
                   <div className="w-48">
-                    <Button label="Remover" type="button" />
+                    <Button
+                      label="Remover"
+                      type="button"
+                      onClick={() => {
+                        setRemoveCategoryModal(true);
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -81,7 +93,13 @@ export default function ConfiguracoesPage() {
                     />
                   </div>
                   <div className="w-48">
-                    <Button label="Remover" type="button" />
+                    <Button
+                      label="Remover"
+                      type="button"
+                      onClick={() => {
+                        setRemoveLocationModal(true);
+                      }}
+                    />
                   </div>
                 </div>
               </div>

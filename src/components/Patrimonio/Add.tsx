@@ -1,5 +1,5 @@
-import AddCategoryModal from "../Modals/property/AddCategoryModal";
-import AddLocationModal from "../Modals/property/AddLocationModal";
+import AddCategoryModal from "../Modals/categoria/AddCategoryModal";
+import AddLocationModal from "../Modals/localizacao/AddLocationModal";
 import * as Icon from "@heroicons/react/24/outline";
 import { Condition } from "@/models/condition";
 import { Transition } from "@headlessui/react";
@@ -40,7 +40,7 @@ const AddProperty: React.FC = () => {
 
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
   const [addLocationModal, setAddLocationModal] = React.useState(false);
-  const [isShowing, setIsShowing] = React.useState(false);
+  const [isShowing, setIsShowing] = React.useState(true);
 
   const getCategories = async () => {
     api
@@ -107,10 +107,9 @@ const AddProperty: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setIsShowing(true);
     getCategories();
     getLocations();
-  }, []);
+  }, [addCategoryModal, addLocationModal]);
 
   return (
     <>

@@ -1,7 +1,7 @@
-import AddCategoryModal from "../Modals/property/AddCategoryModal";
-import AddLocationModal from "../Modals/property/AddLocationModal";
+import AddCategoryModal from "../Modals/categoria/AddCategoryModal";
+import AddLocationModal from "../Modals/localizacao/AddLocationModal";
 import * as Icon from "@heroicons/react/24/outline";
-import { ColorRing } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 import { Condition } from "@/models/condition";
 import { Transition } from "@headlessui/react";
 import { Category } from "@/models/category";
@@ -44,7 +44,7 @@ const EditProperty: React.FC = () => {
   const [addLocationModal, setAddLocationModal] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
-  const [isShowing, setIsShowing] = React.useState(false);
+  const [isShowing, setIsShowing] = React.useState(true);
 
   const getCategories = async () => {
     api
@@ -141,10 +141,9 @@ const EditProperty: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setIsShowing(true);
     getCategories();
     getLocations();
-  }, []);
+  }, [addCategoryModal, addLocationModal]);
 
   return (
     <>
@@ -167,11 +166,13 @@ const EditProperty: React.FC = () => {
           <div className="w-[48%] h-10 flex justify-between items-center">
             <Input name="placa" label="Placa" type="text" onChange={(e) => handleInputChange(e)} />
             {loading ? (
-              <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={45} width={45} />
+              <div className="ml-4">
+                <ThreeDots color={"#4F63D7"} height={45} width={46} />
+              </div>
             ) : (
               <button
                 type="submit"
-                className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
+                className="w-16 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
                 onClick={(event) => {
                   getProperty(event);
                 }}
