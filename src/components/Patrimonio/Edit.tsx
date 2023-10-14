@@ -90,17 +90,14 @@ const EditProperty: React.FC = () => {
     event.preventDefault();
     setLoading(true);
     api
-      .get("/patrimonio/search", {
+      .get(`/patrimonio/get-placa/${property?.placa}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        params: {
-          placa: property?.placa,
-        },
       })
       .then((response: any) => {
-        setProperty(response.data.data[0]);
-        console.log(response.data.data[0]);
+        setProperty(response.data.data);
+        console.log(response.data.data);
         setDisabled(false);
       })
       .catch((error: any) => {

@@ -14,6 +14,7 @@ import api from "@/tools/api";
 import React from "react";
 
 const RemoveProperty: React.FC = () => {
+  
   const conditions: Condition[] = [
     { id: 1, descricao: "EXCELENTE" },
     { id: 2, descricao: "OTIMO" },
@@ -81,16 +82,13 @@ const RemoveProperty: React.FC = () => {
     event.preventDefault();
     setLoading(true);
     api
-      .get("/patrimonio/search", {
+      .get(`/patrimonio/get-placa/${property?.placa}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        params: {
-          placa: property?.placa,
-        },
       })
       .then((response: any) => {
-        setProperty(response.data.data[0]);
+        setProperty(response.data.data);
         setDisabled(false);
       })
       .catch((error: any) => {

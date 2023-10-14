@@ -1,8 +1,9 @@
 "use client";
-import AddCategoryModal from "@/components/Modals/categoria/AddCategoryModal";
+import RemoveLocationModal from "@/components/Modals/localizacao/RemoveLocationModal";
 import RemoveCategoryModal from "@/components/Modals/categoria/RemoveCategoryModal";
 import AddLocationModal from "@/components/Modals/localizacao/AddLocationModal";
-import RemoveLocationModal from "@/components/Modals/localizacao/RemoveLocationModal";
+import AddCategoryModal from "@/components/Modals/categoria/AddCategoryModal";
+import AddUserModal from "@/components/Modals/user/AddUserModal";
 import * as Icon from "@heroicons/react/24/outline";
 import { Transition } from "@headlessui/react";
 import Button from "@/components/Button";
@@ -13,14 +14,16 @@ import * as React from "react";
 export default function ConfiguracoesPage() {
   const [isShowing, setIsShowing] = React.useState(true);
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
-  const [removeCategoryModal, setRemoveCategoryModal] = React.useState(false);
   const [addLocationModal, setAddLocationModal] = React.useState(false);
+  const [addUserModal, setAddUserModal] = React.useState(false);
+  const [removeCategoryModal, setRemoveCategoryModal] = React.useState(false);
   const [removeLocationModal, setRemoveLocationModal] = React.useState(false);
 
   return (
     <>
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
+      <AddUserModal isOpen={addUserModal} setIsOpen={setAddUserModal} />
       <RemoveCategoryModal isOpen={removeCategoryModal} setIsOpen={setRemoveCategoryModal} />
       <RemoveLocationModal isOpen={removeLocationModal} setIsOpen={setRemoveLocationModal} />
       <main className="w-screen h-screen flex relative">
@@ -46,7 +49,13 @@ export default function ConfiguracoesPage() {
                 <Icon.UserGroupIcon className="w-20 h-20 " />
                 <div className="flex flex-col gap-2">
                   <div className="w-48">
-                    <Button label="Adicionar" type="button" />
+                    <Button
+                      label="Adicionar"
+                      type="button"
+                      onClick={() => {
+                        setAddUserModal(true);
+                      }}
+                    />
                   </div>
                   <div className="w-48">
                     <Button label="Remover" type="button" />

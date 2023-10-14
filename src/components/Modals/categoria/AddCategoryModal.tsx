@@ -65,7 +65,7 @@ const AddCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-auto transform overflow-hidden rounded-2xl bg-white p-4 text-left align-middle shadow-xl transition-all flex flex-col justify-center gap-6">
-                <Dialog.Title className="text-xl font-bold text-c5">Adicionar nova categoria</Dialog.Title>
+                <Dialog.Title className="text-xl font-bold text-c5">Adicionar Nova Categoria</Dialog.Title>
                 <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-4 cursor-pointer" onClick={closeModal} />
                 <Dialog.Description className="w-full">
                   <div className="w-full h-10 flex justify-evenly items-center">
