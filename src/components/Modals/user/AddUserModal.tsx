@@ -16,18 +16,22 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
 
   const addUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (user.nome === undefined || user.sobrenome === undefined || user.email === undefined || user.cpf === undefined || user.senha === undefined) {
+      toast.error("Preencha todos os campos!");
+      return;
+    }
     api
       .post("/usuario/create", user, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((response) => {
+      .then((res) => {
         toast.success("Usuário criado com sucesso!");
         closeModal();
       })
-      .catch((error) => {
-        toast.error("Erro ao criar usuário!");
+      .catch((err) => {
+        toast.error(err.response.data);
       });
   };
 
@@ -40,7 +44,6 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
     setIsOpen(false);
   }
 
-  console.log(user);
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
       <Dialog onClose={() => {}} className="relative z-10">
@@ -110,10 +113,11 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                       />
                     )}
                   </div>
-                  <div className="w-full h-12 flex items-center">
+                  <span className="text-xs text-c2 ml-auto">(A senha deve conter no mínimo 6 caracteres) </span>
+                  <div className="w-full h-12 flex items-center ">
                     <label className="w-52">Permissao</label>
-                    <div className=" w-full flex justify-between">
-                      <div className="flex gap-2">
+                    <div className=" w-full h-full flex justify-around items-center border-2 border-c1 rounded ">
+                      <div className="flex gap-2 cursor-pointer">
                         <input
                           type="radio"
                           id="adm"
@@ -121,9 +125,9 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                           value="ADMINISTRADOR"
                           onChange={handleInputChange}
                         />
-                        <label htmlFor="adm">Administrador</label>
+                        <label className="cursor-pointer" htmlFor="adm">Administrador</label>
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 ">
                         <input
                           type="radio"
                           id="worker"
@@ -131,7 +135,7 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                           value="FUNCIONARIO"
                           onChange={handleInputChange}
                         />
-                        <label htmlFor="worker">Funcionário</label>
+                        <label className="cursor-pointer" htmlFor="worker">Funcionário</label>
                       </div>
                     </div>
                   </div>

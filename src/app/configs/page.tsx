@@ -1,6 +1,7 @@
 "use client";
 import RemoveLocationModal from "@/components/Modals/localizacao/RemoveLocationModal";
 import RemoveCategoryModal from "@/components/Modals/categoria/RemoveCategoryModal";
+import RemoveUserModal from "@/components/Modals/user/RemoveUserModal";
 import AddLocationModal from "@/components/Modals/localizacao/AddLocationModal";
 import AddCategoryModal from "@/components/Modals/categoria/AddCategoryModal";
 import AddUserModal from "@/components/Modals/user/AddUserModal";
@@ -18,12 +19,14 @@ export default function ConfiguracoesPage() {
   const [addUserModal, setAddUserModal] = React.useState(false);
   const [removeCategoryModal, setRemoveCategoryModal] = React.useState(false);
   const [removeLocationModal, setRemoveLocationModal] = React.useState(false);
+  const [removeUserModal, setRemoveUserModal] = React.useState(false);
 
   return (
     <>
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
       <AddUserModal isOpen={addUserModal} setIsOpen={setAddUserModal} />
+      <RemoveUserModal isOpen={removeUserModal} setIsOpen={setRemoveUserModal} />
       <RemoveCategoryModal isOpen={removeCategoryModal} setIsOpen={setRemoveCategoryModal} />
       <RemoveLocationModal isOpen={removeLocationModal} setIsOpen={setRemoveLocationModal} />
       <main className="w-screen h-screen flex relative">
@@ -58,7 +61,9 @@ export default function ConfiguracoesPage() {
                     />
                   </div>
                   <div className="w-48">
-                    <Button label="Remover" type="button" />
+                    <Button label="Remover" type="button" onClick={() => {
+                      setRemoveUserModal(true);
+                    }} />
                   </div>
                 </div>
               </div>

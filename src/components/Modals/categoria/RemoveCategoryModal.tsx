@@ -42,11 +42,11 @@ const RemoveCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then(() => {
+      .then((res) => {
         toast.success("Categoria removida com sucesso!");
       })
-      .catch(() => {
-        toast.error("Erro ao remover a categoria!");
+      .catch((err) => {
+        toast.error(err?.response?.data);
       })
       .finally(() => {
         getCategories();

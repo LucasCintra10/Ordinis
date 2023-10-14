@@ -42,11 +42,11 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then(() => {
+      .then((res) => {
         toast.success("Localização removida com sucesso!");
       })
-      .catch(() => {
-        toast.error("Erro ao remover a localização!");
+      .catch((err) => {
+        toast.error(err?.response?.data);
       })
       .finally(() => {
         getLocations();
