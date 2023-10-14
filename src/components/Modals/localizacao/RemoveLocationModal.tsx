@@ -25,7 +25,7 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
         },
       })
       .then((response: any) => {
-        setLocations(response.data);
+        setLocations(response.data.data);
       })
       .catch((error: any) => {
         toast.error("Erro ao carregar as localizações!");

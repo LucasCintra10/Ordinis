@@ -50,7 +50,7 @@ const AddProperty: React.FC = () => {
         },
       })
       .then((response: any) => {
-        setCategories(response.data);
+        setCategories(response.data.data);
       })
       .catch((error: any) => {
         console.log(error);
@@ -65,7 +65,7 @@ const AddProperty: React.FC = () => {
         },
       })
       .then((response: any) => {
-        setLocations(response.data);
+        setLocations(response.data.data);
       })
       .catch((error: any) => {
         console.log(error);
@@ -110,6 +110,8 @@ const AddProperty: React.FC = () => {
     getCategories();
     getLocations();
   }, [addCategoryModal, addLocationModal]);
+
+  
 
   return (
     <>

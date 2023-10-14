@@ -35,6 +35,7 @@ const AddCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   };
 
   function closeModal() {
+    setCategory("");
     setIsOpen(false);
   }
 

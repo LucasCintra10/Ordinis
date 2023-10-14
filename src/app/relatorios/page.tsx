@@ -89,7 +89,7 @@ export default function RelatoriosPage() {
         },
       })
       .then((response: any) => {
-        setCategories(response.data);
+        setCategories(response.data.data);
       })
       .catch((error: any) => {
         console.log(error);
@@ -104,7 +104,7 @@ export default function RelatoriosPage() {
         },
       })
       .then((response: any) => {
-        setLocations(response.data);
+        setLocations(response.data.data);
       })
       .catch((error: any) => {
         console.log(error);

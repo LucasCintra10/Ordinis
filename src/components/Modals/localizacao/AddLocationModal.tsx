@@ -32,6 +32,7 @@ const AddLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   }
         
   function closeModal() {
+    setLocation("");
     setIsOpen(false);
   }
 

@@ -50,7 +50,7 @@ const RemoveProperty: React.FC = () => {
         },
       })
       .then((response: any) => {
-        setCategories(response.data);
+        setCategories(response.data.data);
       })
       .catch((error: any) => {
         console.log(error);
@@ -65,7 +65,7 @@ const RemoveProperty: React.FC = () => {
         },
       })
       .then((response: any) => {
-        setLocations(response.data);
+        setLocations(response.data.data);
       })
       .catch((error: any) => {
         console.log(error);

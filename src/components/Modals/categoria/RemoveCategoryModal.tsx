@@ -25,7 +25,7 @@ const RemoveCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
         },
       })
       .then((response: any) => {
-        setCategories(response.data);
+        setCategories(response.data.data);
       })
       .catch((error: any) => {
         toast.error("Erro ao carregar as categorias!");
