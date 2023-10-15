@@ -181,7 +181,7 @@ export default function RelatoriosPage() {
         <div className="w-[95%] h-1/6 flex items-center">
           <h1 className="text-5xl font-bold text-c5 ">Relatórios</h1>
         </div>
-        <div className="w-[50%] flex gap-10 justify-between">
+        <div className="w-[50%] flex gap-4">
           <button
             className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
               display === "all" ? "bg-c4 text-c2" : "bg-c2 text-c5"

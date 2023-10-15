@@ -27,7 +27,6 @@ const RemoveUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
       })
       .then((response: any) => {
         setUsers(response.data.data);
-        console.log(response.data.data)
       })
       .catch((error: any) => {
         toast.error("Erro ao carregar os usuários!");
