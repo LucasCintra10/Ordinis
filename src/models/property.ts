@@ -10,6 +10,8 @@ export interface Property {
   resp_entrega: string;
   resp_retirada: string;
   status: number;
+  id_localizacao: string;
+  id_categoria: string;
   usuario: {
     id: string;
     nome: string;
