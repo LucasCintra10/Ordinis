@@ -109,6 +109,7 @@ const RemoveProperty: React.FC = () => {
         data: {
           data_saida: new Date(property?.data_saida),
           resp_retirada: property?.resp_retirada,
+          resp_entrega: property?.resp_entrega,
         },
       })
       .then((response: any) => {
@@ -235,9 +236,10 @@ const RemoveProperty: React.FC = () => {
           </div>
           <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
             <Input
-              label="Data de Aquisição"
-              name="data_aquisicao"
-              type="date"
+              label="Resp. pela Entrega"
+              name="resp_entrega"
+              type="text"
+              value={property?.resp_entrega}
               disabled={disabled}
               onChange={(e) => handleInputChange(e)}
             />

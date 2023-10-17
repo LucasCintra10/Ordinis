@@ -1,5 +1,5 @@
 import { Property } from "@/models/property";
-
+import moment from "moment";
 interface TableProps {
   property: Property[];
 }
@@ -7,10 +7,6 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({ property }) => {
   const moneyFormat = (value: any) => {
     return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-  };
-  const dateFormat = (value: any) => {
-    const date = new Date(value);
-    return date.toLocaleDateString("pt-BR");
   };
 
   return (
@@ -24,6 +20,8 @@ const Table: React.FC<TableProps> = ({ property }) => {
           <th className="w-1/6 h-full flex  items-center">Origem</th>
           <th className="w-1/6 h-full flex  items-center">Conservação</th>
           <th className="w-1/6 h-full flex  items-center">Data de Ent.</th>
+          <th className="w-24 h-full flex  items-center">Status</th>
+
         </tr>
       </thead>
       <tbody className="w-full h-5/6 flex flex-col items-center">
@@ -35,7 +33,8 @@ const Table: React.FC<TableProps> = ({ property }) => {
             <td className="w-1/6 h-full flex items-center">{moneyFormat(item?.valor)}</td>
             <td className="w-1/6 h-full flex items-center">{item?.origem}</td>
             <td className="w-1/6 h-full flex items-center">{item?.estado}</td>
-            <td className="w-1/6 h-full flex items-center">{dateFormat(item?.data_entrada)}</td>
+            <td className="w-1/6 h-full flex items-center">{moment.utc(item.data_entrada).format("DD/MM/YYYY")}</td>
+            <td className="w-24 h-full flex items-center">{item?.status === 1 ? "Ativo": "Baixado"}</td>
           </tr>
         ))}
       </tbody>

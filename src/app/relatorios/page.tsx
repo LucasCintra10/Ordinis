@@ -15,6 +15,8 @@ import * as React from "react";
 import api from "@/tools/api";
 import * as XLSX from "xlsx";
 import Table from "@/components/Relatorio/Table";
+import moment from "moment";
+import "moment/locale/pt-br";
 
 export default function RelatoriosPage() {
   const [property, setProperty] = React.useState<Property[]>([]);
@@ -114,11 +116,7 @@ export default function RelatoriosPage() {
   const moneyFormat = (value: any) => {
     return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   };
-  const dateFormat = (value: any) => {
-    const date = new Date(value);
-    return date.toLocaleDateString("pt-BR");
-  };
-
+  
   const clearFilter = () => {
     setSelected({
       category: "",
@@ -134,12 +132,12 @@ export default function RelatoriosPage() {
     });
     setPlaca("");
   };
-
+  
   const exportToExcel = () => {
     const sheetName = "Patrimônios"; 
     const fileName = "patrimonios.xlsx"; 
     const data = [
-      ["Placa", "Categoria", "Localização", "Valor", "Origem", "Conservação", "Data de Entrada"],
+      ["Placa", "Categoria", "Localização", "Valor", "Origem", "Conservação", "Data de Entrada", "Resp. Entrada", "Status", "Data de Saída", "Resp. Entrega", "Resp. Retirada"],
       ...property.map(patrimonio => [
         patrimonio.placa,
         patrimonio.categoria.descricao,
@@ -147,7 +145,12 @@ export default function RelatoriosPage() {
         moneyFormat(patrimonio?.valor),
         patrimonio.origem,
         patrimonio.estado,
-        dateFormat(patrimonio.data_entrada)
+        moment.utc(patrimonio.data_entrada).format("DD/MM/YYYY"),
+        patrimonio.usuario.nome + " " + patrimonio.usuario.sobrenome,
+        patrimonio.status === 1 ? "Ativo" : "Baixado",
+        patrimonio.data_saida ? moment.utc(patrimonio.data_saida).format("DD/MM/YYYY") : "-",
+        patrimonio.resp_entrega ? patrimonio.resp_entrega : "-",
+        patrimonio.resp_retirada ? patrimonio.resp_retirada : "-"
       ])
     ];
 
@@ -197,7 +200,7 @@ export default function RelatoriosPage() {
             }`}
             onClick={() => setDisplay("filter")}
           >
-            {(filter.categoria || filter.localizacao || filter.origem || filter.conservacao) && (
+            {(filter.categoria || filter.localizacao || filter.origem || filter.conservacao || placa) && (
               <XCircleIcon className="w-6 h-6 absolute -top-1 -right-1" onClick={clearFilter} />
             )}
             <Icon.FunnelIcon className="w-5 h-5" />
@@ -251,6 +254,7 @@ export default function RelatoriosPage() {
                     <input
                       name="placa"
                       type="text"
+                      value={placa}
                       className="w-full h-10 bg-c1 rounded pl-2 outline-none"
                       onChange={(e) => {
                         setPlaca(e.target.value);

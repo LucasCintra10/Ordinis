@@ -9,8 +9,12 @@ export interface Property {
   data_saida: Date;
   resp_entrega: string;
   resp_retirada: string;
-  id_localizacao: string;
-  id_categoria: string;
+  status: number;
+  usuario: {
+    id: string;
+    nome: string;
+    sobrenome: string;
+  }
   localizacao: {
     id: string;
     descricao: string;
