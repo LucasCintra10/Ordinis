@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import api from "@/tools/api";
 import React from "react";
+import moment from "moment";
 
 const EditProperty: React.FC = () => {
   const conditions: Condition[] = [
@@ -133,9 +134,9 @@ const EditProperty: React.FC = () => {
       })
       .catch((error: any) => {
         toast.error("Erro ao atualizar patrimônio");
-        console.log(error);
       });
   };
+
 
   React.useEffect(() => {
     getCategories();
@@ -265,11 +266,12 @@ const EditProperty: React.FC = () => {
               options={origins}
             />
           </div>
-          <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
+          <div className={`w-[48%] h-10 flex justify-between items-center  opacity-60`}>
             <Input
-              label="Data de Aquisição"
-              name="data_aquisicao"
-              disabled={disabled}
+              label="Data de Entrada"
+              name="data_entrada"
+              value={moment(property?.data_entrada).format("YYYY-MM-DD")}
+              disabled={true}
               type="date"
               onChange={(e) => handleInputChange(e)}
             />
