@@ -5,14 +5,14 @@ import Link from "next/link";
 import * as Icon from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-interface INavBarItemProps {
+interface NavBarItemProps {
   icon: React.ElementType;
   text: string;
   address: string;
   onClick?: () => void;
 }
 
-const NavBarItem: React.FC<INavBarItemProps> = ({ icon: IconComponent, text, address, onClick }) => {
+const NavBarItem: React.FC<NavBarItemProps> = ({ icon: IconComponent, text, address, onClick }) => {
   return (
     <Link
       href={address}
@@ -46,7 +46,7 @@ export default function Navbar() {
         <ul className=" w-full flex flex-col justify-center items-center gap-6 py-4">
           <NavBarItem icon={Icon.HomeIcon} text="Home" address="/home" />
           <NavBarItem icon={Icon.ArchiveBoxIcon} text="Patrimônio" address="/patrimonios" />
-          <NavBarItem icon={Icon.WrenchScrewdriverIcon} text="Manutenção" address="/home" />
+          <NavBarItem icon={Icon.WrenchScrewdriverIcon} text="Manutenção" address="/manutencao" />
           <NavBarItem icon={Icon.DocumentTextIcon} text="Relatórios" address="/relatorios" />
           <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/configs" />
           <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/home" />

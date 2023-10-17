@@ -98,7 +98,6 @@ const EditProperty: React.FC = () => {
       })
       .then((response: any) => {
         setProperty(response.data.data);
-        console.log(response.data.data);
         setDisabled(false);
       })
       .catch((error: any) => {

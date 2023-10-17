@@ -192,7 +192,7 @@ export default function RelatoriosPage() {
             onClick={() => setDisplay("all")}
           >
             <Icon.Bars3Icon className="w-5 h-5" />
-            Todos
+            Patrimônios
           </button>
           <button
             className={`w-48 h-16 cursor-pointer relative rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${

@@ -1,4 +1,4 @@
-import { Dialog, Transition, RadioGroup } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import * as React from "react";
 import { Modal } from "@/models/modal";
 import * as Icon from "@heroicons/react/24/outline";
@@ -7,33 +7,25 @@ import api from "@/tools/api";
 import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
-import { User } from "@/models/user";
+import { Prestador } from "@/models/prestador";
 
-const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const [user, setUser] = React.useState({} as User);
+const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
+  const [prestador, setPrestador] = React.useState({} as Prestador);
 
   const addUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (
-      user.nome === undefined ||
-      user.sobrenome === undefined ||
-      user.email === undefined ||
-      user.cpf === undefined ||
-      user.senha === undefined
-    ) {
-      toast.error("Preencha todos os campos!");
-      return;
-    }
+
     api
-      .post("/usuario/create", user, {
+      .post("/prestador/create", {
+        ...prestador,
+        numero: Number(prestador.numero),
+      }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((res) => {
-        toast.success("Usuário criado com sucesso!");
+        toast.success("Cadastro criado com sucesso!");
         closeModal();
       })
       .catch((err) => {
@@ -42,11 +34,11 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [event.target.name]: event.target.value });
+    setPrestador({ ...prestador, [event.target.name]: event.target.value });
   };
 
   function closeModal() {
-    setUser({} as User);
+    setPrestador({} as Prestador);
     setIsOpen(false);
   }
 
@@ -81,7 +73,7 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-auto transform overflow-hidden rounded-2xl bg-white p-4 text-left align-middle shadow-xl transition-all flex flex-col justify-center gap-6">
-                <Dialog.Title className="text-xl font-bold text-c5">Adicionar Novo Usuário </Dialog.Title>
+                <Dialog.Title className="text-xl font-bold text-c5">Adicionar Prestador de Serviço</Dialog.Title>
                 <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-4 cursor-pointer" onClick={closeModal} />
                 <Dialog.Description className="w-full flex flex-col gap-4">
                   <div className="w-full h-12 flex justify-evenly items-center">
@@ -91,63 +83,19 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                     <Input type="text" label="Sobrenome" name="sobrenome" onChange={handleInputChange} />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="email" label="Email" name="email" onChange={handleInputChange} />
+                    <Input type="text" label="Descrição" name="descricao" onChange={handleInputChange} />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="CPF" name="cpf" onChange={handleInputChange} />
+                    <Input type="text" label="Telefone" name="telefone" onChange={handleInputChange} />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      label="Senha"
-                      name="senha"
-                      onChange={handleInputChange}
-                    />
-                    {showPassword ? (
-                      <EyeSlashIcon
-                        className="w-5 h-5 cursor-pointer absolute right-6"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                    ) : (
-                      <EyeIcon
-                        className="w-5 h-5 cursor-pointer absolute right-6"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                    )}
+                    <Input type="text" label="Rua" name="rua" onChange={handleInputChange} />
                   </div>
-                  <span className="text-xs text-c2 ml-auto">(A senha deve conter no mínimo 6 caracteres) </span>
-                  <div className="w-full h-12 flex items-center ">
-                    <label className="w-52">Permissao</label>
-                    <div className=" w-full h-full flex justify-around items-center border-2 border-c1 rounded ">
-                      <div className="flex gap-2 cursor-pointer">
-                        <input
-                          type="radio"
-                          id="adm"
-                          name="permissao"
-                          value="ADMINISTRADOR"
-                          onChange={handleInputChange}
-                        />
-                        <label className="cursor-pointer" htmlFor="adm">
-                          Administrador
-                        </label>
-                      </div>
-                      <div className="flex gap-2 ">
-                        <input
-                          type="radio"
-                          id="worker"
-                          name="permissao"
-                          value="FUNCIONARIO"
-                          onChange={handleInputChange}
-                        />
-                        <label className="cursor-pointer" htmlFor="worker">
-                          Funcionário
-                        </label>
-                      </div>
-                    </div>
+                  <div className="w-full h-12 flex justify-evenly items-center">
+                    <Input type="text" label="Número" name="numero" onChange={handleInputChange} />
+                  </div>
+                  <div className="w-full h-12 flex justify-evenly items-center">
+                    <Input type="text" label="Bairro" name="bairro" onChange={handleInputChange} />
                   </div>
                 </Dialog.Description>
                 <Dialog.Description className="w-full">
@@ -162,4 +110,4 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   );
 };
 
-export default AddUserModal;
+export default AddPrestadorModal;
