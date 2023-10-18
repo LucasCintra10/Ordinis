@@ -26,17 +26,8 @@ export default function PatrimoniosPage() {
             }`}
             onClick={() => setDisplay("register")}
           >
-            <Icon.FolderPlusIcon className="w-5 h-5" />
+            <Icon.DocumentPlusIcon className="w-5 h-5" />
             Cadastro
-          </button>
-          <button
-            className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
-              display === "remove" ? "bg-c4 text-c2" : "bg-c2 text-c5"
-            }`}
-            onClick={() => setDisplay("remove")}
-          >
-            <Icon.FolderMinusIcon className="w-5 h-5" />
-            Baixa
           </button>
           <button
             className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
@@ -46,6 +37,15 @@ export default function PatrimoniosPage() {
           >
             <Icon.PencilSquareIcon className="w-5 h-5" />
             Edição
+          </button>
+          <button
+            className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
+              display === "remove" ? "bg-c4 text-c2" : "bg-c2 text-c5"
+            }`}
+            onClick={() => setDisplay("remove")}
+          >
+            <Icon.DocumentMinusIcon className="w-5 h-5" />
+            Baixa
           </button>
         </div>
         {display === "register" && <AddProperty />}

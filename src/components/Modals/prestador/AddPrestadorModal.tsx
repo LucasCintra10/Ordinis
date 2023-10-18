@@ -12,7 +12,7 @@ import { Prestador } from "@/models/prestador";
 const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   const [prestador, setPrestador] = React.useState({} as Prestador);
 
-  const addUser = async (event: React.FormEvent<HTMLFormElement>) => {
+  const addPrestador = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     api
@@ -59,7 +59,7 @@ const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
         <form
           className="fixed inset-0 overflow-y-auto"
           onSubmit={(e) => {
-            addUser(e);
+            addPrestador(e);
           }}
         >
           <div className="flex min-h-full items-center justify-center p-4">
