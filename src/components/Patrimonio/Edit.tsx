@@ -99,6 +99,7 @@ const EditProperty: React.FC = () => {
       .then((response: any) => {
         setProperty(response.data.data);
         setDisabled(false);
+        console.log(response.data.data);
       })
       .catch((error: any) => {
         toast.error("Erro ao buscar patrimônio");
@@ -135,7 +136,6 @@ const EditProperty: React.FC = () => {
         toast.error("Erro ao atualizar patrimônio");
       });
   };
-
 
   React.useEffect(() => {
     getCategories();
@@ -269,7 +269,7 @@ const EditProperty: React.FC = () => {
             <Input
               label="Data de Entrada"
               name="data_entrada"
-              value={moment(property?.data_entrada).format("YYYY-MM-DD")}
+              value={property?.data_entrada ? moment(property?.data_entrada).format("YYYY-MM-DD") : ""}
               disabled={true}
               type="date"
               onChange={(e) => handleInputChange(e)}

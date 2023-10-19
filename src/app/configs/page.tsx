@@ -52,8 +52,8 @@ export default function ConfiguracoesPage() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="w-[95%] h-96 flex justify-evenly text-c5 ">
-              <div className="w-72 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
+            <div className="w-[95%] h-80 flex text-c5 gap-8 ">
+              <div className="w-56 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
                 <h2 className="text-2xl font-semibold">Prestadores</h2>
                 <Icon.WrenchIcon className="w-20 h-20 " />
                 <div className="flex flex-col gap-2">
@@ -78,7 +78,7 @@ export default function ConfiguracoesPage() {
                 </div>
               </div>
 
-              <div className="w-72 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
+              <div className="w-56 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
                 <h2 className="text-2xl font-semibold">Usuários</h2>
                 <Icon.UserGroupIcon className="w-20 h-20 " />
                 <div className="flex flex-col gap-2">
@@ -103,7 +103,7 @@ export default function ConfiguracoesPage() {
                 </div>
               </div>
 
-              <div className="w-72 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
+              <div className="w-56 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
                 <h2 className="text-2xl font-semibold">Categorias</h2>
                 <Icon.RectangleStackIcon className="w-20 h-20 " />
                 <div className="flex flex-col gap-2">
@@ -128,7 +128,7 @@ export default function ConfiguracoesPage() {
                 </div>
               </div>
 
-              <div className="w-72 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
+              <div className="w-56 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
                 <h2 className="text-2xl font-semibold">Localizações</h2>
                 <Icon.MapPinIcon className="w-20 h-20 " />
                 <div className="flex flex-col gap-2">

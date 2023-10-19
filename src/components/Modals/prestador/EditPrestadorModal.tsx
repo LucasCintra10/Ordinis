@@ -2,7 +2,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import * as React from "react";
 import { Modal } from "@/models/modal";
 import * as Icon from "@heroicons/react/24/outline";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import api from "@/tools/api";
 import { toast } from "react-toastify";
 import Input from "@/components/Input";
@@ -13,6 +12,8 @@ import { ColorRing } from "react-loader-spinner";
 const EditPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   const [prestador, setPrestador] = React.useState({} as Prestador);
   const [prestadores, setPrestadores] = React.useState([] as Prestador[]);
+
+  const [display, setDisplay] = React.useState("view");
 
   const [loading, setLoading] = React.useState(true);
 
@@ -36,6 +37,58 @@ const EditPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
       });
   };
 
+  const getPrestador = async (id: string) => {
+    setLoading(true);
+    api
+      .get(`/prestador/get/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setPrestador(response.data.data);
+      })
+      .catch((error) => {
+        toast.error("Erro ao buscar prestador");
+      })
+      .finally(() => {
+        setDisplay("edit");
+        setLoading(false);
+      });
+  };
+
+  const updatePrestador = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    api
+      .put(`/prestador/update/${prestador?.id}`, {
+        ...prestador,
+        numero: Number(prestador?.numero)
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        toast.success("Prestador atualizado com sucesso");
+        getPrestadores();
+        setDisplay("view");
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
+  const cellphoneMask = (value: string) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")
+      .replace(/(-\d{4})\d+?$/, "$1");
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPrestador({ ...prestador, [event.target.name]: event.target.value });
   };
@@ -46,8 +99,12 @@ const EditPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   }
 
   React.useEffect(() => {
-    getPrestadores();
-  }, []);
+    if (isOpen) {
+      setDisplay("view");
+      getPrestadores();
+    }
+  }, [isOpen]);
+
   return (
     <>
       <Transition appear show={isOpen} as={React.Fragment}>
@@ -75,7 +132,10 @@ const EditPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-auto transform overflow-hidden rounded-2xl bg-white p-4 text-left align-middle shadow-xl transition-all flex flex-col justify-center gap-6">
-                  <Dialog.Title className="text-xl font-bold text-c5">Editar Prestadores</Dialog.Title>
+                  <Dialog.Title className="text-xl font-bold text-c5">
+                    {display === "view" && "Editar Prestadores"}
+                    {display === "edit" && <Icon.ArrowSmallLeftIcon className="w-6 h-6 cursor-pointer" onClick={() => setDisplay("view")} />}
+                    </Dialog.Title>
                   <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-5 cursor-pointer" onClick={closeModal} />
                   <Dialog.Description className="w-full">
                     {loading ? (
@@ -87,17 +147,54 @@ const EditPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                         />
                       </div>
                     ) : (
-                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto">
-                        {prestadores?.map((prestador, index) => {
-                          return (
-                            <div className="flex justify-between items-center gap-2" key={index}>
-                              <div className="w-full bg-c1 rounded-xl px-2 py-1">
-                                <h2 className="font-bold">{`${prestador?.nome} ${prestador?.sobrenome}`}</h2>
-                              </div>
+                      <>
+                        {display === "view" && (
+                          <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto">
+                            {prestadores?.map((prestador, index) => {
+                              return (
+                                <div className="flex justify-between items-center gap-2" key={index}>
+                                  <div className="w-full bg-c1 rounded-xl px-2 py-1 relative">
+                                    <h2 className="font-bold">{`${prestador?.nome} ${prestador?.sobrenome}`}</h2>
+                                    <p>{prestador?.descricao}</p>
+                                    <p>{cellphoneMask(prestador?.telefone)}</p>
+                                    <p>{`${prestador?.rua} ${prestador?.numero}, ${prestador.bairro} `}</p>
+                                    <Icon.PencilIcon
+                                      className="w-5 h-5 absolute top-2 right-2 cursor-pointer"
+                                      onClick={() => {getPrestador(prestador?.id)}}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                        {display === "edit" && (
+                          <form className="w-full flex flex-col gap-4" onSubmit={(e) => {updatePrestador(e)}}>
+                            <div className="w-full h-12 flex justify-evenly items-center">
+                              <Input type="text" label="Nome" name="nome" value={prestador?.nome} onChange={handleInputChange} />
                             </div>
-                          );
-                        })}
-                      </div>
+                            <div className="w-full h-12 flex justify-evenly items-center">
+                              <Input type="text" label="Sobrenome" name="sobrenome" value={prestador?.sobrenome} onChange={handleInputChange} />
+                            </div>
+                            <div className="w-full h-12 flex justify-evenly items-center">
+                              <Input type="text" label="Descrição" name="descricao" value={prestador?.descricao} onChange={handleInputChange} />
+                            </div>
+                            <div className="w-full h-12 flex justify-evenly items-center">
+                              <Input type="text" label="Telefone" name="telefone" value={prestador?.telefone} onChange={handleInputChange} />
+                            </div>
+                            <div className="w-full h-12 flex justify-evenly items-center">
+                              <Input type="text" label="Rua" name="rua" value={prestador?.rua} onChange={handleInputChange} />
+                            </div>
+                            <div className="w-full h-12 flex justify-evenly items-center">
+                              <Input type="text" label="Número" name="numero" value={prestador?.numero} onChange={handleInputChange} />
+                            </div>
+                            <div className="w-full h-12 flex justify-evenly items-center">
+                              <Input type="text" label="Bairro" name="bairro" value={prestador?.bairro} onChange={handleInputChange} />
+                            </div>
+                            <Button label="Salvar" type="submit" />
+                          </form>
+                        )}
+                      </>
                     )}
                   </Dialog.Description>
                   <Dialog.Description className="w-full"></Dialog.Description>
