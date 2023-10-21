@@ -9,6 +9,7 @@ import Table from "@/components/Manutencao/Table";
 import { Maintance } from "@/models/maintance";
 import api from "@/tools/api";
 import { toast } from "react-toastify";
+import { ColorRing } from "react-loader-spinner";
 
 export default function ManutencaoPage() {
   const [display, setDisplay] = React.useState("add");
@@ -33,7 +34,7 @@ export default function ManutencaoPage() {
       .finally(() => {
         setLoading(false);
       });
-  }
+  };
 
   React.useEffect(() => {
     getMaintances();
@@ -70,7 +71,15 @@ export default function ManutencaoPage() {
         >
           <section className="w-[95%] mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between">
             <AddMaintance />
-            <Table maintance={maintances} />
+            {loading ? (
+              <div className="w-full h-full flex justify-center items-center">
+                <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
+              </div>
+            ) : (
+              <div className="w-full h-full">
+                <Table maintance={maintances} />
+              </div>
+            )}
           </section>
         </Transition>
       </div>
