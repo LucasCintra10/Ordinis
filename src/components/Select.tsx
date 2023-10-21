@@ -27,7 +27,7 @@ const Select: React.FC<SelectProps> = ({ selected, setSelected, options, disable
             <Listbox.Options className="w-full max-h-32 absolute z-10 py-1 overflow-auto bg-c2 rounded text-center mt-2">
               {options?.map((option: any) => (
                 <Listbox.Option key={option.id} value={option} className="hover:cursor-pointer hover:text-p2 py-1">
-                  {option.descricao}
+                  {option.nome && option.sobrenome ? `${option.nome} ${option.sobrenome}` : option.descricao}
                 </Listbox.Option>
               ))}
             </Listbox.Options>

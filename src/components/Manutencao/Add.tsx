@@ -13,7 +13,11 @@ import AddPrestadorModal from "@/components/Modals/prestador/AddPrestadorModal";
 import { Prestador } from "@/models/prestador";
 import { Maintance } from "@/models/maintance";
 
-const AddMaintance: React.FC = () => {
+interface AddMaintanceProps {
+  getMaintances: () => void;
+}
+
+const AddMaintance: React.FC<AddMaintanceProps> = ({ getMaintances}) => {
   const [property, setProperty] = React.useState({} as Property);
   const [prestadores, setPrestadores] = React.useState([] as Prestador[]);
   const [maintance, setMaintance] = React.useState({} as Maintance);
@@ -79,6 +83,7 @@ const AddMaintance: React.FC = () => {
       )
       .then((response: any) => {
         toast.success("Manutenção adicionada com sucesso");
+        getMaintances();
       })
       .catch((err: any) => {
         toast.error(err?.response?.data);
@@ -98,6 +103,7 @@ const AddMaintance: React.FC = () => {
   React.useEffect(() => {
     getPrestadores();
   }, []);
+
 
   return (
     <>

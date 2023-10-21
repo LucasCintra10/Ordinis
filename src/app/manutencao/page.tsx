@@ -70,14 +70,14 @@ export default function ManutencaoPage() {
           leaveTo="opacity-0"
         >
           <section className="w-[95%] mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between">
-            <AddMaintance />
+            <AddMaintance getMaintances={() => getMaintances()} />
             {loading ? (
               <div className="w-full h-full flex justify-center items-center">
                 <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
               </div>
             ) : (
               <div className="w-full h-full">
-                <Table maintance={maintances} />
+                <Table maintance={maintances} getMaintances={() => getMaintances()} />
               </div>
             )}
           </section>

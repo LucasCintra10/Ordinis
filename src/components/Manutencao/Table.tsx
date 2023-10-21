@@ -2,16 +2,41 @@ import { Maintance } from "@/models/maintance";
 import moment from "moment";
 import React from "react";
 import { Transition } from "@headlessui/react";
+import api from "@/tools/api";
+import { toast } from "react-toastify";
 
 interface TableProps {
   maintance: Maintance[];
+  getMaintances: () => void;
 }
 
-const Table: React.FC<TableProps> = ({ maintance }) => {
+const Table: React.FC<TableProps> = ({ maintance, getMaintances }) => {
   const [isShowing, setIsShowing] = React.useState(true);
 
-  const moneyFormat = (value: any) => {
+  const moneyMask = (value: any) => {
     return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  };
+
+  const updateMaintance = async (id: number) => {
+    api
+      .put(
+        `/manutencao/baixa/${id}`,
+        {
+          data_fim: new Date(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        toast.success("Manutenção finalizada com sucesso");
+        getMaintances();
+      })
+      .catch((error: any) => {
+        toast.error("Erro ao finalizar manutenção");
+      });
   };
 
   return (
@@ -34,7 +59,7 @@ const Table: React.FC<TableProps> = ({ maintance }) => {
             <th className="w-1/6 h-full flex  items-center">Término</th>
             <th className="w-1/6 h-full flex  items-center">Prestador</th>
             <th className="w-24 h-full flex  items-center">Valor</th>
-            <th className="w-24 h-full flex  items-center"></th>
+            <th className="w-24 h-full flex  items-center justify-end">Status</th>
           </tr>
         </thead>
         <tbody className="w-full h-5/6 flex flex-col items-center">
@@ -47,8 +72,17 @@ const Table: React.FC<TableProps> = ({ maintance }) => {
               <td className="w-1/6 h-full flex items-center ">
                 {item?.prestador?.nome} {item?.prestador?.sobrenome}
               </td>
-              <td className="w-24 h-full flex items-center">{item?.valor}</td>
-              <td className="w-24 h-full flex items-center"></td>
+              <td className="w-24 h-full flex items-center">{moneyMask(item?.valor)}</td>
+              <td className="w-24 h-full flex justify-center">
+                <input
+                  type="checkbox"
+                  className=""
+                  checked={item?.status === 0}
+                  onChange={() => {
+                    updateMaintance(item.id);
+                  }}
+                />
+              </td>
             </tr>
           ))}
         </tbody>
