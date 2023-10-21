@@ -50,7 +50,7 @@ const Table: React.FC<TableProps> = ({ maintance, getMaintances }) => {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <table className="w-full max-h-40 overflow-y-scroll flex flex-col items-center rounded-xl overflow-auto border-2 border-c4 scrollbar">
+      <table className="w-full max-h-40 overflow-y-scroll flex flex-col items-center rounded-xl overflow-auto border-2 border-c4 scrollbar-thin">
         <thead className="w-full flex justify-between items-center ">
           <tr className="w-full h-auto flex justify-between items-center bg-c1 p-4 ">
             <th className="w-1/6 h-full flex  items-center">Patrimônio</th>

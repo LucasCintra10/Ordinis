@@ -2,25 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  @variants responsive {
-    /* globals.css */
-    .scrollbar::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .scrollbar::-webkit-scrollbar-track {
-      background-color: #f5f5f5;
-    }
-
-    .scrollbar::-webkit-scrollbar-thumb {
-      background-color: #000000;
-      border-radius: 20px;
-      border: 3px solid #f5f5f5;
-    }
-  }
-}
-
 body {
   background-color: #dce1eb;
 }

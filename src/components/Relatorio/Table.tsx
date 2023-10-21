@@ -10,7 +10,7 @@ const Table: React.FC<TableProps> = ({ property }) => {
   };
 
   return (
-    <table className="w-full h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar">
+    <table className="w-full h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar-thin">
       <thead className="w-full flex justify-between items-center ">
         <tr className="w-full h-auto flex justify-between items-center bg-c1 p-4 ">
           <th className="w-1/6 h-full flex  items-center">Placa</th>
