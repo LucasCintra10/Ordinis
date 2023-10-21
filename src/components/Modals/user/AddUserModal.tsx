@@ -37,7 +37,7 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
         closeModal();
       })
       .catch((err) => {
-        toast.error(err.response.data);
+        toast.error(err?.response?.data);
       });
   };
 

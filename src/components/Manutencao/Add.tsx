@@ -19,7 +19,6 @@ const AddMaintance: React.FC = () => {
   const [maintance, setMaintance] = React.useState({} as Maintance);
 
   const [prestadorModal, setPrestadorModal] = React.useState(false);
-  const [isShowing, setIsShowing] = React.useState(true);
   const [disabled, setDisabled] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
 
@@ -61,9 +60,34 @@ const AddMaintance: React.FC = () => {
       });
   };
 
+  const AddMaintance = async (event: React.FormEvent) => {
+    event.preventDefault();
+    api
+      .post(
+        `/manutencao/create/${property?.id}`,
+        {
+          ...maintance,
+          valor: Number(maintance.valor),
+          data_fim: new Date(maintance.data_fim),
+          data_inicio: new Date(maintance.data_inicio),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        toast.success("Manutenção adicionada com sucesso");
+      })
+      .catch((err: any) => {
+        toast.error(err?.response?.data);
+      });
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setProperty({ ...property, [event.target.name]: event.target.value });
+    setMaintance({ ...maintance, [event.target.name]: event.target.value });
   };
 
   const openModal = (event: React.MouseEvent, setModal: any) => {
@@ -78,71 +102,93 @@ const AddMaintance: React.FC = () => {
   return (
     <>
       <AddPrestadorModal isOpen={prestadorModal} setIsOpen={setPrestadorModal} />
-      <Transition
-        appear={true}
-        show={isShowing}
-        enter={`transition-all ease-in-out duration-700`}
-        enterFrom="opacity-0 translate-y-6"
-        enterTo="opacity-100 translate-y-0"
-        leave="transition-all ease-in-out duration-300"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
+      <form
+        className="w-full z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
+        onSubmit={(e) => {
+          AddMaintance(e);
+        }}
       >
-        <form className="w-[95%] mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between">
-          <div className="w-[48%] h-10 flex justify-between items-center">
-            <Input name="placa" label="Placa" type="text" onChange={(e) => handleInputChange(e)} />
-            {loading ? (
-              <div className="ml-4">
-                <ThreeDots color={"#4F63D7"} height={45} width={46} />
-              </div>
-            ) : (
-              <button
-                type="submit"
-                className="w-16 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
-                onClick={(event) => {
-                  getProperty(event);
-                }}
-              >
-                <Icon.MagnifyingGlassIcon className="w-5 h-5 " />
-              </button>
-            )}
-          </div>
-          <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
-            <label className="w-36 text-c5 font-medium shrink-0 ">Prestador</label>
-            <div className="w-full h-full flex items-center justify-between">
-              <Select
-                disabled={disabled}
-                selected={selected}
-                setSelected={(e) => (setMaintance({ ...maintance, id_prestador: e.id }), setSelected(e.descricao))}
-                options={prestadores}
-              />
-              <button
-                disabled={disabled}
-                className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4 "
-                onClick={(event) => {
-                  openModal(event, setPrestadorModal);
-                }}
-              >
-                <Icon.PlusIcon className="w-5 h-5 " />
-              </button>
+        <div className="w-[48%] h-10 flex justify-between items-center">
+          <Input
+            name="placa"
+            label="Placa"
+            type="text"
+            onChange={(e) => setProperty({ ...property, placa: e.target.value })}
+          />
+          {loading ? (
+            <div className="ml-4">
+              <ThreeDots color={"#4F63D7"} height={45} width={46} />
             </div>
-          </div>
-          <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
-            <Input disabled={disabled} label="Valor" name="valor" type="text" onChange={(e) => handleInputChange(e)} />
-          </div>
-
-          <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
-            <Input
+          ) : (
+            <button
+              type="submit"
+              className="w-16 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
+              onClick={(event) => {
+                getProperty(event);
+              }}
+            >
+              <Icon.MagnifyingGlassIcon className="w-5 h-5 " />
+            </button>
+          )}
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
+          <label className="w-36 text-c5 font-medium shrink-0 ">Prestador</label>
+          <div className="w-full h-full flex items-center justify-between">
+            <Select
               disabled={disabled}
-              label="Data de Inicio"
-              name="data_entrada"
-              type="date"
-              onChange={(e) => handleInputChange(e)}
+              selected={selected}
+              setSelected={(e) => (setMaintance({ ...maintance, id_prestador: e.id }), setSelected(e.descricao))}
+              options={prestadores}
             />
+            <button
+              disabled={disabled}
+              className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4 "
+              onClick={(event) => {
+                openModal(event, setPrestadorModal);
+              }}
+            >
+              <Icon.PlusIcon className="w-5 h-5 " />
+            </button>
           </div>
-          <Button disabled={disabled} label="Adicionar" type="submit" />
-        </form>
-      </Transition>
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
+          <Input 
+            disabled={disabled} 
+            label="Valor" 
+            name="valor" 
+            type="text" 
+            onChange={(e) => handleInputChange(e)} 
+          />
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
+          <Input
+            disabled={disabled}
+            label="Data de Inicio"
+            name="data_inicio"
+            type="date"
+            onChange={(e) => handleInputChange(e)}
+          />
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
+          <Input
+            disabled={disabled}
+            label="Descrição"
+            name="descricao"
+            type="text"
+            onChange={(e) => handleInputChange(e)}
+          />
+        </div>
+        <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
+          <Input
+            disabled={disabled}
+            label="Prev. de Término"
+            name="data_fim"
+            type="date"
+            onChange={(e) => handleInputChange(e)}
+          />
+        </div>
+        <Button disabled={disabled} label="Adicionar" type="submit" />
+      </form>
     </>
   );
 };
