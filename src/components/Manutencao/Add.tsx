@@ -104,7 +104,7 @@ const AddMaintance: React.FC<AddMaintanceProps> = ({ getMaintances}) => {
     getPrestadores();
   }, []);
 
-
+  console.log(selected)
   return (
     <>
       <AddPrestadorModal isOpen={prestadorModal} setIsOpen={setPrestadorModal} />
@@ -143,7 +143,7 @@ const AddMaintance: React.FC<AddMaintanceProps> = ({ getMaintances}) => {
             <Select
               disabled={disabled}
               selected={selected}
-              setSelected={(e) => (setMaintance({ ...maintance, id_prestador: e.id }), setSelected(e.descricao))}
+              setSelected={(e) => (setMaintance({ ...maintance, id_prestador: e.id }), setSelected(e.nome + " " + e.sobrenome))}
               options={prestadores}
             />
             <button
