@@ -15,11 +15,16 @@ const RemoveCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   const [loading, setLoading] = React.useState(false);
 
   const [id, setId] = React.useState("");
+  const [search, setSearch] = React.useState("");
 
-  const getCategories = async () => {
+  const getCategories = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
     setLoading(true);
     api
-      .get("/categoria/get-all", {
+      .get(`/categoria/get-all`, {
+        params: search && {
+          descricao: search,
+        },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -55,6 +60,7 @@ const RemoveCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
 
   function closeModal() {
     setIsOpen(false);
+    setSearch("");
   }
 
   React.useEffect(() => {
@@ -102,6 +108,24 @@ const RemoveCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   <Dialog.Title className="text-xl font-bold text-c5">Remover Categorias</Dialog.Title>
                   <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-5 cursor-pointer" onClick={closeModal} />
                   <Dialog.Description className="w-full">
+                    <form
+                      className="  flex justify-between items-center mb-6 gap-2"
+                      onSubmit={(e) => {
+                        getCategories(e);
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="Pesquisar"
+                        className="w-full h-full bg-c1 rounded-xl pl-2 outline-none py-2"
+                        onChange={(e) => {
+                          setSearch(e.target.value);
+                        }}
+                      />
+                      <button className="bg-p3 rounded-full p-1" type="submit">
+                        <Icon.MagnifyingGlassIcon className="w-6 h-6 text-white" />
+                      </button>
+                    </form>
                     {loading ? (
                       <div className="w-96 h-[50%] flex justify-center items-center">
                         <ColorRing
@@ -111,8 +135,8 @@ const RemoveCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                         />
                       </div>
                     ) : (
-                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto">
-                        {categories.map((category, index) => {
+                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin">
+                        {categories?.map((category, index) => {
                           return (
                             <div className="flex justify-between items-center gap-2" key={index}>
                               <h2 className=" w-full text-lg bg-c1 rounded-xl px-2 py-1">{category.descricao}</h2>

@@ -15,8 +15,10 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
   const [loading, setLoading] = React.useState(false);
 
   const [id, setId] = React.useState("");
+  const [search, setSearch] = React.useState("");
 
-  const getLocations = async () => {
+  const getLocations = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
     setLoading(true);
     api
       .get("/localizacao/get-all", {
@@ -102,6 +104,24 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   <Dialog.Title className="text-xl font-bold text-c5">Remover Localizações</Dialog.Title>
                   <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-5 cursor-pointer" onClick={closeModal} />
                   <Dialog.Description className="w-full">
+                  <form
+                      className="  flex justify-between items-center mb-6 gap-2"
+                      onSubmit={(e) => {
+                        getLocations(e);
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="Pesquisar"
+                        className="w-full h-full bg-c1 rounded-xl pl-2 outline-none py-2"
+                        onChange={(e) => {
+                          setSearch(e.target.value);
+                        }}
+                      />
+                      <button className="bg-p3 rounded-full p-1" type="submit">
+                        <Icon.MagnifyingGlassIcon className="w-6 h-6 text-white" />
+                      </button>
+                    </form>
                     {loading ? (
                       <div className="w-96 h-[50%] flex justify-center items-center">
                         <ColorRing
@@ -111,7 +131,7 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                         />
                       </div>
                     ) : (
-                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto">
+                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin">
                         {locations.map((location, index) => {
                           return (
                             <div className="flex justify-between items-center gap-2" key={index}>
