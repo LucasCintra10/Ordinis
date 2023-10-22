@@ -109,7 +109,7 @@ const RemoveCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-5 cursor-pointer" onClick={closeModal} />
                   <Dialog.Description className="w-full">
                     <form
-                      className="  flex justify-between items-center mb-6 gap-2"
+                      className="  flex justify-between items-center mb-6 gap-2 pr-2"
                       onSubmit={(e) => {
                         getCategories(e);
                       }}
@@ -135,7 +135,7 @@ const RemoveCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                         />
                       </div>
                     ) : (
-                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin">
+                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin pr-2">
                         {categories?.map((category, index) => {
                           return (
                             <div className="flex justify-between items-center gap-2" key={index}>

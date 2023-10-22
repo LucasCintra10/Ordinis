@@ -149,7 +149,7 @@ const EditPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                     ) : (
                       <>
                         {display === "view" && (
-                          <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin">
+                          <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin pr-2">
                             {prestadores?.map((prestador, index) => {
                               return (
                                 <div className="flex justify-between items-center gap-2" key={index}>

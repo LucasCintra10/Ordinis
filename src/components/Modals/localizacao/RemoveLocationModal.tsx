@@ -22,6 +22,9 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
     setLoading(true);
     api
       .get("/localizacao/get-all", {
+        params: search && {
+          descricao: search,
+        },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -105,7 +108,7 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-5 cursor-pointer" onClick={closeModal} />
                   <Dialog.Description className="w-full">
                   <form
-                      className="  flex justify-between items-center mb-6 gap-2"
+                      className="  flex justify-between items-center mb-6 gap-2 pr-2"
                       onSubmit={(e) => {
                         getLocations(e);
                       }}
@@ -131,8 +134,8 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                         />
                       </div>
                     ) : (
-                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin">
-                        {locations.map((location, index) => {
+                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin pr-2">
+                        {locations?.map((location, index) => {
                           return (
                             <div className="flex justify-between items-center gap-2" key={index}>
                               <h2 className=" w-full text-lg bg-c1 rounded-xl px-2 py-1">{location.descricao}</h2>

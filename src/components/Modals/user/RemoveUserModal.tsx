@@ -112,7 +112,7 @@ const RemoveUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                         />
                       </div>
                     ) : (
-                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin">
+                      <div className="w-96 max-h-96 flex flex-col gap-4 overflow-auto scrollbar-thin scrollbar-thumb-p2 pr-2">
                         {users.map((user, index) => {
                           return (
                             <div className=" flex justify-between items-center gap-2" key={index}>
