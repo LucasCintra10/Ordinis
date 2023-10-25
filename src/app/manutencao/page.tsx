@@ -69,7 +69,7 @@ export default function ManutencaoPage() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <section className="w-[95%] mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between">
+          <section className="w-[95%] h-[90%] mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-2 justify-between">
             <AddMaintance getMaintances={() => getMaintances()} />
             {loading ? (
               <div className="w-full h-full flex justify-center items-center">

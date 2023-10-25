@@ -308,7 +308,7 @@ export default function RelatoriosPage() {
            
 
             <div
-              className={`w-[95%] h-96 flex flex-col items-center bg-white rounded-xl p-2 z-0  transition-all ${
+              className={`w-[95%] h-80 flex flex-col items-center bg-white rounded-xl p-2 z-0  transition-all ${
                 display === "all" ? "mt-12" : "mt-6"
               }`}
             >
