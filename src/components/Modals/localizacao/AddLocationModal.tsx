@@ -6,31 +6,42 @@ import api from "@/tools/api";
 import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import { ThreeDots } from "react-loader-spinner";
 
 const AddLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
-
   const [location, setLocation] = React.useState("");
+
+  const [loading, setLoading] = React.useState(false);
 
   const addCategory = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     api
-      .post("/localizacao/create", {descricao: location}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .post(
+        "/localizacao/create",
+        { descricao: location },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
       .then(() => {
-        toast.success("Localização adicionada com sucesso!")
+        toast.success("Localização adicionada com sucesso!");
+        closeModal();
       })
-      .catch(() => {
-        toast.error("Erro ao adicionar localização!");
+      .catch((err: any) => {
+        toast.error(err?.response?.data);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  }
+  };
 
-  const  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(event.target.value);
-  }
-        
+  };
+
   function closeModal() {
     setLocation("");
     setIsOpen(false);
@@ -70,7 +81,13 @@ const AddLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   </div>
                 </Dialog.Description>
                 <Dialog.Description className="w-full">
-                 <Button type="submit" label="Adicionar" />
+                  {loading ? (
+                    <div className="flex justify-center">
+                      <ThreeDots color="#1D539F" height={40} width={40} />
+                    </div>
+                  ) : (
+                    <Button type="submit" label="Adicionar" />
+                  )}
                 </Dialog.Description>
               </Dialog.Panel>
             </Transition.Child>

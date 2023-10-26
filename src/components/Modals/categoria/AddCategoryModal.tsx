@@ -6,11 +6,15 @@ import api from "@/tools/api";
 import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import { ThreeDots } from "react-loader-spinner";
 
 const AddCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
+  const [loading, setLoading] = React.useState(false);
+
   const [category, setCategory] = React.useState("");
 
   const addCategory = (event: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     event.preventDefault();
     api
       .post(
@@ -24,9 +28,13 @@ const AddCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
       )
       .then(() => {
         toast.success("Categoria adicionada com sucesso!");
+        closeModal();
       })
-      .catch(() => {
-        toast.error("Erro ao adicionar categoria!");
+      .catch((err: any) => {
+        toast.error(err?.response?.data)
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -79,7 +87,13 @@ const AddCategoryModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   </div>
                 </Dialog.Description>
                 <Dialog.Description className="w-full">
-                  <Button type="submit" label="Adicionar" />
+                  {loading ? (
+                    <div className="flex justify-center">
+                      <ThreeDots color="#1D539F" height={40} width={40} />
+                    </div>
+                  ) : (
+                    <Button type="submit" label="Adicionar" />
+                  )}
                 </Dialog.Description>
               </Dialog.Panel>
             </Transition.Child>

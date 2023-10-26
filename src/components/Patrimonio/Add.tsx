@@ -94,8 +94,9 @@ const AddProperty: React.FC = () => {
       .then((response: any) => {
         toast.success("Patrimônio cadastrado com sucesso!");
       })
-      .catch((error: any) => {
-        toast.error("Erro ao cadastrar patrimônio!");
+      .catch((err: any) => {
+        toast.error(err?.response?.data)
+
       })
       .finally(() => {
         setLoading(false);
