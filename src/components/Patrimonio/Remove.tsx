@@ -35,12 +35,16 @@ const RemoveProperty: React.FC = () => {
     origin: "",
   });
 
+  const [loading, setLoading] = React.useState({
+    search: false,
+    delete: false,
+  });
+
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [locations, setLocations] = React.useState<Location[]>([]);
   const [property, setProperty] = React.useState({} as Property);
 
   const [disabled, setDisabled] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
   const [isShowing, setIsShowing] = React.useState(false);
 
   const getCategories = async () => {
@@ -80,7 +84,7 @@ const RemoveProperty: React.FC = () => {
 
   const getProperty = async (event: React.MouseEvent) => {
     event.preventDefault();
-    setLoading(true);
+    setLoading({ ...loading, search: true })
     api
       .get(`/patrimonio/get-placa/${property?.placa}`, {
         headers: {
@@ -95,12 +99,13 @@ const RemoveProperty: React.FC = () => {
         toast.error("Erro ao buscar patrimônio");
       })
       .finally(() => {
-        setLoading(false);
+        setLoading({ ...loading, search: false })
       });
   };
 
   const deleteProperty = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading({ ...loading, delete: true })
     api
       .delete(`/patrimonio/baixa/${property?.id}`, {
         headers: {
@@ -115,8 +120,11 @@ const RemoveProperty: React.FC = () => {
       .then((response: any) => {
         toast.success("Patrimônio baixado com sucesso!");
       })
-      .catch((error: any) => {
-        toast.error("Erro ao baixar patrimônio!");
+      .catch((err: any) => {
+        toast.error(err?.response?.data);
+      })
+      .finally(() => {
+        setLoading({ ...loading, delete: false })
       });
   };
 
@@ -144,7 +152,7 @@ const RemoveProperty: React.FC = () => {
         >
           <div className="w-[48%] h-10 flex justify-between items-center">
             <Input name="placa" label="Placa" type="text" onChange={(e) => handleInputChange(e)} />
-            {loading ? (
+            {loading.search ? (
               <div className="ml-4">
                 <ThreeDots color={"#4F63D7"} height={45} width={46} />
               </div>
@@ -253,7 +261,13 @@ const RemoveProperty: React.FC = () => {
               onChange={(e) => handleInputChange(e)}
             />
           </div>
+          {loading.delete ? (
+            <div className="w-full h-10 flex justify-center items-center">
+              <ThreeDots color={"#4F63D7"} height={50} width={50} />
+            </div>
+          ) : (
           <Button label="Baixar" type="submit" disabled={disabled} />
+          )}
         </form>
       </Transition>
     </>

@@ -37,6 +37,11 @@ const EditProperty: React.FC = () => {
     origin: "",
   });
 
+  const [loading, setLoading] = React.useState({
+    search: false,
+    update: false,
+  })
+
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [locations, setLocations] = React.useState<Location[]>([]);
   const [property, setProperty] = React.useState({} as Property);
@@ -44,7 +49,6 @@ const EditProperty: React.FC = () => {
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
   const [addLocationModal, setAddLocationModal] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
   const [isShowing, setIsShowing] = React.useState(true);
 
   const getCategories = async () => {
@@ -89,7 +93,7 @@ const EditProperty: React.FC = () => {
 
   const getProperty = async (event: React.MouseEvent) => {
     event.preventDefault();
-    setLoading(true);
+    setLoading({ ...loading, search: true})
     api
       .get(`/patrimonio/get-placa/${property?.placa}`, {
         headers: {
@@ -99,18 +103,18 @@ const EditProperty: React.FC = () => {
       .then((response: any) => {
         setProperty(response.data.data);
         setDisabled(false);
-        console.log(response.data.data);
       })
       .catch((error: any) => {
         toast.error("Erro ao buscar patrimônio");
       })
       .finally(() => {
-        setLoading(false);
+        setLoading({ ...loading, search: false})
       });
   };
 
   const updateProperty = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading({ ...loading, update: true})
     api
       .put(
         `/patrimonio/update/${property?.id}`,
@@ -132,8 +136,11 @@ const EditProperty: React.FC = () => {
       .then((response: any) => {
         toast.success("Patrimônio atualizado com sucesso");
       })
-      .catch((error: any) => {
-        toast.error("Erro ao atualizar patrimônio");
+      .catch((err: any) => {
+        toast.error(err?.response?.data)
+      })
+      .finally(() => {
+        setLoading({ ...loading, update: false})
       });
   };
 
@@ -162,7 +169,7 @@ const EditProperty: React.FC = () => {
         >
           <div className="w-[48%] h-10 flex justify-between items-center">
             <Input name="placa" label="Placa" type="text" onChange={(e) => handleInputChange(e)} />
-            {loading ? (
+            {loading.search ? (
               <div className="ml-4">
                 <ThreeDots color={"#4F63D7"} height={45} width={46} />
               </div>
@@ -275,7 +282,13 @@ const EditProperty: React.FC = () => {
               onChange={(e) => handleInputChange(e)}
             />
           </div>
-          <Button label="Editar" type="submit" disabled={disabled} />
+          {loading.update ? (
+            <div className="w-full h-10 flex justify-center items-center">
+              <ThreeDots color={"#4F63D7"} height={50} width={50} />
+            </div>
+          ) : (
+            <Button label="Editar" type="submit" disabled={disabled} />
+          )}
         </form>
       </Transition>
     </>

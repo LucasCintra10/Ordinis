@@ -11,6 +11,7 @@ import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import api from "@/tools/api";
+import { ThreeDots } from "react-loader-spinner";
 import React from "react";
 
 const AddProperty: React.FC = () => {
@@ -40,6 +41,7 @@ const AddProperty: React.FC = () => {
 
   const [addCategoryModal, setAddCategoryModal] = React.useState(false);
   const [addLocationModal, setAddLocationModal] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [isShowing, setIsShowing] = React.useState(true);
 
   const getCategories = async () => {
@@ -74,6 +76,7 @@ const AddProperty: React.FC = () => {
 
   const AddProperty = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     api
       .post(
         "/patrimonio/create",
@@ -93,6 +96,9 @@ const AddProperty: React.FC = () => {
       })
       .catch((error: any) => {
         toast.error("Erro ao cadastrar patrimônio!");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -110,8 +116,6 @@ const AddProperty: React.FC = () => {
     getCategories();
     getLocations();
   }, [addCategoryModal, addLocationModal]);
-
-  
 
   return (
     <>
@@ -205,7 +209,13 @@ const AddProperty: React.FC = () => {
           <div className="w-[48%] h-10 flex justify-between items-center">
             <Input label="Data de Entrada" name="data_entrada" type="date" onChange={(e) => handleInputChange(e)} />
           </div>
-          <Button label="Cadastrar" type="submit"  />
+          {loading ? (
+            <div className="w-full h-10 flex justify-center items-center">
+              <ThreeDots color="#1D539F" height={50} width={50} />
+            </div>
+          ) : (
+            <Button label="Cadastrar" type="submit" />
+          )}
         </form>
       </Transition>
     </>
