@@ -1,4 +1,4 @@
-import { Dialog, Transition, RadioGroup } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import * as React from "react";
 import { Modal } from "@/models/modal";
 import * as Icon from "@heroicons/react/24/outline";
@@ -8,8 +8,11 @@ import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { User } from "@/models/user";
+import { ThreeDots } from "react-loader-spinner";
 
 const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
+
+  const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [user, setUser] = React.useState({} as User);
@@ -22,10 +25,11 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
       user.email === undefined ||
       user.cpf === undefined ||
       user.senha === undefined
-    ) {
-      toast.error("Preencha todos os campos!");
-      return;
-    }
+      ) {
+        toast.error("Preencha todos os campos!");
+        return;
+      }
+      setLoading(true);
     api
       .post("/usuario/create", user, {
         headers: {
@@ -38,6 +42,9 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
       })
       .catch((err) => {
         toast.error(err?.response?.data);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -151,7 +158,13 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   </div>
                 </Dialog.Description>
                 <Dialog.Description className="w-full">
-                  <Button type="submit" label="Adicionar" />
+                {loading ? (
+                    <div className="flex justify-center">
+                      <ThreeDots color="#1D539F" height={40} width={40} />
+                    </div>
+                  ) : (
+                    <Button type="submit" label="Adicionar" />
+                  )}
                 </Dialog.Description>
               </Dialog.Panel>
             </Transition.Child>

@@ -2,19 +2,22 @@ import { Dialog, Transition } from "@headlessui/react";
 import * as React from "react";
 import { Modal } from "@/models/modal";
 import * as Icon from "@heroicons/react/24/outline";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import api from "@/tools/api";
 import { toast } from "react-toastify";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { Prestador } from "@/models/prestador";
+import { ThreeDots } from "react-loader-spinner";
 
 const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
+
   const [prestador, setPrestador] = React.useState({} as Prestador);
+
+  const [loading, setLoading] = React.useState(false);
 
   const addPrestador = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setLoading(true);
     api
       .post("/prestador/create", {
         ...prestador,
@@ -30,6 +33,9 @@ const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
       })
       .catch((err) => {
         toast.error(err?.response?.data);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -99,7 +105,13 @@ const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   </div>
                 </Dialog.Description>
                 <Dialog.Description className="w-full">
-                  <Button type="submit" label="Adicionar" />
+                {loading ? (
+                    <div className="flex justify-center">
+                      <ThreeDots color="#1D539F" height={40} width={40} />
+                    </div>
+                  ) : (
+                    <Button type="submit" label="Adicionar" />
+                  )}
                 </Dialog.Description>
               </Dialog.Panel>
             </Transition.Child>
