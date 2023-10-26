@@ -59,7 +59,7 @@ const Table: React.FC<TableProps> = ({ maintance, getMaintances }) => {
             <th className="w-1/6 h-full flex  items-center">Término</th>
             <th className="w-1/6 h-full flex  items-center">Prestador</th>
             <th className="w-24 h-full flex  items-center">Valor</th>
-            <th className="w-24 h-full flex  items-center justify-end">Status</th>
+            <th className="w-24 h-full flex  items-center justify-center">Status</th>
           </tr>
         </thead>
         <tbody className="w-full h-5/6 flex flex-col items-center">
@@ -73,10 +73,10 @@ const Table: React.FC<TableProps> = ({ maintance, getMaintances }) => {
                 {item?.prestador?.nome} {item?.prestador?.sobrenome}
               </td>
               <td className="w-24 h-full flex items-center">{moneyMask(item?.valor)}</td>
-              <td className="w-24 h-full flex justify-center">
+              <td className="w-24 h-full flex justify-center items-center">
                 <input
                   type="checkbox"
-                  className=""
+                  className="w-4 h-4"
                   checked={item?.status === 0}
                   onChange={() => {
                     updateMaintance(item.id);

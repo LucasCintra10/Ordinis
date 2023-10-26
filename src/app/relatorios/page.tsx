@@ -219,76 +219,76 @@ export default function RelatoriosPage() {
           </button>
         </div>
         <form
-              className="w-[95%] bg-white flex justify-center z-10 gap-2 p-2 rounded-xl mt-6 relative"
-              onSubmit={(e) => {
-                getPatrimonios(e);
+          className="w-[95%] bg-white flex justify-center z-10 gap-2 p-2 rounded-xl mt-6 relative"
+          onSubmit={(e) => {
+            getPatrimonios(e);
+          }}
+        >
+          {(filter.categoria || filter.localizacao || filter.origem || filter.conservacao || placa) && (
+            <XCircleIcon className="w-6 h-6 absolute -top-1 -right-1" onClick={clearFilter} />
+          )}
+          <div className="w-[20%] justify-between items-center">
+            <label className=" text-c5 font-medium shrink-0 ">Placa</label>
+            <input
+              name="placa"
+              type="text"
+              value={placa}
+              className="w-full h-10 bg-c1 rounded pl-2 outline-none"
+              onChange={(e) => {
+                setPlaca(e.target.value);
               }}
-            >
-              {(filter.categoria || filter.localizacao || filter.origem || filter.conservacao || placa) && (
-                <XCircleIcon className="w-6 h-6 absolute -top-1 -right-1" onClick={clearFilter} />
-              )}
-              <div className="w-[20%] justify-between items-center">
-                <label className=" text-c5 font-medium shrink-0 ">Placa</label>
-                <input
-                  name="placa"
-                  type="text"
-                  value={placa}
-                  className="w-full h-10 bg-c1 rounded pl-2 outline-none"
-                  onChange={(e) => {
-                    setPlaca(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="w-[20%]  items-center justify-between">
-                <label className=" text-c5 font-medium shrink-0">Categoria</label>
-                <div className="w-full h-10 flex items-center justify-between ">
-                  <Select
-                    selected={selected.category}
-                    setSelected={(e) => {
-                      setSelected({ ...selected, category: e.descricao }), setFilter({ ...filter, categoria: e.id });
-                    }}
-                    options={categories}
-                  />
-                </div>
-              </div>
-              <div className="w-[20%] justify-between items-center">
-                <label className=" text-c5 font-medium shrink-0">Localização</label>
-                <div className="w-full h-10 flex items-center justify-between">
-                  <Select
-                    selected={selected.location}
-                    setSelected={(e) => {
-                      setSelected({ ...selected, location: e.descricao }), setFilter({ ...filter, localizacao: e.id });
-                    }}
-                    options={locations}
-                  />
-                </div>
-              </div>
-              <div className="w-[20%] justify-between items-center">
-                <label className="  text-c5 font-medium shrink-0">Origem</label>
-                <div className="w-full h-10 flex items-center justify-between">
-                  <Select
-                    selected={selected.origin}
-                    setSelected={(e) => {
-                      setSelected({ ...selected, origin: e.descricao }), setFilter({ ...filter, origem: e.descricao });
-                    }}
-                    options={origins}
-                  />
-                </div>
-              </div>
-              <div className="w-[20%] justify-between items-center">
-                <label className=" text-c5 font-medium shrink-0">Conservação</label>
-                <div className="w-full h-10 flex items-center justify-between">
-                  <Select
-                    selected={selected.condition}
-                    setSelected={(e) => {
-                      setSelected({ ...selected, condition: e.descricao }),
-                        setFilter({ ...filter, conservacao: e.descricao });
-                    }}
-                    options={conditions}
-                  />
-                </div>
-              </div>
-            </form>
+            />
+          </div>
+          <div className="w-[20%]  items-center justify-between">
+            <label className=" text-c5 font-medium shrink-0">Categoria</label>
+            <div className="w-full h-10 flex items-center justify-between ">
+              <Select
+                selected={selected.category}
+                setSelected={(e) => {
+                  setSelected({ ...selected, category: e.descricao }), setFilter({ ...filter, categoria: e.id });
+                }}
+                options={categories}
+              />
+            </div>
+          </div>
+          <div className="w-[20%] justify-between items-center">
+            <label className=" text-c5 font-medium shrink-0">Localização</label>
+            <div className="w-full h-10 flex items-center justify-between">
+              <Select
+                selected={selected.location}
+                setSelected={(e) => {
+                  setSelected({ ...selected, location: e.descricao }), setFilter({ ...filter, localizacao: e.id });
+                }}
+                options={locations}
+              />
+            </div>
+          </div>
+          <div className="w-[20%] justify-between items-center">
+            <label className="  text-c5 font-medium shrink-0">Origem</label>
+            <div className="w-full h-10 flex items-center justify-between">
+              <Select
+                selected={selected.origin}
+                setSelected={(e) => {
+                  setSelected({ ...selected, origin: e.descricao }), setFilter({ ...filter, origem: e.descricao });
+                }}
+                options={origins}
+              />
+            </div>
+          </div>
+          <div className="w-[20%] justify-between items-center">
+            <label className=" text-c5 font-medium shrink-0">Conservação</label>
+            <div className="w-full h-10 flex items-center justify-between">
+              <Select
+                selected={selected.condition}
+                setSelected={(e) => {
+                  setSelected({ ...selected, condition: e.descricao }),
+                    setFilter({ ...filter, conservacao: e.descricao });
+                }}
+                options={conditions}
+              />
+            </div>
+          </div>
+        </form>
 
         {loading && display === "all" ? (
           <div className="w-full h-[50%] flex justify-center items-center">
@@ -305,12 +305,9 @@ export default function RelatoriosPage() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-           
-
             <div
-              className={`w-[95%] h-80 flex flex-col items-center bg-white rounded-xl p-2 z-0  transition-all ${
-                display === "all" ? "mt-12" : "mt-6"
-              }`}
+              className={`w-[95%] h-96 flex flex-col items-center bg-white rounded-xl p-2 z-0  transition-all 
+                mt-7`}
             >
               {loading && display === "filter" ? (
                 <div className="w-full h-[50%] flex justify-center items-center">

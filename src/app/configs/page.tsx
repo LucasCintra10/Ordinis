@@ -25,6 +25,8 @@ export default function ConfiguracoesPage() {
   const [removeLocationModal, setRemoveLocationModal] = React.useState(false);
   const [editPrestadorModal, setEditPrestadorModal] = React.useState(false);
 
+  const [display, setDisplay] = React.useState("add");
+
   return (
     <>
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
@@ -42,6 +44,17 @@ export default function ConfiguracoesPage() {
           <div className="w-[95%] h-1/6 flex items-center">
             <h1 className="text-5xl font-bold text-c5">Configurações</h1>
           </div>
+          <div className="w-[50%] flex gap-4">
+          <button
+            className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
+              display === "add" ? "bg-c4 text-c2" : "bg-c2 text-c5"
+            }`}
+            onClick={() => setDisplay("add")}
+          >
+            <Icon.Cog8ToothIcon className="w-5 h-5" />
+            Configuração
+          </button>
+        </div>
           <Transition
             appear={true}
             show={isShowing}
@@ -52,7 +65,7 @@ export default function ConfiguracoesPage() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="w-[95%] h-80 flex text-c5 gap-8 ">
+            <div className="w-[95%] h-80 flex text-c5 gap-8 mt-6 ">
               <div className="w-56 bg-white flex flex-col justify-evenly items-center rounded-xl hover:scale-105 transition-all">
                 <h2 className="text-2xl font-semibold">Prestadores</h2>
                 <Icon.WrenchIcon className="w-20 h-20 " />
