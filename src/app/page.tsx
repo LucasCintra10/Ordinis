@@ -10,7 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ColorRing } from "react-loader-spinner";
 
 export default function LoginPage() {
-
   const router = useRouter();
 
   const [user, setUser] = React.useState({} as User);
@@ -56,7 +55,7 @@ export default function LoginPage() {
             onChange={(e) => setUser({ ...user, senha: e.target.value })}
           />
           {loading ? (
-            <ColorRing colors={['#1E35C6', '#3146D0', '#4F63D7', '#677BEC', '#37407A']} height={80} width={80}  />
+            <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
           ) : (
             <button type="submit" className="w-44 h-12 rounded bg-p3 text-white font-bold text-xl">
               Entrar

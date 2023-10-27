@@ -13,12 +13,11 @@ import { Origin } from "@/models/origin";
 import Image from "next/image";
 import * as React from "react";
 import api from "@/tools/api";
-import * as XLSX from "xlsx";
 import Table from "@/components/Relatorio/Table";
-import moment from "moment";
 import "moment/locale/pt-br";
 import getCategories from "@/providers/getCategories";
 import getLocations from "@/providers/getLocations";
+import exportToExcel from "@/tools/exportExcel";
 
 export default function RelatoriosPage() {
   const [property, setProperty] = React.useState<Property[]>([]);
@@ -85,10 +84,6 @@ export default function RelatoriosPage() {
       });
   };
 
-  const moneyFormat = (value: any) => {
-    return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-  };
-
   const clearFilter = () => {
     setSelected({
       category: "",
@@ -103,46 +98,6 @@ export default function RelatoriosPage() {
       conservacao: "",
     });
     setPlaca("");
-  };
-
-  const exportToExcel = () => {
-    const sheetName = "Patrimônios";
-    const fileName = "patrimonios.xlsx";
-    const data = [
-      [
-        "Placa",
-        "Categoria",
-        "Localização",
-        "Valor",
-        "Origem",
-        "Conservação",
-        "Data de Entrada",
-        "Resp. Entrada",
-        "Status",
-        "Data de Saída",
-        "Resp. Entrega",
-        "Resp. Retirada",
-      ],
-      ...property.map((patrimonio) => [
-        patrimonio.placa,
-        patrimonio.categoria.descricao,
-        patrimonio.localizacao.descricao,
-        moneyFormat(patrimonio?.valor),
-        patrimonio.origem,
-        patrimonio.estado,
-        moment.utc(patrimonio.data_entrada).format("DD/MM/YYYY"),
-        patrimonio.usuario.nome + " " + patrimonio.usuario.sobrenome,
-        patrimonio.status === 1 ? "Ativo" : "Baixado",
-        patrimonio.data_saida ? moment.utc(patrimonio.data_saida).format("DD/MM/YYYY") : "-",
-        patrimonio.resp_entrega ? patrimonio.resp_entrega : "-",
-        patrimonio.resp_retirada ? patrimonio.resp_retirada : "-",
-      ]),
-    ];
-
-    const worksheet = XLSX.utils.aoa_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-    XLSX.writeFile(workbook, fileName);
   };
 
   React.useEffect(() => {
@@ -188,7 +143,7 @@ export default function RelatoriosPage() {
             className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
               display === "edit" ? "bg-c4 text-c2" : "bg-c2 text-c5"
             }`}
-            onClick={exportToExcel}
+            onClick={() => {exportToExcel(property)}}
           >
             <Icon.ArrowTopRightOnSquareIcon className="w-5 h-5" />
             Exportar

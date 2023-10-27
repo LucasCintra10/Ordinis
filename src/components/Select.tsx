@@ -4,18 +4,19 @@ import * as Icon from "@heroicons/react/24/outline";
 
 interface SelectProps {
   selected: any;
+  placeholder?: string;
   setSelected: (event: any) => void;
   options: any;
   disabled?: boolean;
 }
 
-const Select: React.FC<SelectProps> = ({ selected, setSelected, options, disabled }) => {
+const Select: React.FC<SelectProps> = ({ selected, setSelected, options, disabled, placeholder }) => {
   return (
     <>
       <Listbox value={selected} onChange={setSelected} disabled={disabled}>
         <div className="w-full h-full relative ">
           <Listbox.Button className="w-full h-full bg-c1 rounded text-left relative pl-2">
-            {selected}
+            {selected || placeholder}
             <Icon.ChevronDownIcon className="w-4 h-4 absolute right-1 top-3" />
           </Listbox.Button>
           <Transition
