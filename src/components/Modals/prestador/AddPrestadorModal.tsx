@@ -10,7 +10,6 @@ import { Prestador } from "@/models/prestador";
 import { ThreeDots } from "react-loader-spinner";
 
 const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
-
   const [prestador, setPrestador] = React.useState({} as Prestador);
 
   const [loading, setLoading] = React.useState(false);
@@ -19,14 +18,18 @@ const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
     event.preventDefault();
     setLoading(true);
     api
-      .post("/prestador/create", {
-        ...prestador,
-        numero: Number(prestador.numero),
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      .post(
+        "/prestador/create",
+        {
+          ...prestador,
+          numero: Number(prestador.numero),
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
       .then((res) => {
         toast.success("Cadastro criado com sucesso!");
         closeModal();
@@ -105,7 +108,7 @@ const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   </div>
                 </Dialog.Description>
                 <Dialog.Description className="w-full">
-                {loading ? (
+                  {loading ? (
                     <div className="flex justify-center">
                       <ThreeDots color="#1D539F" height={40} width={40} />
                     </div>

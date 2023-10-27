@@ -15,6 +15,8 @@ import Input from "@/components/Input";
 import api from "@/tools/api";
 import React from "react";
 import moment from "moment";
+import getCategories from "@/providers/getCategories";
+import getLocations from "@/providers/getLocations";
 
 const EditProperty: React.FC = () => {
   const conditions: Condition[] = [
@@ -50,36 +52,6 @@ const EditProperty: React.FC = () => {
   const [addLocationModal, setAddLocationModal] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
   const [isShowing, setIsShowing] = React.useState(true);
-
-  const getCategories = async () => {
-    api
-      .get("/categoria/get-all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response: any) => {
-        setCategories(response.data.data);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  };
-
-  const getLocations = async () => {
-    api
-      .get("/localizacao/get-all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response: any) => {
-        setLocations(response.data.data);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -145,8 +117,12 @@ const EditProperty: React.FC = () => {
   };
 
   React.useEffect(() => {
-    getCategories();
-    getLocations();
+    getCategories().then((response) => {
+      setCategories(response);
+    });
+    getLocations().then((response) => {
+      setLocations(response);
+    });
   }, [addCategoryModal, addLocationModal]);
 
   return (

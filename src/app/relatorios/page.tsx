@@ -17,6 +17,8 @@ import * as XLSX from "xlsx";
 import Table from "@/components/Relatorio/Table";
 import moment from "moment";
 import "moment/locale/pt-br";
+import getCategories from "@/providers/getCategories";
+import getLocations from "@/providers/getLocations";
 
 export default function RelatoriosPage() {
   const [property, setProperty] = React.useState<Property[]>([]);
@@ -83,36 +85,6 @@ export default function RelatoriosPage() {
       });
   };
 
-  const getCategories = async () => {
-    api
-      .get("/categoria/get-all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response: any) => {
-        setCategories(response.data.data);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  };
-
-  const getLocations = async () => {
-    api
-      .get("/localizacao/get-all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response: any) => {
-        setLocations(response.data.data);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  };
-
   const moneyFormat = (value: any) => {
     return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   };
@@ -175,8 +147,12 @@ export default function RelatoriosPage() {
 
   React.useEffect(() => {
     setIsShowing(true);
-    getCategories();
-    getLocations();
+    getCategories().then((response) => {
+      setCategories(response);
+    });
+    getLocations().then((response) => {
+      setLocations(response);
+    });
   }, []);
 
   React.useEffect(() => {

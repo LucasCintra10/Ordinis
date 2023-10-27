@@ -13,6 +13,8 @@ import Input from "@/components/Input";
 import api from "@/tools/api";
 import { ThreeDots } from "react-loader-spinner";
 import React from "react";
+import getLocations from "@/providers/getLocations";
+import getCategories from "@/providers/getCategories";
 
 const AddProperty: React.FC = () => {
   const conditions: Condition[] = [
@@ -43,36 +45,6 @@ const AddProperty: React.FC = () => {
   const [addLocationModal, setAddLocationModal] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [isShowing, setIsShowing] = React.useState(true);
-
-  const getCategories = async () => {
-    api
-      .get("/categoria/get-all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response: any) => {
-        setCategories(response.data.data);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  };
-
-  const getLocations = async () => {
-    api
-      .get("/localizacao/get-all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response: any) => {
-        setLocations(response.data.data);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  };
 
   const AddProperty = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -114,8 +86,12 @@ const AddProperty: React.FC = () => {
   };
 
   React.useEffect(() => {
-    getCategories();
-    getLocations();
+    getCategories().then((response) => {
+      setCategories(response);
+    });
+    getLocations().then((response) => {
+      setLocations(response);
+    });
   }, [addCategoryModal, addLocationModal]);
 
   return (
