@@ -6,7 +6,7 @@ import * as Icon from "@heroicons/react/24/outline";
 import AddMaintance from "@/components/Manutencao/Add";
 import { Transition } from "@headlessui/react";
 import Table from "@/components/Manutencao/Table";
-import { Maintance } from "@/models/maintance";
+import { Maintenance } from "@/models/maintenance";
 import api from "@/tools/api";
 import { toast } from "react-toastify";
 import { ColorRing } from "react-loader-spinner";
@@ -14,10 +14,10 @@ import { ColorRing } from "react-loader-spinner";
 export default function ManutencaoPage() {
   const [display, setDisplay] = React.useState("add");
   const [isShowing, setIsShowing] = React.useState(true);
-  const [maintances, setMaintances] = React.useState([] as Maintance[]);
+  const [maintenances, setMaintenances] = React.useState([] as Maintenance[]);
   const [loading, setLoading] = React.useState(false);
 
-  const getMaintances = async () => {
+  const getMaintenances = async () => {
     setLoading(true);
     api
       .get(`/manutencao/get-all`, {
@@ -26,7 +26,7 @@ export default function ManutencaoPage() {
         },
       })
       .then((response: any) => {
-        setMaintances(response.data.data);
+        setMaintenances(response.data.data);
       })
       .catch((error: any) => {
         toast.error("Erro ao buscar manutenções");
@@ -37,7 +37,7 @@ export default function ManutencaoPage() {
   };
 
   React.useEffect(() => {
-    getMaintances();
+    getMaintenances();
   }, []);
 
   return (
@@ -70,14 +70,14 @@ export default function ManutencaoPage() {
           leaveTo="opacity-0"
         >
           <section className="w-[95%] mt-6 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-2 justify-between">
-            <AddMaintance getMaintances={() => getMaintances()} />
+            <AddMaintance getMaintances={() => getMaintenances()} />
             {loading ? (
               <div className="w-full h-full flex justify-center items-center">
                 <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
               </div>
             ) : (
               <div className="w-full h-full">
-                <Table maintance={maintances} getMaintances={() => getMaintances()} />
+                <Table maintenance={maintenances} getMaintenances={() => getMaintenances()} />
               </div>
             )}
           </section>

@@ -1,4 +1,4 @@
-import { Maintance } from "@/models/maintance";
+import { Maintenance } from "@/models/maintenance";
 import moment from "moment";
 import React from "react";
 import { Transition } from "@headlessui/react";
@@ -6,11 +6,11 @@ import api from "@/tools/api";
 import { toast } from "react-toastify";
 
 interface TableProps {
-  maintance: Maintance[];
-  getMaintances: () => void;
+  maintenance: Maintenance[];
+  getMaintenances: () => void;
 }
 
-const Table: React.FC<TableProps> = ({ maintance, getMaintances }) => {
+const Table: React.FC<TableProps> = ({ maintenance, getMaintenances }) => {
   const [isShowing, setIsShowing] = React.useState(true);
 
   const moneyMask = (value: any) => {
@@ -32,7 +32,7 @@ const Table: React.FC<TableProps> = ({ maintance, getMaintances }) => {
       )
       .then((response: any) => {
         toast.success("Manutenção finalizada com sucesso");
-        getMaintances();
+        getMaintenances();
       })
       .catch((error: any) => {
         toast.error("Erro ao finalizar manutenção");
@@ -63,7 +63,7 @@ const Table: React.FC<TableProps> = ({ maintance, getMaintances }) => {
           </tr>
         </thead>
         <tbody className="w-full h-5/6 flex flex-col items-center">
-          {maintance?.map((item: any, index: any) => (
+          {maintenance?.map((item: any, index: any) => (
             <tr className={`w-full flex items-center p-4  ${index % 2 == 0 ? `` : `bg-c1`}`} key={index}>
               <td className="w-1/6 h-full flex items-center">{item?.patrimonio?.placa}</td>
               <td className="w-2/6 h-full flex items-center">{item?.descricao}</td>

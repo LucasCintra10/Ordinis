@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 import { ThreeDots } from "react-loader-spinner";
 import InfoPropertyModal from "@/components/Modals/patrimonio/InfoProperty";
 import { Transition } from "@headlessui/react";
+import { Maintenance } from "@/models/maintenance";
+import moment from "moment";
 
 export default function HomePage() {
   const [locations, setLocations] = React.useState<Location[]>([]);
@@ -244,6 +246,54 @@ export default function HomePage() {
     );
   };
 
+  const ActiveMaintances: React.FC = () => {
+    const [maintenances, setMaintances] = React.useState<Maintenance[]>([]);
+
+    const getActiveMaintances = async () => {
+      api
+        .get(`/manutencao/get-ativas`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          setMaintances(res.data.data);
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data);
+        });
+    };
+
+    React.useEffect(() => {
+      getActiveMaintances();
+    }, []);
+
+    return (
+      <>
+        <table className="w-full h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar-thin">
+          <thead className="w-full h-auto  bg-c1 p-4 ">
+            <tr className="w-full flex justify-between">
+              <th className="w-1/6 text-left truncate">Placa</th>
+              <th className="w-1/6 text-left truncate">Prestador</th>
+              <th className="w-16 text-left">Inicio</th>
+              <th className="w-16 text-left truncate">Termíno</th>
+            </tr>
+          </thead>
+          <tbody className="w-full">
+            {maintenances?.map((item: any, index: any) => (
+              <tr className={`w-full flex justify-between p-4  ${index % 2 == 0 ? `` : `bg-c1`}`} key={index}>
+                <td className="w-1/6 truncate">{item?.patrimonio?.placa}</td>
+                <td className="w-1/6 truncate">{item?.prestador?.nome}</td>
+                <td className="w-16 text-left">{moment.utc(item.data_inicio).format("DD/MM")}</td>
+                <td className="w-16 text-left">{moment.utc(item.data_prev_termino).format("DD/MM")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>
+    );
+  };
+
   React.useEffect(() => {
     getLocations().then((res) => {
       setLocations(res);
@@ -283,7 +333,9 @@ export default function HomePage() {
               </div>
             </div>
             <div className="w-[95%] h-64 flex mt-8 justify-between">
-              <div className="w-[45%] bg-white rounded-xl"></div>
+              <div className="w-[50%] bg-white rounded-xl p-1">
+                <ActiveMaintances />
+              </div>
               <div className="w-[40%] bg-white rounded-xl ml-8"></div>
             </div>
           </Transition>

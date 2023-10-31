@@ -1,4 +1,4 @@
-export interface Maintance {
+export interface Maintenance {
   description: string;
   data_inicio: Date;
   data_fim: Date;

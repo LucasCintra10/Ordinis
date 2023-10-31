@@ -11,16 +11,16 @@ import api from "@/tools/api";
 import React from "react";
 import AddPrestadorModal from "@/components/Modals/prestador/AddPrestadorModal";
 import { Prestador } from "@/models/prestador";
-import { Maintance } from "@/models/maintance";
+import { Maintenance } from "@/models/maintenance";
 
-interface AddMaintanceProps {
+interface AddMaintenanceProps {
   getMaintances: () => void;
 }
 
-const AddMaintance: React.FC<AddMaintanceProps> = ({ getMaintances}) => {
+const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
   const [property, setProperty] = React.useState({} as Property);
   const [prestadores, setPrestadores] = React.useState([] as Prestador[]);
-  const [maintance, setMaintance] = React.useState({} as Maintance);
+  const [maintenance, setMaintance] = React.useState({} as Maintenance);
 
   const [prestadorModal, setPrestadorModal] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
@@ -70,10 +70,10 @@ const AddMaintance: React.FC<AddMaintanceProps> = ({ getMaintances}) => {
       .post(
         `/manutencao/create/${property?.id}`,
         {
-          ...maintance,
-          valor: Number(maintance.valor),
-          data_fim: new Date(maintance.data_fim),
-          data_inicio: new Date(maintance.data_inicio),
+          ...maintenance,
+          valor: Number(maintenance.valor),
+          data_fim: new Date(maintenance.data_fim),
+          data_inicio: new Date(maintenance.data_inicio),
         },
         {
           headers: {
@@ -92,7 +92,7 @@ const AddMaintance: React.FC<AddMaintanceProps> = ({ getMaintances}) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setMaintance({ ...maintance, [event.target.name]: event.target.value });
+    setMaintance({ ...maintenance, [event.target.name]: event.target.value });
   };
 
   const openModal = (event: React.MouseEvent, setModal: any) => {
@@ -143,7 +143,7 @@ const AddMaintance: React.FC<AddMaintanceProps> = ({ getMaintances}) => {
             <Select
               disabled={disabled}
               selected={selected}
-              setSelected={(e) => (setMaintance({ ...maintance, id_prestador: e.id }), setSelected(e.nome + " " + e.sobrenome))}
+              setSelected={(e) => (setMaintance({ ...maintenance, id_prestador: e.id }), setSelected(e.nome + " " + e.sobrenome))}
               options={prestadores}
             />
             <button
@@ -199,4 +199,4 @@ const AddMaintance: React.FC<AddMaintanceProps> = ({ getMaintances}) => {
   );
 };
 
-export default AddMaintance;
+export default AddMaintenance;
