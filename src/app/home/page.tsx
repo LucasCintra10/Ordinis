@@ -3,8 +3,6 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import React from "react";
 import getLocations from "@/providers/getLocations";
-import getCategories from "@/providers/getCategories";
-import { Category } from "@/models/category";
 import { Location } from "@/models/location";
 import Select from "@/components/Select";
 import * as Icon from "@heroicons/react/24/outline";
@@ -14,21 +12,35 @@ import api from "@/tools/api";
 import { Property } from "@/models/property";
 import Input from "@/components/Input";
 import InfoPropertyModal from "@/components/Modals/patrimonio/InfoProperty";
+import { toast } from "react-toastify";
+import { get } from "axios";
 
 export default function HomePage() {
   const [locations, setLocations] = React.useState<Location[]>([]);
-  const [categories, setCategories] = React.useState<Category[]>([]);
   const [property, setProperty] = React.useState<Property[]>([]);
 
   const [infoPropertyModal, setInfoPropertyModal] = React.useState(false);
 
-  const [search, setSearch] = React.useState({
-    placa: "",
-    descricao: "",
-  });
+  const [placa, setPlaca] = React.useState("");
 
-  const [selectedLocation, setSelectedLocation] = React.useState({} as Location);
-  const [selectedCategory, setSelectedCategory] = React.useState({} as Category);
+  const [selected, setSelected] = React.useState({} as Location);
+
+  const getPatrimonio = async () => {
+    
+    api
+      .get(`/patrimonio/get-placa/${placa}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response: any) => {
+        setProperty(response.data.data);
+        setInfoPropertyModal(true);
+      })
+      .catch((error: any) => {
+        toast.error("Erro ao buscar patrimônio");
+      })
+  };
 
   const getPatrimonios = async () => {
     api
@@ -37,10 +49,7 @@ export default function HomePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         params: {
-          ...(selectedLocation.id && { localizacao: selectedLocation.id }),
-          ...(selectedCategory.id && { categoria: selectedCategory.id }),
-          ...(search.placa && { placa: search.placa }),
-          ...(search.descricao && { descricao: search.descricao }),
+          localizacao: selected.id,
         },
       })
       .then((res) => {
@@ -49,26 +58,25 @@ export default function HomePage() {
       .catch((err) => {
         setProperty([]);
       })
+      
   };
 
   React.useEffect(() => {
     getLocations().then((response) => {
       setLocations(response);
     });
-    getCategories().then((response) => {
-      setCategories(response);
-    });
+
   }, []);
 
   React.useEffect(() => {
-    if (selectedLocation.id || selectedCategory.id) {
+    if (selected.id) {
       getPatrimonios();
     }
-  }, [selectedLocation, selectedCategory]);
+  }, [selected]);
 
   return (
     <>
-      <InfoPropertyModal isOpen={infoPropertyModal} setIsOpen={setInfoPropertyModal} data={property[0]} />
+      <InfoPropertyModal isOpen={infoPropertyModal} setIsOpen={setInfoPropertyModal} data={property} />
       <main className="w-screen h-screen flex">
         <Image src="/vectorBR.svg" alt="Ilustração" width={400} height={400} className="absolute bottom-0 right-0" />
         <Navbar />
@@ -82,24 +90,15 @@ export default function HomePage() {
               <p>Relátorio dos Patrimônios</p>
               <div className="w-[100%] h-10 items-center justify-center">
                 <Select
-                  selected={selectedLocation?.descricao}
+                  selected={selected?.descricao}
                   setSelected={(e) => {
-                    setSelectedLocation(e);
+                    setSelected(e);
                   }}
                   options={locations}
                   placeholder="Localização"
                 />
               </div>
-              <div className="w-[100%] h-10 items-center justify-center">
-                <Select
-                  selected={selectedCategory?.descricao}
-                  setSelected={(e) => {
-                    setSelectedCategory(e);
-                  }}
-                  options={categories}
-                  placeholder="Categoria"
-                />
-              </div>
+              
               <div className="w-[100%]">
                 <Button
                   onClick={() => {
@@ -107,6 +106,7 @@ export default function HomePage() {
                   }}
                   label="Exportar"
                   type="button"
+                  disabled={!selected.id}
                 />
               </div>
             </div>
@@ -119,26 +119,19 @@ export default function HomePage() {
                   name="placa"
                   type="text"
                   placeholder="Placa"
-                  value={search?.placa}
-                  onChange={(e) => setSearch({ ...search, placa: e.target.value })}
+                  value={placa}
+                  onChange={(e) => setPlaca(e.target.value)}
                 />
               </div>
-              <div className="w-[100%] h-10 items-center justify-center">
-                <Input
-                  name="placa"
-                  type="text"
-                  placeholder="Descrição"
-                  value={search?.descricao}
-                  onChange={(e) => setSearch({ ...search, descricao: e.target.value })}
-                />
-              </div>
+              
               <div className="w-[100%]">
                 <Button
                   onClick={() => {
-                    getPatrimonios(), setInfoPropertyModal(true);
+                    getPatrimonio();
                   }}
                   label="Visualizar"
                   type="button"
+                  disabled={!placa}
                 />
               </div>
             </div>
