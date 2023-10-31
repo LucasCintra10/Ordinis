@@ -14,12 +14,14 @@ import Input from "@/components/Input";
 import { toast } from "react-toastify";
 import { ThreeDots } from "react-loader-spinner";
 import InfoPropertyModal from "@/components/Modals/patrimonio/InfoProperty";
+import { Transition } from "@headlessui/react";
 
 export default function HomePage() {
   const [locations, setLocations] = React.useState<Location[]>([]);
 
+  const [isShowing, setIsShowing] = React.useState(true);
+
   const ReportsProperty: React.FC = () => {
-    const [locations, setLocations] = React.useState<Location[]>([]);
     const [properties, setProperties] = React.useState<Property[]>([]);
 
     const [selected, setSelected] = React.useState({} as Location);
@@ -169,9 +171,12 @@ export default function HomePage() {
         )
         .then((response: any) => {
           toast.success("Localização alterada com sucesso");
+          setSearch("");
+          setProperty({} as Property);
+          setSelected({} as Location);
         })
         .catch((err: any) => {
-          toast.error(err?.response?.data)
+          toast.error(err?.response?.data);
         })
         .finally(() => {
           setLoading({ ...loading, update: false });
@@ -192,7 +197,7 @@ export default function HomePage() {
           />
           {loading.search ? (
             <div className="ml-4">
-              <ThreeDots color={"#4F63D7"} height={45} width={46} />
+              <ThreeDots color={"#4F63D7"} height={55} width={55} />
             </div>
           ) : (
             <button
@@ -220,7 +225,7 @@ export default function HomePage() {
           </div>
           {loading.update ? (
             <div className="ml-4">
-              <ThreeDots color={"#4F63D7"} height={45} width={46} />
+              <ThreeDots color={"#4F63D7"} height={55} width={55} />
             </div>
           ) : (
             <button
@@ -234,7 +239,6 @@ export default function HomePage() {
               <Icon.CheckIcon className="w-5 h-5 " />
             </button>
           )}
-          
         </div>
       </>
     );
@@ -255,19 +259,34 @@ export default function HomePage() {
           <div className="w-[50%] h-1/6 flex items-center">
             <h1 className="text-5xl font-bold text-c5 ">Home</h1>
           </div>
-          <div className="w-[95%] h-[30%] rounded-xl flex bg-white p-2">
-            <div className="w-[60%] h-[100%] flex flex-col p-1 justify-around items-center">
-              <ReportsProperty />
+          <Transition
+            appear={true}
+            show={isShowing}
+            enter={`transition-all ease-in-out duration-700`}
+            enterFrom="opacity-0 translate-y-6"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition-all ease-in-out duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="w-[95%] h-56 rounded-xl flex bg-white p-2">
+              <div className="w-[60%] h-[100%] flex flex-col p-1 justify-around items-center">
+                <ReportsProperty />
+              </div>
+              <div className="h-full w-1 bg-c1 rounded-full mx-8" />
+              <div className="w-[60%] h-[100%] p-1 flex flex-col justify-around items-center">
+                <InfoProperty />
+              </div>
+              <div className="h-full w-1 bg-c1 rounded-full mx-8" />
+              <div className="w-full h-[100%] p-1 flex flex-col justify-around items-center">
+                <AlterLocation />
+              </div>
             </div>
-            <div className="h-full w-1 bg-c1 rounded-full mx-8" />
-            <div className="w-[60%] h-[100%] p-1 flex flex-col justify-around items-center">
-              <InfoProperty />
+            <div className="w-[95%] h-64 flex mt-8 justify-between">
+              <div className="w-[45%] bg-white rounded-xl"></div>
+              <div className="w-[40%] bg-white rounded-xl ml-8"></div>
             </div>
-            <div className="h-full w-1 bg-c1 rounded-full mx-8" />
-            <div className="w-full h-[100%] p-1 flex flex-col justify-around items-center">
-              <AlterLocation />
-            </div>
-          </div>
+          </Transition>
         </div>
       </main>
     </>

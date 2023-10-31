@@ -43,7 +43,7 @@ export default function Navbar() {
           <Image src="/logo.svg" alt="Logo" width={100} height={95} />
           <Image src="ordinis.svg" alt="Ordinis" width={167} height={27} />
         </div>
-        <ul className=" w-full flex flex-col justify-center items-center gap-6 py-4">
+        <ul className=" w-full flex flex-col justify-center items-center gap-6 pt-4">
           <NavBarItem icon={Icon.HomeIcon} text="Home" address="/home" />
           <NavBarItem icon={Icon.ArchiveBoxIcon} text="Patrimônio" address="/patrimonios" />
           <NavBarItem icon={Icon.WrenchScrewdriverIcon} text="Manutenção" address="/manutencao" />
