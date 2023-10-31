@@ -16,7 +16,6 @@ import { ThreeDots } from "react-loader-spinner";
 import InfoPropertyModal from "@/components/Modals/patrimonio/InfoProperty";
 
 export default function HomePage() {
-  
   const [locations, setLocations] = React.useState<Location[]>([]);
 
   const ReportsProperty: React.FC = () => {
@@ -128,11 +127,15 @@ export default function HomePage() {
 
   const AlterLocation: React.FC = () => {
     const [search, setSearch] = React.useState("");
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState({
+      search: false,
+      update: false,
+    });
     const [property, setProperty] = React.useState({} as Property);
     const [selected, setSelected] = React.useState({} as Location);
 
     const getPatrimonio = async () => {
+      setLoading({ ...loading, search: true });
       api
         .get(`/patrimonio/get-placa/${search}`, {
           headers: {
@@ -144,6 +147,34 @@ export default function HomePage() {
         })
         .catch((error: any) => {
           toast.error("Erro ao buscar patrimônio");
+        })
+        .finally(() => {
+          setLoading({ ...loading, search: false });
+        });
+    };
+
+    const updateLocation = async () => {
+      setLoading({ ...loading, update: true });
+      api
+        .patch(
+          `/patrimonio/update-loc/${property.id}`,
+          {
+            id_localizacao: selected.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((response: any) => {
+          toast.success("Localização alterada com sucesso");
+        })
+        .catch((err: any) => {
+          toast.error(err?.response?.data)
+        })
+        .finally(() => {
+          setLoading({ ...loading, update: false });
         });
     };
 
@@ -159,7 +190,7 @@ export default function HomePage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          {loading ? (
+          {loading.search ? (
             <div className="ml-4">
               <ThreeDots color={"#4F63D7"} height={45} width={46} />
             </div>
@@ -175,15 +206,35 @@ export default function HomePage() {
             </button>
           )}
         </div>
-        <div className="w-[100%] h-10 items-center justify-center">
-          <Select
-            selected={property.localizacao?.descricao}
-            setSelected={(e) => {
-              setSelected(e);
-            }}
-            options={locations}
-            placeholder="Localização"
-          />
+        <div className={`w-full h-10 flex justify-between items-center ${!property.id && `opacity-70`}`}>
+          <div className="w-[100%] h-10 items-center justify-center">
+            <Select
+              selected={selected?.descricao || property.localizacao?.descricao}
+              setSelected={(e) => {
+                setSelected(e);
+              }}
+              options={locations}
+              placeholder="Localização"
+              disabled={!property.id}
+            />
+          </div>
+          {loading.update ? (
+            <div className="ml-4">
+              <ThreeDots color={"#4F63D7"} height={45} width={46} />
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="w-16 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
+              onClick={() => {
+                updateLocation();
+              }}
+              disabled={!property || !selected.id}
+            >
+              <Icon.CheckIcon className="w-5 h-5 " />
+            </button>
+          )}
+          
         </div>
       </>
     );
