@@ -17,6 +17,7 @@ import InfoPropertyModal from "@/components/Modals/patrimonio/InfoProperty";
 import { Transition } from "@headlessui/react";
 import { Maintenance } from "@/models/maintenance";
 import moment from "moment";
+import { ColorRing } from "react-loader-spinner";
 
 export default function HomePage() {
   const [locations, setLocations] = React.useState<Location[]>([]);
@@ -248,8 +249,10 @@ export default function HomePage() {
 
   const ActiveMaintances: React.FC = () => {
     const [maintenances, setMaintances] = React.useState<Maintenance[]>([]);
+    const [loading, setLoading] = React.useState(false);
 
     const getActiveMaintances = async () => {
+      setLoading(true);
       api
         .get(`/manutencao/get-ativas`, {
           headers: {
@@ -257,10 +260,13 @@ export default function HomePage() {
           },
         })
         .then((res) => {
-          setMaintances(res.data.data);
+          setMaintances(res?.data?.data);
         })
         .catch((err) => {
           toast.error(err?.response?.data);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     };
 
@@ -270,26 +276,32 @@ export default function HomePage() {
 
     return (
       <>
-        <table className="w-full h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar-thin">
-          <thead className="w-full h-auto  bg-c1 p-4 ">
-            <tr className="w-full flex justify-between">
-              <th className="w-1/6 text-left truncate">Placa</th>
-              <th className="w-1/6 text-left truncate">Prestador</th>
-              <th className="w-16 text-left">Inicio</th>
-              <th className="w-16 text-left truncate">Termíno</th>
-            </tr>
-          </thead>
-          <tbody className="w-full">
-            {maintenances?.map((item: any, index: any) => (
-              <tr className={`w-full flex justify-between p-4  ${index % 2 == 0 ? `` : `bg-c1`}`} key={index}>
-                <td className="w-1/6 truncate">{item?.patrimonio?.placa}</td>
-                <td className="w-1/6 truncate">{item?.prestador?.nome}</td>
-                <td className="w-16 text-left">{moment.utc(item.data_inicio).format("DD/MM")}</td>
-                <td className="w-16 text-left">{moment.utc(item.data_prev_termino).format("DD/MM")}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {loading ? (
+          <div className="w-full h-full flex justify-center items-center">
+            <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
+          </div>
+        ) : (
+          <>
+            <h2 className="w-full flex items-center gap-2 font-bold text-lg p-2">
+              <Icon.PaperAirplaneIcon className="w-5 h-5" /> Manutenções Ativas
+            </h2>
+            <div className="w-full h-1 bg-c1 rounded-full my-2" />
+            <table className="w-full h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar-thin">
+              <tbody className="w-full">
+                {maintenances?.map((item: any, index: any) => (
+                  <tr className={`w-full flex justify-between p-2 box-border`} key={index}>
+                    <td className="w-2/6 truncate">{item?.patrimonio?.placa}</td>
+                    <td className="w-2/6 truncate">
+                      {item?.prestador?.nome} {item?.prestador?.sobrenome}
+                    </td>
+                    <td className="w-12 text-left">{moment.utc(item?.data_inicio).format("DD/MM")}</td>
+                    <td className="w-12 text-left">{moment.utc(item?.data_prev_termino).format("DD/MM")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
       </>
     );
   };
@@ -333,7 +345,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="w-[95%] h-64 flex mt-8 justify-between">
-              <div className="w-[50%] bg-white rounded-xl p-1">
+              <div className="w-[50%] bg-white rounded-xl p-1 ">
                 <ActiveMaintances />
               </div>
               <div className="w-[40%] bg-white rounded-xl ml-8"></div>
