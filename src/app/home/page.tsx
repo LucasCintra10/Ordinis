@@ -18,6 +18,7 @@ import { Transition } from "@headlessui/react";
 import { Maintenance } from "@/models/maintenance";
 import moment from "moment";
 import { ColorRing } from "react-loader-spinner";
+import { get } from "http";
 
 export default function HomePage() {
   const [locations, setLocations] = React.useState<Location[]>([]);
@@ -189,7 +190,7 @@ export default function HomePage() {
     return (
       <>
         <Icon.ChevronDoubleDownIcon className="w-5 h-5" />
-        <p>Alterar Localização</p>
+        <p>Mover Patrimônio</p>
         <div className="w-full h-10 flex justify-between items-center">
           <Input
             name="placaLoc"
@@ -247,7 +248,7 @@ export default function HomePage() {
     );
   };
 
-  const ActiveMaintances: React.FC = () => {
+  const ActiveMaintenances: React.FC = () => {
     const [maintenances, setMaintances] = React.useState<Maintenance[]>([]);
     const [loading, setLoading] = React.useState(false);
 
@@ -285,8 +286,8 @@ export default function HomePage() {
             <h2 className="w-full flex items-center gap-2 font-bold text-lg p-2">
               <Icon.PaperAirplaneIcon className="w-5 h-5" /> Manutenções Ativas
             </h2>
-            <div className="w-full h-1 bg-c1 rounded-full my-2" />
-            <table className="w-full h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar-thin">
+            <div className="w-full h-1 bg-c1 rounded-full my-2 " />
+            <table className="w-full h-auto flex flex-col items-center rounded-xl ">
               <tbody className="w-full">
                 {maintenances?.map((item: any, index: any) => (
                   <tr className={`w-full flex justify-between p-2 box-border`} key={index}>
@@ -302,6 +303,49 @@ export default function HomePage() {
             </table>
           </>
         )}
+      </>
+    );
+  };
+
+  const PropertyList: React.FC = () => {
+    const [properties, setProperties] = React.useState<Property[]>([]);
+
+    const getPatrimonios = async () => {
+      api
+        .get(`/patrimonio/get-all-ruins`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          setProperties(res.data.data);
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data);
+        });
+    };
+
+    React.useEffect(() => {
+      getPatrimonios();
+    }, []);
+
+    return (
+      <>
+        <h2 className="w-full flex flex-col items-center gap-1 font-bold text-lg p-2">
+          <Icon.ExclamationTriangleIcon className="w-6 h-6" />
+          Patrimônios Danificados
+        </h2>
+        <table className="w-full">
+          <tbody className="w-full flex flex-col justify-center items-center gap-2">
+            {properties?.map((item: any, index: any) => (
+              <tr className={`w-[95%] flex justify-between p-2 box-border bg-c2 rounded-full`} key={index}>
+                <td className="w-4/6 truncate">{item?.placa}</td>
+                <td className="w-2/6 text-left">{item?.localizacao?.descricao}</td>
+                <td className="w-2/6 text-left">{item?.origem}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </>
     );
   };
@@ -345,10 +389,12 @@ export default function HomePage() {
               </div>
             </div>
             <div className="w-[95%] h-64 flex mt-8 justify-between">
-              <div className="w-[50%] bg-white rounded-xl p-1 ">
-                <ActiveMaintances />
+              <div className="w-[50%] bg-white rounded-xl p-1  overflow-auto scrollbar-thin">
+                <ActiveMaintenances />
               </div>
-              <div className="w-[40%] bg-white rounded-xl ml-8"></div>
+              <div className="w-[40%] bg-white rounded-xl ml-8 overflow-auto scrollbar-thin">
+                <PropertyList />
+              </div>
             </div>
           </Transition>
         </div>
