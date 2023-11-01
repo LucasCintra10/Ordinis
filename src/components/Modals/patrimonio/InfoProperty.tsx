@@ -70,13 +70,41 @@ const InfoPropertyModal: React.FC<InfoPropertyModalProps> = ({ isOpen, setIsOpen
                         </div>
                         <div className="w-full flex items-start gap-4">
                           <p className="w-28 text-sm font-bold text-c5">Data Entrada</p>
-                          <p className="text-sm font-normal text-c5">{moment(data?.data_entrada).format('DD/MM/YYYY')}</p>
+                          <p className="text-sm font-normal text-c5">
+                            {moment(data?.data_entrada).format("DD/MM/YYYY")}
+                          </p>
                         </div>
                       </div>
                       <div className="w-full flex items-start gap-4">
-                          <p className="w-28 text-sm font-bold text-c5">Conservação</p>
-                          <p className="text-sm font-normal text-c5">{data?.estado}</p>
-                        </div>
+                        <p className="w-28 text-sm font-bold text-c5">Conservação</p>
+                        <p className="text-sm font-normal text-c5">{data?.estado}</p>
+                      </div>
+                      <div className="w-full flex items-start gap-4">
+                        <p className="w-28 text-sm font-bold text-c5">Status</p>
+                        <p className="text-sm font-normal text-c5">{data?.status === 1 ? "Ativo" : "Baixado"}</p>
+                      </div>
+                      <div className="w-full flex items-start gap-4">
+                        <p className="w-28 text-sm font-bold text-c5">Origem</p>
+                        <p className="text-sm font-normal text-c5">{data?.origem}</p>
+                      </div>
+                      {data?.status === 0 && (
+                        <>
+                          <div className="w-full flex items-start gap-4">
+                            <p className="w-28 text-sm font-bold text-c5">Data Saida</p>
+                            <p className="text-sm font-normal text-c5">
+                              {moment(data?.data_saida).format("DD/MM/YYYY")}
+                            </p>
+                          </div>
+                          <div className="w-full flex items-start gap-4">
+                            <p className="w-28 text-sm font-bold text-c5">Resp. Entrega</p>
+                            <p className="text-sm font-normal text-c5">{data?.resp_entrega}</p>
+                          </div>
+                          <div className="w-full flex items-start gap-4">
+                            <p className="w-28 text-sm font-bold text-c5">Resp. Retirada</p>
+                            <p className="text-sm font-normal text-c5">{data?.resp_retirada}</p>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </Dialog.Description>

@@ -104,7 +104,6 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
     getPrestadores();
   }, []);
 
-  console.log(selected)
   return (
     <>
       <AddPrestadorModal isOpen={prestadorModal} setIsOpen={setPrestadorModal} />

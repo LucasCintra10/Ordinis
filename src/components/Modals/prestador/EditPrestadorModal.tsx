@@ -27,7 +27,6 @@ const EditPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
       })
       .then((response) => {
         setPrestadores(response.data.data);
-        console.log(response.data.data);
       })
       .catch((error) => {
         toast.error("Erro ao buscar prestadores");

@@ -16,8 +16,6 @@ const NavBarItem: React.FC<NavBarItemProps> = ({ icon: IconComponent, text, addr
 
   const pathName = usePathname();
 
-  console.log(pathName);
-
   return (
     <Link
       href={address}
