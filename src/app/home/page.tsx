@@ -310,7 +310,15 @@ export default function HomePage() {
   const PropertyList: React.FC = () => {
     const [properties, setProperties] = React.useState<Property[]>([]);
 
+    const [loading, setLoading] = React.useState(false);
+
+    const [page, setPage] = React.useState(0);
+    const [pagedItems, setPagedItems] = React.useState<Property[]>([]);
+
+    const items_per_page = 3;
+
     const getPatrimonios = async () => {
+      setLoading(true);
       api
         .get(`/patrimonio/get-all-ruins`, {
           headers: {
@@ -322,6 +330,9 @@ export default function HomePage() {
         })
         .catch((err) => {
           toast.error(err?.response?.data);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     };
 
@@ -329,23 +340,55 @@ export default function HomePage() {
       getPatrimonios();
     }, []);
 
+    React.useEffect(() => {
+      setPagedItems(properties.slice(page * items_per_page, (page + 1) * items_per_page));
+    }, [page, properties]);
+
     return (
       <>
-        <h2 className="w-full flex flex-col items-center gap-1 font-bold text-lg p-2">
-          <Icon.ExclamationTriangleIcon className="w-6 h-6" />
-          Patrimônios Danificados
-        </h2>
-        <table className="w-full">
-          <tbody className="w-full h-44 flex flex-col items-center gap-2 overflow-auto scrollbar-thin">
-            {properties?.map((item: any, index: any) => (
-              <tr className={`w-[95%] flex justify-between p-2 box-border bg-c1 rounded-full`} key={index}>
-                <td className="w-4/6 truncate">{item?.placa}</td>
-                <td className="w-2/6 text-left">{item?.localizacao?.descricao}</td>
-                <td className="w-2/6 text-left">{item?.origem}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {loading ? (
+          <div className="w-full h-full flex justify-center items-center">
+            <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
+          </div>
+        ) : (
+          <>
+            <h2 className="w-full flex flex-col items-center gap-1 font-bold text-lg p-2">
+              <Icon.ExclamationTriangleIcon className="w-6 h-6" />
+              Patrimônios Danificados
+            </h2>
+            <table className="w-full">
+              <tbody className="w-full flex flex-col items-center gap-2">
+                {pagedItems?.map((item: any, index: any) => (
+                  <tr className={`w-[95%] flex justify-between p-2 box-border bg-c1 rounded-full`} key={index}>
+                    <td className="w-4/6 truncate">{item?.placa}</td>
+                    <td className="w-2/6 text-left">{item?.localizacao?.descricao}</td>
+                    <td className="w-2/6 text-left">{item?.origem}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="w-full flex gap-4 justify-center absolute bottom-2">
+              <button
+                className="w-5 h-5 bg-p3 rounded-full text-white flex items-center justify-center transition-all hover:opacity-90"
+                onClick={() => {
+                  setPage(page - 1);
+                }}
+                disabled={page == 0}
+              >
+                <Icon.ChevronLeftIcon className="w-3 h-3 " />
+              </button>
+              <button
+                className="w-5 h-5 bg-p3 rounded-full text-white flex items-center justify-center transition-all hover:opacity-90  "
+                onClick={() => {
+                  setPage(page + 1);
+                }}
+                disabled={page == properties.length / items_per_page - 1}
+              >
+                <Icon.ChevronRightIcon className="w-3 h-3 " />
+              </button>
+            </div>
+          </>
+        )}
       </>
     );
   };
@@ -392,7 +435,7 @@ export default function HomePage() {
               <div className="w-[50%] bg-white rounded-xl p-1">
                 <ActiveMaintenances />
               </div>
-              <div className="w-[40%] bg-white rounded-xl ml-8">
+              <div className="w-[40%] bg-white rounded-xl ml-8 relative">
                 <PropertyList />
               </div>
             </div>

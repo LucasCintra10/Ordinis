@@ -76,7 +76,7 @@ const Table: React.FC<TableProps> = ({ maintenance, getMaintenances }) => {
               <td className="w-24 h-full flex justify-center items-center">
                 <input
                   type="checkbox"
-                  className="w-4 h-4"
+                  className="w-4 h-4 cursor-pointer"
                   checked={item?.status === 0}
                   onChange={() => {
                     updateMaintance(item.id);
