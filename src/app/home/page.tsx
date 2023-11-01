@@ -338,7 +338,7 @@ export default function HomePage() {
         <table className="w-full">
           <tbody className="w-full h-44 flex flex-col items-center gap-2 overflow-auto scrollbar-thin">
             {properties?.map((item: any, index: any) => (
-              <tr className={`w-[95%] flex justify-between p-2 box-border bg-c2 rounded-full`} key={index}>
+              <tr className={`w-[95%] flex justify-between p-2 box-border bg-c1 rounded-full`} key={index}>
                 <td className="w-4/6 truncate">{item?.placa}</td>
                 <td className="w-2/6 text-left">{item?.localizacao?.descricao}</td>
                 <td className="w-2/6 text-left">{item?.origem}</td>
