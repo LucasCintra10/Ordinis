@@ -18,7 +18,6 @@ import { Transition } from "@headlessui/react";
 import { Maintenance } from "@/models/maintenance";
 import moment from "moment";
 import { ColorRing } from "react-loader-spinner";
-import { get } from "http";
 
 export default function HomePage() {
   const [locations, setLocations] = React.useState<Location[]>([]);
@@ -422,11 +421,11 @@ export default function HomePage() {
               <div className="w-[60%] h-[100%] flex flex-col p-1 justify-around items-center">
                 <ReportsProperty />
               </div>
-              <div className="h-full w-1 bg-c1 rounded-full mx-8" />
+              <div className="h-full w-2 bg-c1 rounded-full mx-8" />
               <div className="w-[60%] h-[100%] p-1 flex flex-col justify-around items-center">
                 <InfoProperty />
               </div>
-              <div className="h-full w-1 bg-c1 rounded-full mx-8" />
+              <div className="h-full w-2 bg-c1 rounded-full mx-8" />
               <div className="w-full h-[100%] p-1 flex flex-col justify-around items-center">
                 <AlterLocation />
               </div>
