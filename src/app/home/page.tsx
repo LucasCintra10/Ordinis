@@ -287,7 +287,7 @@ export default function HomePage() {
               <Icon.PaperAirplaneIcon className="w-5 h-5" /> Manutenções Ativas
             </h2>
             <div className="w-full h-1 bg-c1 rounded-full my-2 " />
-            <table className="w-full h-auto flex flex-col items-center rounded-xl ">
+            <table className="w-full h-[70%] flex flex-col items-center rounded-xl overflow-auto scrollbar-thin ">
               <tbody className="w-full">
                 {maintenances?.map((item: any, index: any) => (
                   <tr className={`w-full flex justify-between p-2 box-border`} key={index}>
@@ -336,7 +336,7 @@ export default function HomePage() {
           Patrimônios Danificados
         </h2>
         <table className="w-full">
-          <tbody className="w-full flex flex-col justify-center items-center gap-2">
+          <tbody className="w-full h-44 flex flex-col items-center gap-2 overflow-auto scrollbar-thin">
             {properties?.map((item: any, index: any) => (
               <tr className={`w-[95%] flex justify-between p-2 box-border bg-c2 rounded-full`} key={index}>
                 <td className="w-4/6 truncate">{item?.placa}</td>
@@ -389,10 +389,10 @@ export default function HomePage() {
               </div>
             </div>
             <div className="w-[95%] h-64 flex mt-8 justify-between">
-              <div className="w-[50%] bg-white rounded-xl p-1  overflow-auto scrollbar-thin">
+              <div className="w-[50%] bg-white rounded-xl p-1">
                 <ActiveMaintenances />
               </div>
-              <div className="w-[40%] bg-white rounded-xl ml-8 overflow-auto scrollbar-thin">
+              <div className="w-[40%] bg-white rounded-xl ml-8">
                 <PropertyList />
               </div>
             </div>
