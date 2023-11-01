@@ -382,7 +382,7 @@ export default function HomePage() {
                 onClick={() => {
                   setPage(page + 1);
                 }}
-                disabled={page == properties.length / items_per_page - 1}
+                disabled={pagedItems.length < items_per_page}
               >
                 <Icon.ChevronRightIcon className="w-3 h-3 " />
               </button>

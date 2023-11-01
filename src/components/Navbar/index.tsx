@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";
 interface NavBarItemProps {
   icon: React.ElementType;
@@ -13,10 +13,15 @@ interface NavBarItemProps {
 }
 
 const NavBarItem: React.FC<NavBarItemProps> = ({ icon: IconComponent, text, address, onClick }) => {
+
+  const pathName = usePathname();
+
+  console.log(pathName);
+
   return (
     <Link
       href={address}
-      className="w-44 h-12 flex items-center rounded  text-c2 font-bold text-base ml-2 gap-2 transition-colors hover:bg-c1 hover:text-p3 pl-2"
+      className={`w-44 h-12 flex items-center rounded  text-c2 font-bold text-base ml-2 gap-2 transition-colors hover:bg-c1 hover:text-p3 pl-2 ${pathName === address && "bg-c1 text-p3"} `}
       onClick={onClick}
     >
       <IconComponent className="w-5 h-5" />
@@ -49,7 +54,7 @@ export default function Navbar() {
           <NavBarItem icon={Icon.WrenchScrewdriverIcon} text="Manutenção" address="/manutencao" />
           <NavBarItem icon={Icon.DocumentTextIcon} text="Relatórios" address="/relatorios" />
           <NavBarItem icon={Icon.Cog6ToothIcon} text="Configurações" address="/configs" />
-          <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/home" />
+          <NavBarItem icon={Icon.QuestionMarkCircleIcon} text="Ajuda" address="/help" />
           <NavBarItem
             icon={Icon.ArrowLeftOnRectangleIcon}
             text="Sair"
