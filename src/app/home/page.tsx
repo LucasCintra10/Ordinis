@@ -121,7 +121,7 @@ export default function HomePage() {
             onClick={() => {
               getPatrimonio();
             }}
-            label="Visualizar"
+            label="Buscar"
             type="button"
             disabled={!search}
           />
