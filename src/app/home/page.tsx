@@ -261,6 +261,7 @@ export default function HomePage() {
         })
         .then((res) => {
           setMaintances(res?.data?.data);
+          console.log(res?.data?.data);
         })
         .catch((err) => {
           toast.error(err?.response?.data);
@@ -283,7 +284,7 @@ export default function HomePage() {
         ) : (
           <>
             <h2 className="w-full flex items-center gap-2 font-bold text-lg p-2">
-              <Icon.PaperAirplaneIcon className="w-5 h-5" /> Manutenções Ativas
+              <Icon.PaperAirplaneIcon className="w-5 h-5" /> Manutenções Pendentes
             </h2>
             <div className="w-full h-1 bg-c1 rounded-full my-2 " />
             <table className="w-full h-[70%] flex flex-col items-center rounded-xl overflow-auto scrollbar-thin ">
@@ -295,7 +296,7 @@ export default function HomePage() {
                       {item?.prestador?.nome} {item?.prestador?.sobrenome}
                     </td>
                     <td className="w-12 text-left">{moment.utc(item?.data_inicio).format("DD/MM")}</td>
-                    <td className="w-12 text-left">{moment.utc(item?.data_prev_termino).format("DD/MM")}</td>
+                    <td className="w-12 text-left">{moment.utc(item?.data_fim).format("DD/MM")}</td>
                   </tr>
                 ))}
               </tbody>
