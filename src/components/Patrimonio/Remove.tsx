@@ -151,7 +151,7 @@ const RemoveProperty: React.FC = () => {
               name="descricao"
               type="text"
               value={property?.descricao}
-              disabled={disabled}
+              disabled={true}
               onChange={(e) => handleInputChange(e)}
             />
           </div>
@@ -160,7 +160,7 @@ const RemoveProperty: React.FC = () => {
               label="Valor"
               name="valor"
               type="text"
-              disabled={disabled}
+              disabled={true}
               value={property?.valor}
               onChange={(e) => handleInputChange(e)}
             />

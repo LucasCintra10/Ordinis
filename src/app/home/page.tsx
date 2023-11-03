@@ -261,7 +261,6 @@ export default function HomePage() {
         })
         .then((res) => {
           setMaintances(res?.data?.data);
-          console.log(res?.data?.data);
         })
         .catch((err) => {
           toast.error(err?.response?.data);
@@ -283,11 +282,19 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <h2 className="w-full flex items-center gap-2 font-bold text-lg p-2">
+            <h2 className="w-full flex items-center gap-2 font-bold text-lg p-2 text-c5">
               <Icon.PaperAirplaneIcon className="w-5 h-5" /> Manutenções Pendentes
             </h2>
             <div className="w-full h-1 bg-c1 rounded-full my-2 " />
-            <table className="w-full h-[70%] flex flex-col items-center rounded-xl overflow-auto scrollbar-thin ">
+            <table className="w-full h-[70%] flex flex-col items-center rounded-xl overflow-auto scrollbar-thin text-c5 ">
+              <thead className="w-full flex justify-between box-border">
+                <tr className="w-full flex justify-between text-sm p-2 ">
+                  <th className="w-2/6 text-start">Placa</th>
+                  <th className="w-2/6 text-start">Prestador</th>
+                  <th className="w-12 text-start">Inicio</th>
+                  <th className="w-12 text-start">Fim</th>
+                </tr>
+                </thead>
               <tbody className="w-full">
                 {maintenances?.map((item: any, index: any) => (
                   <tr className={`w-full flex justify-between p-2 box-border`} key={index}>
@@ -352,12 +359,12 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <h2 className="w-full flex flex-col items-center gap-1 font-bold text-lg p-2">
+            <h2 className="w-full flex flex-col items-center gap-1 font-bold text-lg p-2 text-c5">
               <Icon.ExclamationTriangleIcon className="w-6 h-6" />
               Patrimônios Danificados
             </h2>
             <table className="w-full">
-              <tbody className="w-full flex flex-col items-center gap-2">
+              <tbody className="w-full flex flex-col items-center gap-2 text-c5">
                 {pagedItems?.map((item: any, index: any) => (
                   <tr className={`w-[95%] flex justify-between p-2 box-border bg-c1 rounded-full`} key={index}>
                     <td className="w-4/6 truncate">{item?.placa}</td>
