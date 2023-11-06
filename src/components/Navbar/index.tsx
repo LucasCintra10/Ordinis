@@ -41,7 +41,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="w-60 h-screen bg-c4 flex flex-col items-center rounded-r-10xl shrink-0">
+      <div className="w-60 h-screen bg-c4 flex flex-col items-center rounded-r-xl shrink-0">
         <div className="w-full flex flex-col justify-center items-center my-8 pl-2">
           <Image src="/logo.svg" alt="Logo" width={100} height={95} />
           <Image src="ordinis.svg" alt="Ordinis" width={167} height={27} />
