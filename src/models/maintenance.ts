@@ -1,5 +1,5 @@
 export interface Maintenance {
-  description: string;
+  descricao: string;
   data_inicio: Date;
   data_fim: Date;
   valor: number;

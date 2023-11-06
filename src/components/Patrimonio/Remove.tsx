@@ -16,7 +16,6 @@ import getCategories from "@/providers/getCategories";
 import getLocations from "@/providers/getLocations";
 
 const RemoveProperty: React.FC = () => {
-  
   const conditions: Condition[] = [
     { id: 1, descricao: "EXCELENTE" },
     { id: 2, descricao: "OTIMO" },
@@ -56,7 +55,7 @@ const RemoveProperty: React.FC = () => {
 
   const getProperty = async (event: React.MouseEvent) => {
     event.preventDefault();
-    setLoading({ ...loading, search: true })
+    setLoading({ ...loading, search: true });
     api
       .get(`/patrimonio/get-placa/${property?.placa}`, {
         headers: {
@@ -71,33 +70,44 @@ const RemoveProperty: React.FC = () => {
         toast.error("Erro ao buscar patrimônio");
       })
       .finally(() => {
-        setLoading({ ...loading, search: false })
+        setLoading({ ...loading, search: false });
       });
   };
 
   const deleteProperty = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading({ ...loading, delete: true })
+    setLoading({ ...loading, delete: true });
     api
       .delete(`/patrimonio/baixa/${property?.id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         data: {
-          data_saida: new Date(property?.data_saida),
+          data_saida: new Date(property?.data_saida || ""),
           resp_retirada: property?.resp_retirada,
           resp_entrega: property?.resp_entrega,
         },
       })
       .then((response: any) => {
         toast.success("Patrimônio baixado com sucesso!");
+        clearFields();
       })
       .catch((err: any) => {
         toast.error(err?.response?.data);
       })
       .finally(() => {
-        setLoading({ ...loading, delete: false })
+        setLoading({ ...loading, delete: false });
       });
+  };
+
+  const clearFields = () => {
+    setProperty({} as Property);
+    setSelected({
+      category: "",
+      condition: "",
+      location: "",
+      origin: "",
+    });
   };
 
   React.useEffect(() => {
@@ -127,7 +137,13 @@ const RemoveProperty: React.FC = () => {
           className="w-[95%]  mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
         >
           <div className="w-[48%] h-10 flex justify-between items-center">
-            <Input name="placa" label="Placa" type="text" onChange={(e) => handleInputChange(e)} />
+            <Input
+              name="placa"
+              label="Placa"
+              type="text"
+              onChange={(e) => handleInputChange(e)}
+              value={property.placa || ""}
+            />
             {loading.search ? (
               <div className="ml-4">
                 <ThreeDots color={"#4F63D7"} height={45} width={46} />
@@ -150,7 +166,7 @@ const RemoveProperty: React.FC = () => {
               label="Descrição"
               name="descricao"
               type="text"
-              value={property?.descricao}
+              value={property?.descricao || ""}
               disabled={true}
               onChange={(e) => handleInputChange(e)}
             />
@@ -161,7 +177,7 @@ const RemoveProperty: React.FC = () => {
               name="valor"
               type="text"
               disabled={true}
-              value={property?.valor}
+              value={property?.valor || ""}
               onChange={(e) => handleInputChange(e)}
             />
           </div>
@@ -214,6 +230,7 @@ const RemoveProperty: React.FC = () => {
               label="Data de Saída"
               name="data_saida"
               type="date"
+              value={property?.data_saida || ""}
               disabled={disabled}
               onChange={(e) => handleInputChange(e)}
             />
@@ -223,7 +240,7 @@ const RemoveProperty: React.FC = () => {
               label="Resp. pela Entrega"
               name="resp_entrega"
               type="text"
-              value={property?.resp_entrega}
+              value={property?.resp_entrega || ""}
               disabled={disabled}
               onChange={(e) => handleInputChange(e)}
             />
@@ -233,6 +250,7 @@ const RemoveProperty: React.FC = () => {
               label="Resp. pela Retirada"
               name="resp_retirada"
               type="text"
+              value={property?.resp_retirada || ""}
               disabled={disabled}
               onChange={(e) => handleInputChange(e)}
             />
@@ -242,7 +260,7 @@ const RemoveProperty: React.FC = () => {
               <ThreeDots color={"#4F63D7"} height={50} width={50} />
             </div>
           ) : (
-          <Button label="Baixar" type="submit" disabled={disabled} />
+            <Button label="Baixar" type="submit" disabled={disabled} />
           )}
         </form>
       </Transition>

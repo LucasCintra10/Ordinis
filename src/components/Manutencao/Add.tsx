@@ -83,12 +83,20 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
       )
       .then((response: any) => {
         toast.success("Manutenção adicionada com sucesso");
+        clearFields();
         getMaintances();
       })
       .catch((err: any) => {
         toast.error(err?.response?.data);
       });
   };
+
+  const clearFields = () => {
+    setProperty({} as Property);
+    setMaintance({} as Maintenance);
+    setSelected("");
+    setDisabled(true);
+  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -118,6 +126,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             name="placa"
             label="Placa"
             type="text"
+            value={property?.placa || ""}
             onChange={(e) => setProperty({ ...property, placa: e.target.value })}
           />
           {loading ? (
@@ -162,6 +171,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             label="Valor" 
             name="valor" 
             type="text" 
+            value={maintenance?.valor || ""}
             onChange={(e) => handleInputChange(e)} 
           />
         </div>
@@ -171,6 +181,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             label="Data de Inicio"
             name="data_inicio"
             type="date"
+            value={maintenance?.data_inicio || ""}
             onChange={(e) => handleInputChange(e)}
           />
         </div>
@@ -180,6 +191,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             label="Descrição"
             name="descricao"
             type="text"
+            value={maintenance?.descricao || ""}
             onChange={(e) => handleInputChange(e)}
           />
         </div>
@@ -189,6 +201,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             label="Prev. de Término"
             name="data_fim"
             type="date"
+            value={maintenance?.data_fim || ""}
             onChange={(e) => handleInputChange(e)}
           />
         </div>

@@ -138,7 +138,6 @@ export default function RelatoriosPage() {
             <Icon.Bars3Icon className="w-5 h-5" />
             Patrimônios
           </button>
-
           <button
             className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
               display === "edit" ? "bg-c4 text-c2" : "bg-c2 text-c5"
@@ -156,7 +155,7 @@ export default function RelatoriosPage() {
           }}
         >
           {(filter.categoria || filter.localizacao || filter.origem || filter.conservacao || placa) && (
-            <XCircleIcon className="w-6 h-6 absolute -top-1 -right-1" onClick={clearFilter} />
+            <XCircleIcon className="w-6 h-6 absolute -top-1 -right-1 cursor-pointer" onClick={clearFilter} />
           )}
           <div className="w-[20%] justify-between items-center">
             <label className=" text-c5 font-medium shrink-0 ">Placa</label>

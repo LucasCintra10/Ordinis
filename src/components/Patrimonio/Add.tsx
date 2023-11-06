@@ -65,14 +65,26 @@ const AddProperty: React.FC = () => {
       )
       .then((response: any) => {
         toast.success("Patrimônio cadastrado com sucesso!");
+        clearFields();
       })
       .catch((err: any) => {
-        toast.error(err?.response?.data)
-
+        toast.error(err?.response?.data);
       })
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  console.log(property);
+
+  const clearFields = () => {
+    setProperty({} as Property);
+    setSelected({
+      category: "",
+      condition: "",
+      location: "",
+      origin: "",
+    });
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,13 +125,31 @@ const AddProperty: React.FC = () => {
           onSubmit={(e) => AddProperty(e)}
         >
           <div className="w-[48%] h-10 flex justify-between items-center">
-            <Input label="Placa" name="placa" type="text" onChange={(e) => handleInputChange(e)} />
+            <Input
+              label="Placa"
+              name="placa"
+              type="text"
+              onChange={(e) => handleInputChange(e)}
+              value={property.placa || ""}
+            />
           </div>
           <div className="w-[48%] h-10 flex justify-between items-center">
-            <Input label="Descrição" name="descricao" type="text" onChange={(e) => handleInputChange(e)} />
+            <Input
+              label="Descrição"
+              name="descricao"
+              type="text"
+              onChange={(e) => handleInputChange(e)}
+              value={property.descricao || ""}
+            />
           </div>
           <div className="w-[48%] h-10 flex justify-between items-center">
-            <Input label="Valor" name="valor" type="text" onChange={(e) => handleInputChange(e)} />
+            <Input
+              label="Valor"
+              name="valor"
+              type="text"
+              onChange={(e) => handleInputChange(e)}
+              value={property.valor || ""}
+            />
           </div>
           <div className="w-[48%] h-10 flex justify-between items-center">
             <label className="w-36 text-c5 font-medium shrink-0">Localização</label>
@@ -184,7 +214,13 @@ const AddProperty: React.FC = () => {
           </div>
 
           <div className="w-[48%] h-10 flex justify-between items-center">
-            <Input label="Data de Entrada" name="data_entrada" type="date" onChange={(e) => handleInputChange(e)} />
+            <Input
+              label="Data de Entrada"
+              name="data_entrada"
+              type="date"
+              onChange={(e) => handleInputChange(e)}
+              value={property.data_entrada || ""}
+            />
           </div>
           {loading ? (
             <div className="w-full h-10 flex justify-center items-center">

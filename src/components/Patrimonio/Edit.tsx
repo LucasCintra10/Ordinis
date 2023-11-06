@@ -42,7 +42,7 @@ const EditProperty: React.FC = () => {
   const [loading, setLoading] = React.useState({
     search: false,
     update: false,
-  })
+  });
 
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [locations, setLocations] = React.useState<Location[]>([]);
@@ -65,7 +65,7 @@ const EditProperty: React.FC = () => {
 
   const getProperty = async (event: React.MouseEvent) => {
     event.preventDefault();
-    setLoading({ ...loading, search: true})
+    setLoading({ ...loading, search: true });
     api
       .get(`/patrimonio/get-placa/${property?.placa}`, {
         headers: {
@@ -80,13 +80,13 @@ const EditProperty: React.FC = () => {
         toast.error("Erro ao buscar patrimônio");
       })
       .finally(() => {
-        setLoading({ ...loading, search: false})
+        setLoading({ ...loading, search: false });
       });
   };
 
   const updateProperty = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading({ ...loading, update: true})
+    setLoading({ ...loading, update: true });
     api
       .put(
         `/patrimonio/update/${property?.id}`,
@@ -107,13 +107,24 @@ const EditProperty: React.FC = () => {
       )
       .then((response: any) => {
         toast.success("Patrimônio atualizado com sucesso");
+        clearFields();
       })
       .catch((err: any) => {
-        toast.error(err?.response?.data)
+        toast.error(err?.response?.data);
       })
       .finally(() => {
-        setLoading({ ...loading, update: false})
+        setLoading({ ...loading, update: false });
       });
+  };
+
+  const clearFields = () => {
+    setProperty({} as Property);
+    setSelected({
+      category: "",
+      condition: "",
+      location: "",
+      origin: "",
+    });
   };
 
   React.useEffect(() => {
@@ -144,7 +155,13 @@ const EditProperty: React.FC = () => {
           className="w-[95%] mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
         >
           <div className="w-[48%] h-10 flex justify-between items-center">
-            <Input name="placa" label="Placa" type="text" onChange={(e) => handleInputChange(e)} />
+            <Input
+              name="placa"
+              label="Placa"
+              type="text"
+              onChange={(e) => handleInputChange(e)}
+              value={property.placa || ""}
+            />
             {loading.search ? (
               <div className="ml-4">
                 <ThreeDots color={"#4F63D7"} height={45} width={46} />
@@ -166,7 +183,7 @@ const EditProperty: React.FC = () => {
               label="Descrição"
               name="descricao"
               type="text"
-              value={property?.descricao}
+              value={property?.descricao || ""}
               disabled={disabled}
               onChange={(e) => handleInputChange(e)}
             />
@@ -177,7 +194,7 @@ const EditProperty: React.FC = () => {
               name="valor"
               type="text"
               disabled={disabled}
-              value={property?.valor}
+              value={property?.valor || ""}
               onChange={(e) => handleInputChange(e)}
             />
           </div>
@@ -252,7 +269,7 @@ const EditProperty: React.FC = () => {
             <Input
               label="Data de Entrada"
               name="data_entrada"
-              value={property?.data_entrada ? moment(property?.data_entrada).format("YYYY-MM-DD") : ""}
+              value={property?.data_entrada ? moment.utc(property?.data_entrada).format("YYYY-MM-DD") : ""}
               disabled={true}
               type="date"
               onChange={(e) => handleInputChange(e)}
