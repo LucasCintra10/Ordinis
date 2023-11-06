@@ -81,7 +81,7 @@ export default function ConfiguracoesPage() {
                   </div>
                   <div className="w-48">
                     <Button
-                      label="Editar"
+                      label="Consultar"
                       type="button"
                       onClick={() => {
                         setEditPrestadorModal(true);

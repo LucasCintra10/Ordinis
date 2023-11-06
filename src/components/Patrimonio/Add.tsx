@@ -17,6 +17,7 @@ import getCategories from "@/providers/getCategories";
 import TransitionEffect from "../TransitionEffect";
 
 const AddProperty: React.FC = () => {
+  
   const conditions: Condition[] = [
     { id: 1, descricao: "EXCELENTE" },
     { id: 2, descricao: "OTIMO" },
@@ -74,8 +75,6 @@ const AddProperty: React.FC = () => {
         setLoading(false);
       });
   };
-
-  console.log(property);
 
   const clearFields = () => {
     setProperty({} as Property);

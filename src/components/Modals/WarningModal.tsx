@@ -1,12 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import * as React from "react";
 import { Modal } from "@/models/modal";
-import * as Icon from "@heroicons/react/24/outline";
-import api from "@/tools/api";
-import { toast } from "react-toastify";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
-
 interface WarningModalProps extends Modal {
   onConfirm: () => void;
   onCancel: () => void;

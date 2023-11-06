@@ -132,7 +132,7 @@ const EditPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
               >
                 <Dialog.Panel className="w-auto transform overflow-hidden rounded-2xl bg-white p-4 text-left align-middle shadow-xl transition-all flex flex-col justify-center gap-6">
                   <Dialog.Title className="text-xl font-bold text-c5">
-                    {display === "view" && "Editar Prestadores"}
+                    {display === "view" && "Prestadores de serviço"}
                     {display === "edit" && <Icon.ArrowSmallLeftIcon className="w-6 h-6 cursor-pointer" onClick={() => setDisplay("view")} />}
                     </Dialog.Title>
                   <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-5 cursor-pointer" onClick={closeModal} />
