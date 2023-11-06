@@ -61,9 +61,6 @@ export default function LoginPage() {
               Entrar
             </button>
           )}
-          <Link href="/forgot" className="text-c3">
-            Esqueceu a senha?
-          </Link>
         </form>
       </div>
     </main>

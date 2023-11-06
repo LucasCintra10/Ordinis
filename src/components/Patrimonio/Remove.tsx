@@ -1,7 +1,6 @@
 import * as Icon from "@heroicons/react/24/outline";
 import { ThreeDots } from "react-loader-spinner";
 import { Condition } from "@/models/condition";
-import { Transition } from "@headlessui/react";
 import { Category } from "@/models/category";
 import { Property } from "@/models/property";
 import { Location } from "@/models/location";
@@ -14,6 +13,7 @@ import api from "@/tools/api";
 import React from "react";
 import getCategories from "@/providers/getCategories";
 import getLocations from "@/providers/getLocations";
+import TransitionEffect from "../TransitionEffect";
 
 const RemoveProperty: React.FC = () => {
   const conditions: Condition[] = [
@@ -122,16 +122,7 @@ const RemoveProperty: React.FC = () => {
 
   return (
     <>
-      <Transition
-        appear={true}
-        show={isShowing}
-        enter={`transition-all ease-in-out duration-700`}
-        enterFrom="opacity-0 translate-y-6"
-        enterTo="opacity-100 translate-y-0"
-        leave="transition-all ease-in-out duration-300"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
+      <TransitionEffect isShowing={isShowing}>
         <form
           onSubmit={(e) => deleteProperty(e)}
           className="w-[95%]  mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
@@ -263,7 +254,7 @@ const RemoveProperty: React.FC = () => {
             <Button label="Baixar" type="submit" disabled={disabled} />
           )}
         </form>
-      </Transition>
+      </TransitionEffect>
     </>
   );
 };

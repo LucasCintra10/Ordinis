@@ -2,7 +2,6 @@ import AddCategoryModal from "../Modals/categoria/AddCategoryModal";
 import AddLocationModal from "../Modals/localizacao/AddLocationModal";
 import * as Icon from "@heroicons/react/24/outline";
 import { Condition } from "@/models/condition";
-import { Transition } from "@headlessui/react";
 import { Category } from "@/models/category";
 import { Property } from "@/models/property";
 import Select from "@/components/Select";
@@ -15,6 +14,7 @@ import { ThreeDots } from "react-loader-spinner";
 import React from "react";
 import getLocations from "@/providers/getLocations";
 import getCategories from "@/providers/getCategories";
+import TransitionEffect from "../TransitionEffect";
 
 const AddProperty: React.FC = () => {
   const conditions: Condition[] = [
@@ -110,16 +110,7 @@ const AddProperty: React.FC = () => {
     <>
       <AddCategoryModal isOpen={addCategoryModal} setIsOpen={setAddCategoryModal} />
       <AddLocationModal isOpen={addLocationModal} setIsOpen={setAddLocationModal} />
-      <Transition
-        appear={true}
-        show={isShowing}
-        enter={`transition-all ease-in-out duration-700`}
-        enterFrom="opacity-0 translate-y-6"
-        enterTo="opacity-100 translate-y-0"
-        leave="transition-all ease-in-out duration-300"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
+      <TransitionEffect isShowing={isShowing}>
         <form
           className="w-[95%] mt-12 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-8 justify-between"
           onSubmit={(e) => AddProperty(e)}
@@ -230,7 +221,7 @@ const AddProperty: React.FC = () => {
             <Button label="Cadastrar" type="submit" />
           )}
         </form>
-      </Transition>
+      </TransitionEffect>
     </>
   );
 };

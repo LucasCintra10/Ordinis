@@ -2,43 +2,38 @@
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import React from "react";
-import { Disclosure, Transition } from "@headlessui/react";
 import * as Icon from "@heroicons/react/24/outline";
+import Accordion from "@/components/Accordion";
+import TransitionEffect from "@/components/TransitionEffect";
 
 export default function HelpPage() {
   const [display, setDisplay] = React.useState("home");
+  const [isShowing, setIsShowing] = React.useState(true);
 
-  interface AccordionProps {
-    title: string;
-    content: string;
-  }
-
-  const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
+  const HomeSection = () => {
     return (
-      <div className="my-3">
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="w-full h-12 flex justify-between items-center bg-p3 text-white font-bold text-xl rounded-lg px-4 py-2">
-                <span >{title}</span>
-                <Icon.ChevronDownIcon className={`${open ? "transform rotate-180" : ""} w-5 h-5 transition-all`} />
-              </Disclosure.Button>
-              <Transition
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0"
-              >
-                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-c5 bg-white rounded-lg">
-                  {content}
-                </Disclosure.Panel>
-              </Transition>
-            </>
-          )}
-        </Disclosure>
-      </div>
+      <section className="w-full flex flex-col gap-3">
+        <Accordion
+          title="Relátorio dos Patrimônios"
+          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        />
+        <Accordion
+          title="Informações do Patrimônio"
+          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        />
+        <Accordion
+          title="Mover Patrimônio"
+          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        />
+        <Accordion
+          title="Manutenções Pendentes"
+          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        />
+        <Accordion
+          title="Patrimônios Danificados"
+          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        />
+      </section>
     );
   };
 
@@ -98,27 +93,12 @@ export default function HelpPage() {
               Configurações
             </button>
           </div>
-          <div className="w-[95%] max-h-[60%] mt-12">
-            <Accordion
-              title="Relátorio dos Patrimônios"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-            />
-            <Accordion
-              title="Informações do Patrimônio"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-            />
-            <Accordion
-              title="Mover Patrimônio"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-            />
-            <Accordion
-              title="Manutenções Pendentes"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-            />
-            <Accordion
-              title="Patrimônios Danificados"
-              content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-            />
+          <div className="w-[95%] mt-9">
+            {display === "home" && (
+              <TransitionEffect isShowing={isShowing}>
+                <HomeSection />
+              </TransitionEffect>
+            )}
           </div>
         </div>
       </main>
