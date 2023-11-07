@@ -60,6 +60,7 @@ const RemoveLocationModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
 
   function closeModal() {
     setIsOpen(false);
+    setSearch("");
   }
 
   React.useEffect(() => {

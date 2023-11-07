@@ -233,7 +233,9 @@ export default function HomePage() {
           ) : (
             <button
               type="submit"
-              className="w-16 h-full bg-p3 rounded text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
+              className={`w-16 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ${
+                (!property || !selected.id) && `hover:opacity-90`
+              } ml-4`}
               onClick={() => {
                 updateLocation();
               }}
@@ -294,7 +296,7 @@ export default function HomePage() {
                   <th className="w-12 text-start">Inicio</th>
                   <th className="w-12 text-start">Fim</th>
                 </tr>
-                </thead>
+              </thead>
               <tbody className="w-full">
                 {maintenances?.map((item: any, index: any) => (
                   <tr className={`w-full flex justify-between p-2 box-border`} key={index}>

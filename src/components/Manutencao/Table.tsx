@@ -78,6 +78,7 @@ const Table: React.FC<TableProps> = ({ maintenance, getMaintenances }) => {
                   type="checkbox"
                   className="w-4 h-4 cursor-pointer"
                   checked={item?.status === 0}
+                  disabled={item?.status === 0}
                   onChange={() => {
                     updateMaintance(item.id);
                   }}
