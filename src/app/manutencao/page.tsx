@@ -10,6 +10,7 @@ import { Maintenance } from "@/models/maintenance";
 import api from "@/tools/api";
 import { toast } from "react-toastify";
 import { ColorRing } from "react-loader-spinner";
+import Report from "@/components/Manutencao/Report";
 
 export default function ManutencaoPage() {
   const [display, setDisplay] = React.useState("add");
@@ -55,8 +56,17 @@ export default function ManutencaoPage() {
             }`}
             onClick={() => setDisplay("add")}
           >
+            <Icon.WrenchIcon className="w-5 h-5" />
+            Adicionar
+          </button>
+          <button
+            className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${
+              display === "maintenances" ? "bg-c4 text-c2" : "bg-c2 text-c5"
+            }`}
+            onClick={() => setDisplay("maintenances")}
+          >
             <Icon.WrenchScrewdriverIcon className="w-5 h-5" />
-            Manutenção
+            Manutenções
           </button>
         </div>
         <Transition
@@ -69,18 +79,25 @@ export default function ManutencaoPage() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <section className="w-[95%] mt-6 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-2 justify-between">
-            <AddMaintance getMaintances={() => getMaintenances()} />
-            {loading ? (
-              <div className="w-full h-full flex justify-center items-center">
-                <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
-              </div>
-            ) : (
-              <div className="w-full h-full">
-                <Table maintenance={maintenances} getMaintenances={() => getMaintenances()} />
-              </div>
-            )}
-          </section>
+          {display === "add" && (
+            <section className="w-[95%] mt-6 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-2 justify-between">
+              <AddMaintance getMaintances={() => getMaintenances()} />
+              {loading ? (
+                <div className="w-full h-full flex justify-center items-center">
+                  <ColorRing colors={["#1E35C6", "#3146D0", "#4F63D7", "#677BEC", "#37407A"]} height={80} width={80} />
+                </div>
+              ) : (
+                <div className="w-full h-full">
+                  <Table maintenance={maintenances} getMaintenances={() => getMaintenances()} />
+                </div>
+              )}
+            </section>
+          )}
+          {display === "maintenances" && (
+            <section className="w-[95%] mt-6 bg-white z-1 rounded-xl z-10 p-2 flex flex-wrap gap-2 justify-between">
+              <Report maintenance={maintenances} />
+            </section>
+          )}
         </Transition>
       </div>
     </main>

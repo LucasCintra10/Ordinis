@@ -16,6 +16,7 @@ const TransitionEffect: React.FC<TransitionEffectProps> = ({ isShowing, children
       leave="transition-all ease-in-out duration-300"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
+      className="w-full"
     >
       {children}
     </Transition>

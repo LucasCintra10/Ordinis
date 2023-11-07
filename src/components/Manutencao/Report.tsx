@@ -1,17 +1,15 @@
 import { Maintenance } from "@/models/maintenance";
 import moment from "moment";
 import React from "react";
-import { Transition } from "@headlessui/react";
 import api from "@/tools/api";
 import { toast } from "react-toastify";
 import TransitionEffect from "../TransitionEffect";
 
 interface TableProps {
   maintenance: Maintenance[];
-  getMaintenances: () => void;
 }
 
-const Table: React.FC<TableProps> = ({ maintenance, getMaintenances }) => {
+const Report: React.FC<TableProps> = ({ maintenance }) => {
   const [isShowing, setIsShowing] = React.useState(true);
 
   const moneyMask = (value: any) => {
@@ -33,7 +31,6 @@ const Table: React.FC<TableProps> = ({ maintenance, getMaintenances }) => {
       )
       .then((response: any) => {
         toast.success("Manutenção finalizada com sucesso");
-        getMaintenances();
       })
       .catch((error: any) => {
         toast.error("Erro ao finalizar manutenção");
@@ -41,23 +38,23 @@ const Table: React.FC<TableProps> = ({ maintenance, getMaintenances }) => {
   };
 
   return (
-    <TransitionEffect isShowing={isShowing}>
-      <table className="w-full max-h-40 overflow-y-scroll flex flex-col items-center rounded-xl overflow-auto border-2 border-c4 scrollbar-thin">
+    <TransitionEffect isShowing={isShowing} >
+      <table className="w-full max-h-[24rem] h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar-thin">
         <thead className="w-full flex justify-between items-center ">
-          <tr className="w-full h-auto flex justify-between items-center bg-c1 p-4 gap-2 ">
+          <tr className="w-full h-auto flex justify-between items-center bg-c1 p-4 gap-2">
             <th className="w-1/6 h-full flex  items-center">Patrimônio</th>
             <th className="w-2/6 h-full flex  items-center">Descrição</th>
             <th className="w-1/6 h-full flex  items-center">Inicío</th>
             <th className="w-1/6 h-full flex  items-center">Término</th>
             <th className="w-1/6 h-full flex  items-center">Prestador</th>
-            <th className="w-24 h-full flex  items-center ">Valor</th>
+            <th className="w-24 h-full flex  items-center">Valor</th>
             <th className="w-24 h-full flex  items-center justify-center">Status</th>
           </tr>
         </thead>
         <tbody className="w-full h-5/6 flex flex-col items-center">
           {maintenance?.map((item: any, index: any) => (
-            <tr className={`w-full flex items-center p-4 gap-2 ${index % 2 == 0 ? `` : `bg-c1`}`} key={index}>
-              <td className="w-1/6 h-full flex items-center truncate">{item?.patrimonio?.placa}</td>
+            <tr className={`w-full flex items-center p-4 gap-2  ${index % 2 == 0 ? `` : `bg-c1`}`} key={index}>
+              <td className="w-1/6 h-full flex items-center">{item?.patrimonio?.placa}</td>
               <td className="w-2/6 h-full flex items-center">{item?.descricao}</td>
               <td className="w-1/6 h-full flex items-center">{moment.utc(item.data_inicio).format("DD/MM/YYYY")}</td>
               <td className="w-1/6 h-full flex items-center">{moment.utc(item.data_fim).format("DD/MM/YYYY")}</td>
@@ -84,4 +81,4 @@ const Table: React.FC<TableProps> = ({ maintenance, getMaintenances }) => {
   );
 };
 
-export default Table;
+export default Report;
