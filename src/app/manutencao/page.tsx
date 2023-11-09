@@ -4,18 +4,28 @@ import Image from "next/image";
 import React from "react";
 import * as Icon from "@heroicons/react/24/outline";
 import AddMaintance from "@/components/Manutencao/Add";
-import { Transition } from "@headlessui/react";
 import Table from "@/components/Manutencao/Table";
 import { Maintenance } from "@/models/maintenance";
 import api from "@/tools/api";
 import { toast } from "react-toastify";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, ThreeDots } from "react-loader-spinner";
 import Report from "@/components/Manutencao/Report";
+import TransitionEffect from "@/components/TransitionEffect";
+import Input from "@/components/Input";
+import { Prestador } from "@/models/prestador";
+import Select from "@/components/Select";
 
 export default function ManutencaoPage() {
   const [display, setDisplay] = React.useState("add");
-  const [isShowing, setIsShowing] = React.useState(true);
+  const [filter, setFilter] = React.useState("");
+  const [search, setSearch] = React.useState("");
+
   const [maintenances, setMaintenances] = React.useState([] as Maintenance[]);
+  const [prestadores, setPrestadores] = React.useState([] as Prestador[]);
+
+  const [selected, setSelected] = React.useState("");
+
+  const [isShowing, setIsShowing] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
 
   const getMaintenances = async () => {
@@ -37,8 +47,44 @@ export default function ManutencaoPage() {
       });
   };
 
+  const filterMaintenances = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
+    setLoading(true);
+    api
+      .get(`/manutencao/get/${filter}/${search}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response: any) => {
+        setMaintenances(response.data.data);
+      })
+      .catch((error: any) => {
+        toast.error("Erro ao buscar manutenções");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const getPrestadores = async () => {
+    api
+      .get(`/prestador/get-all`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response: any) => {
+        setPrestadores(response.data.data);
+      })
+      .catch((error: any) => {
+        toast.error("Erro ao buscar prestadores");
+      });
+  };
+
   React.useEffect(() => {
     getMaintenances();
+    getPrestadores();
   }, []);
 
   return (
@@ -69,16 +115,7 @@ export default function ManutencaoPage() {
             Manutenções
           </button>
         </div>
-        <Transition
-          appear={true}
-          show={isShowing}
-          enter={`transition-all ease-in-out duration-700`}
-          enterFrom="opacity-0 translate-y-6"
-          enterTo="opacity-100 translate-y-0"
-          leave="transition-all ease-in-out duration-300"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
+        <TransitionEffect isShowing={isShowing}>
           {display === "add" && (
             <section className="w-[95%] mt-6 bg-white z-1 rounded-xl z-10 p-4 flex flex-wrap gap-2 justify-between">
               <AddMaintance getMaintances={() => getMaintenances()} />
@@ -94,11 +131,88 @@ export default function ManutencaoPage() {
             </section>
           )}
           {display === "maintenances" && (
-            <section className="w-[95%] mt-6 bg-white z-1 rounded-xl z-10 p-2 flex flex-wrap gap-2 justify-between">
-              <Report maintenance={maintenances} />
+            <section className="w-[95%] ">
+              <form
+                className="w-full mt-6 bg-white z-1 rounded-xl z-10 p-2 flex flex-wrap gap-2 justify-between items-center"
+                onSubmit={(e) => {
+                  filterMaintenances(e);
+                }}
+              >
+                <div className="flex w-[45%] gap-2 h-10">
+                  <input
+                    type="radio"
+                    name="filter"
+                    id="placa"
+                    value="patr"
+                    className="w-5"
+                    onChange={(e) => {
+                      setFilter(e.target.value);
+                      setSearch("");
+                      setSelected("");
+                    }}
+                  />
+                  <div className="w-full justify-between items-center flex gap-2">
+                    <label className="text-c5 font-medium shrink-0 cursor-pointer" htmlFor="placa">
+                      Patrimônio
+                    </label>
+                    <Input
+                      name="placa"
+                      placeholder="Placa"
+                      type="text"
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                      }}
+                      disabled={filter !== "patr"}
+                    />
+                  </div>
+                </div>
+                <div className="flex w-[45%] gap-2">
+                  <input
+                    type="radio"
+                    name="filter"
+                    id="prestador"
+                    value="prestador"
+                    className="w-5"
+                    onChange={(e) => {
+                      setFilter(e.target.value);
+                      setSearch("");
+                      setSelected("");
+                    }}
+                  />
+                  <div className="w-full h-10 justify-between items-center flex gap-2">
+                    <label className=" text-c5 font-medium shrink-0 cursor-pointer " htmlFor="prestador">
+                      Prestador
+                    </label>
+                    <Select
+                      disabled={filter !== "prestador"}
+                      selected={selected}
+                      setSelected={(e) => (setSearch(e.id), setSelected(e.nome + " " + e.sobrenome))}
+                      options={prestadores}
+                    />
+                  </div>
+                </div>
+                {loading ? (
+                  <div className="ml-4">
+                    <ThreeDots color={"#4F63D7"} height={45} width={46} />
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-11 h-11 bg-p3 rounded-full text-white flex items-center justify-center transition-all hover:opacity-90 ml-4"
+                    onClick={(event) => {
+                      filterMaintenances();
+                    }}
+                  >
+                    <Icon.MagnifyingGlassIcon className="w-5 h-5 " />
+                  </button>
+                )}
+              </form>
+              <div className="w-full mt-6 bg-white z-1 rounded-xl z-10 p-2 flex flex-wrap gap-2 justify-between">
+                <Report maintenance={maintenances} />
+              </div>
             </section>
           )}
-        </Transition>
+        </TransitionEffect>
       </div>
     </main>
   );

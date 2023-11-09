@@ -39,7 +39,7 @@ const Report: React.FC<TableProps> = ({ maintenance }) => {
 
   return (
     <TransitionEffect isShowing={isShowing} >
-      <table className="w-full max-h-[24rem] h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar-thin">
+      <table className="w-full max-h-[21rem] h-auto flex flex-col items-center rounded-xl overflow-auto scrollbar-thin">
         <thead className="w-full flex justify-between items-center ">
           <tr className="w-full h-auto flex justify-between items-center bg-c1 p-4 gap-2">
             <th className="w-1/6 h-full flex  items-center">Patrimônio</th>
