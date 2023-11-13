@@ -38,7 +38,7 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
               leaveTo="transform scale-95 opacity-0"
             >
               <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-c5 bg-white rounded-lg">
-                {content}
+                <div dangerouslySetInnerHTML={{ __html: content }} />
               </Disclosure.Panel>
             </Transition>
           </>

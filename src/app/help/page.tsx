@@ -15,23 +15,50 @@ export default function HelpPage() {
       <section className="w-full flex flex-col gap-3">
         <Accordion
           title="Relátorio dos Patrimônios"
-          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+          content="Como Usar o Relátorio dos Patrimônios:
+            <p> 1. Selecione a sala desejada no campo de seleção. </p>
+            <p> 2. Clique no botão exportar. </p>
+            <p>
+            •	Resultado:
+              Um arquivo em formato Excel será criado na sua pasta de downloads. Este arquivo conterá um relatório completo dos patrimônios presentes na localização selecionada.
+            </p>
+          "
         />
         <Accordion
           title="Informações do Patrimônio"
-          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+          content="Como usar as Informações do Patrimônio:
+            <p>1. Informe a placa do patrimônio.</p>
+            <p>2. Clique no botão Buscar.</p>
+            <p>
+            •	Resultado: Uma janela será aberta com as informações do patrimônio. Caso o patrimônio esteja baixado as
+              informações referentes a baixa serão exibidas.
+            </p>
+          "
         />
         <Accordion
           title="Mover Patrimônio"
-          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+          content="Como usar o Mover Patrimônio:
+            <p>1. Informe a placa do patrimônio.</p>
+            <p>2. Clique no botão com o icone da lupa .</p>
+            <p>3. A caixa de seleção será desbloqueada com a localização atual do patrimônio</p>
+            <p>4. Selecione o novo local desejado.</p>
+            <p>5. Clique no botão com o icone de check para concluir o processo.</p>
+          "
         />
         <Accordion
           title="Manutenções Pendentes"
-          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+          content="•	Como Usar a Tabela de Manutenções Pendentes:
+            <p>1.	A tabela mostra a placa de identificação do patrimônio, a descrição da manutenção, o prestador de serviço responsável e a data prevista para o término da manutenção.</p>
+            <p>2.	Periodicamente, verifique esta tabela para acompanhar as manutenções pendentes e suas datas previstas de conclusão.</p>
+            <p>3.	Quando uma manutenção for finalizada, ela será removida automaticamente desta tabela informativa.</p>
+          "
         />
         <Accordion
           title="Patrimônios Danificados"
-          content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+          content="•	Como Usar a Tabela de Patrimônios Danificados:
+          <p>1.	A tabela mostra a placa de identificação do patrimônio, a descrição do patrimônio e o seu estado de conservação.</p>
+          <p>2.	Utilize essa tabela para ter uma gestão eficiente dos recursos, ajudando a priorizar as ações de manutenção e garantir que os patrimônios estejam em boas condições de funcionamento</p>
+          "
         />
       </section>
     );
