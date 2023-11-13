@@ -17,7 +17,6 @@ import getCategories from "@/providers/getCategories";
 import TransitionEffect from "../TransitionEffect";
 
 const AddProperty: React.FC = () => {
-  
   const conditions: Condition[] = [
     { id: 1, descricao: "EXCELENTE" },
     { id: 2, descricao: "OTIMO" },
@@ -209,7 +208,6 @@ const AddProperty: React.FC = () => {
               placeholder="Selecione uma origem"
             />
           </div>
-
           <div className="w-[48%] h-10 flex justify-between items-center">
             <Input
               label="Data de Entrada"
