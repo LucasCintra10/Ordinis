@@ -15,8 +15,8 @@ const Select: React.FC<SelectProps> = ({ selected, setSelected, options, disable
     <>
       <Listbox value={selected} onChange={setSelected} disabled={disabled}>
         <div className="w-full h-full relative ">
-          <Listbox.Button className="w-full h-full bg-c1 rounded text-left relative pl-2">
-            {selected || placeholder}
+          <Listbox.Button className={`w-full h-full bg-c1 rounded text-left relative pl-2`}>
+            {selected ? <span>{selected}</span> : <span className="opacity-40">{placeholder}</span>}
             <Icon.ChevronDownIcon className="w-4 h-4 absolute right-1 top-3" />
           </Listbox.Button>
           <Transition

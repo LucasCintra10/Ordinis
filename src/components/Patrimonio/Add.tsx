@@ -121,6 +121,7 @@ const AddProperty: React.FC = () => {
               type="text"
               onChange={(e) => handleInputChange(e)}
               value={property.placa || ""}
+              placeholder="ABC-1234"
             />
           </div>
           <div className="w-[48%] h-10 flex justify-between items-center">
@@ -130,6 +131,7 @@ const AddProperty: React.FC = () => {
               type="text"
               onChange={(e) => handleInputChange(e)}
               value={property.descricao || ""}
+              placeholder="Descrição do patrimônio"
             />
           </div>
           <div className="w-[48%] h-10 flex justify-between items-center">
@@ -139,6 +141,7 @@ const AddProperty: React.FC = () => {
               type="text"
               onChange={(e) => handleInputChange(e)}
               value={property.valor || ""}
+              placeholder="1.234,56"
             />
           </div>
           <div className="w-[48%] h-10 flex justify-between items-center">
@@ -151,6 +154,7 @@ const AddProperty: React.FC = () => {
                   setSelected({ ...selected, location: e.descricao })
                 )}
                 options={locations}
+                placeholder="Selecione uma localização"
               />
               <button
                 className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ml-4 hover:opacity-90 "
@@ -171,6 +175,7 @@ const AddProperty: React.FC = () => {
                   setProperty({ ...property, id_categoria: e.id }), setSelected({ ...selected, category: e.descricao })
                 )}
                 options={categories}
+                placeholder="Selecione uma categoria"
               />
               <button
                 className="w-14 h-full bg-p3 rounded text-white flex items-center justify-center transition-all ml-4 hover:opacity-90 "
@@ -190,6 +195,7 @@ const AddProperty: React.FC = () => {
                 setProperty({ ...property, estado: e.descricao }), setSelected({ ...selected, condition: e.descricao });
               }}
               options={conditions}
+              placeholder="Selecione uma conservação"
             />
           </div>
           <div className="w-[48%] h-10 flex justify-between items-center">
@@ -200,6 +206,7 @@ const AddProperty: React.FC = () => {
                 setProperty({ ...property, origem: e.descricao }), setSelected({ ...selected, origin: e.descricao });
               }}
               options={origins}
+              placeholder="Selecione uma origem"
             />
           </div>
 

@@ -103,7 +103,7 @@ export default function ManutencaoPage() {
             onClick={() => setDisplay("add")}
           >
             <Icon.WrenchIcon className="w-5 h-5" />
-            Adicionar
+            Registrar
           </button>
           <button
             className={`w-48 h-16 cursor-pointer  rounded-2xl flex justify-center items-center gap-2  transition-colors hover:bg-c4 hover:text-c2 ${

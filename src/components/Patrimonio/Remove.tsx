@@ -234,6 +234,7 @@ const RemoveProperty: React.FC = () => {
               value={property?.resp_entrega || ""}
               disabled={disabled}
               onChange={(e) => handleInputChange(e)}
+              placeholder="Responsável pela entrega"
             />
           </div>
           <div className={`w-[48%] h-10 flex justify-between items-center ${disabled && "opacity-60"}`}>
@@ -244,6 +245,7 @@ const RemoveProperty: React.FC = () => {
               value={property?.resp_retirada || ""}
               disabled={disabled}
               onChange={(e) => handleInputChange(e)}
+              placeholder="Responsável pela retirada"
             />
           </div>
           {loading.delete ? (

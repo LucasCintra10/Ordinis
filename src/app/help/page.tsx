@@ -64,6 +64,67 @@ export default function HelpPage() {
     );
   };
 
+  const PatrimonioSection = () => {
+    return (
+      <section className="w-full flex flex-col gap-3">
+        <Accordion
+          title="Cadastro de Patrimônio"
+          content={`•	Como Usar a Aba de Cadastro:
+          <p> 1.	Placa: Insira um código único, a placa, para identificar o patrimônio. Esta é uma referência exclusiva. </p>
+          <p> 2.	Descrição: Forneça uma descrição do patrimônio, explicando suas características relevantes.</p>
+          <p> 3.	Valor: Indique o valor estimado do patrimônio, se aplicável. </p>
+          <p> 4.	Localização: Especifique o local ou área onde o patrimônio está atualmente localizado. </p>
+          <p> 5.	Categoria: Atribua uma categoria ao patrimônio, como "Equipamento", "Veículo", "Imóvel", etc. </p>
+          <p> 6.	Conservação: Classifique o estado de conservação do patrimônio como "Excelente", "Ótimo", "Regular", "Ruim" ou outra categoria relevante. </p>
+          <p> 7.	Origem: Indique a origem do patrimônio, por exemplo, de onde foi adquirido, doado, etc. </p>
+          <p> 8.	Data de Entrada: Insira a data em que o patrimônio foi adicionado ao sistema. </p>
+          <p> 9.	Pra efetuar o cadastro clique no botão cadastrar.	</p>
+          `}
+        />
+        <Accordion
+          title="Edição de Patrimônio"
+          content={`•	Como Usar a Aba de Edição:
+          <p> 1.	Preencha o campo placa com a placa do patrimônio que deseja editar. </p>
+          <p> 2.	Altere qualquer informação já registrada com exceção da placa de identificação. </p>
+          <p> 3.	Para salvar as alterações feitas clique no botão editar. </p>
+          `}
+        />
+        <Accordion
+          title="Baixa de Patrimônio"
+          content={`•	Como Usar a Aba de Baixa:
+          <p> 1.	Placa: Insira a placa de identificação do patrimônio que você deseja dar baixa para localizá-lo no sistema. </p>
+          <p> 2.	Data de Saída: Informe a data em que o patrimônio foi retirado das dependências da empresa. </p>
+          <p> 3.	Responsável pela Entrega do Patrimônio: Indique o nome da pessoa ou entidade responsável por entregar o patrimônio. </p>
+          <p> 4.	Responsável pela Retirada do Patrimônio: Insira o nome da pessoa ou entidade responsável por retirar o patrimônio. </p>
+          `}
+        />
+      </section>
+    );
+  };
+
+  const ManutencaoSection = () => {
+    return (
+      <section className="w-full flex flex-col gap-3">
+        <Accordion
+          title="Registrar Manutenção"
+          content={`•	Como Usar a Aba de Registro:
+            <p> 1.	Placa: Insira a placa de identificação do patrimônio que você deseja dar baixa para localizá-lo no sistema. </p> 
+            <p> 2.	Prestador: Informar o Prestador de serviço responsável pela manutenção.</p>
+            <p> 3.	Valor: Informar o valor cobrado pela manutenção. </p>
+            <p> 4.	Data de Início: data em que a manutenção começou. </p>
+            <p>  5.	Descrição: Indique o que será realizado na manutenção. </p>
+            <p> 6.	Previsão de Entrega: Data prevista para a conclusão da manutenção. </p>
+            <p> 7.	Para registrar a manutenção clique no botão Adicionar. </p>
+            <p>
+            •	Resultado:
+              Após isso a manutenção será adicionada a uma lista, para alterar o status da manutenção para concluído, deve marcar o campo de status, após marcar uma vez não será mais possível desmarcar esse campo.
+            </p>
+          `}
+        />
+      </section>
+    );
+  };
+
   return (
     <>
       <main className="w-screen h-screen flex justify-center items-center">
@@ -124,6 +185,16 @@ export default function HelpPage() {
             {display === "home" && (
               <TransitionEffect isShowing={isShowing}>
                 <HomeSection />
+              </TransitionEffect>
+            )}
+            {display === "patrimonio" && (
+              <TransitionEffect isShowing={isShowing}>
+                <PatrimonioSection />
+              </TransitionEffect>
+            )}
+            {display === "manutencao" && (
+              <TransitionEffect isShowing={isShowing}>
+                <ManutencaoSection />
               </TransitionEffect>
             )}
           </div>
