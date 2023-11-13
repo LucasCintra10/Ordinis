@@ -126,6 +126,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             name="placa"
             label="Placa"
             type="text"
+            placeholder="Placa do patrimônio"
             value={property?.placa || ""}
             onChange={(e) => setProperty({ ...property, placa: e.target.value })}
           />
@@ -151,6 +152,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             <Select
               disabled={disabled}
               selected={selected}
+              placeholder="Selecione um prestador"
               setSelected={(e) => (setMaintance({ ...maintenance, id_prestador: e.id }), setSelected(e.nome + " " + e.sobrenome))}
               options={prestadores}
             />
@@ -170,6 +172,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             disabled={disabled} 
             label="Valor" 
             name="valor" 
+            placeholder="1.234,56"
             type="text" 
             value={maintenance?.valor || ""}
             onChange={(e) => handleInputChange(e)} 
@@ -190,6 +193,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
             disabled={disabled}
             label="Descrição"
             name="descricao"
+            placeholder="Descrição do serviço realizado"
             type="text"
             value={maintenance?.descricao || ""}
             onChange={(e) => handleInputChange(e)}

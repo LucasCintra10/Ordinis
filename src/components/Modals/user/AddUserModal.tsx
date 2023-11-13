@@ -92,22 +92,23 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                 <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-4 cursor-pointer" onClick={closeModal} />
                 <Dialog.Description className="w-full flex flex-col gap-4">
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Nome" name="nome" onChange={handleInputChange} />
+                    <Input type="text" label="Nome" name="nome" onChange={handleInputChange} placeholder="Nome" />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Sobrenome" name="sobrenome" onChange={handleInputChange} />
+                    <Input type="text" label="Sobrenome" name="sobrenome" onChange={handleInputChange} placeholder="Sobrenome" />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="email" label="Email" name="email" onChange={handleInputChange} />
+                    <Input type="email" label="Email" name="email" onChange={handleInputChange} placeholder="exemplo@email.com" />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="CPF" name="cpf" onChange={handleInputChange} />
+                    <Input type="text" label="CPF" name="cpf" onChange={handleInputChange} placeholder="123456789-12" />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
                     <Input
                       type={showPassword ? "text" : "password"}
                       label="Senha"
                       name="senha"
+                      placeholder="********"
                       onChange={handleInputChange}
                     />
                     {showPassword ? (

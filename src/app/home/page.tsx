@@ -61,7 +61,7 @@ export default function HomePage() {
               setSelected(e);
             }}
             options={locations}
-            placeholder="Localização"
+            placeholder="Selecione uma localização"
           />
         </div>
 
@@ -110,7 +110,7 @@ export default function HomePage() {
           <Input
             name="placaInfo"
             type="text"
-            placeholder="Placa"
+            placeholder="Placa do Patrimônio"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -193,7 +193,7 @@ export default function HomePage() {
         <div className="w-full h-10 flex justify-between items-center">
           <Input
             name="placaLoc"
-            placeholder="Placa"
+            placeholder="Placa do Patrimônio"
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -222,7 +222,7 @@ export default function HomePage() {
                 setSelected(e);
               }}
               options={locations}
-              placeholder="Localização"
+              placeholder="Selecione uma localização"
               disabled={!property.id}
             />
           </div>

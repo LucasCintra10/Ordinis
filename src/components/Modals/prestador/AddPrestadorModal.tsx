@@ -86,25 +86,49 @@ const AddPrestadorModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                 <Icon.XMarkIcon className="w-6 h-6 absolute top-4 right-4 cursor-pointer" onClick={closeModal} />
                 <Dialog.Description className="w-full flex flex-col gap-4">
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Nome" name="nome" onChange={handleInputChange} />
+                    <Input type="text" label="Nome" name="nome" onChange={handleInputChange} placeholder="Nome" />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Sobrenome" name="sobrenome" onChange={handleInputChange} />
+                    <Input
+                      type="text"
+                      label="Sobrenome"
+                      name="sobrenome"
+                      onChange={handleInputChange}
+                      placeholder="Sobrenome"
+                    />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Descrição" name="descricao" onChange={handleInputChange} />
+                    <Input
+                      type="text"
+                      label="Descrição"
+                      name="descricao"
+                      onChange={handleInputChange}
+                      placeholder="Descrição do prestador"
+                    />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Telefone" name="telefone" onChange={handleInputChange} />
+                    <Input
+                      type="text"
+                      label="Telefone"
+                      name="telefone"
+                      onChange={handleInputChange}
+                      placeholder="(00) 00000-0000"
+                    />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Rua" name="rua" onChange={handleInputChange} />
+                    <Input type="text" label="Rua" name="rua" onChange={handleInputChange} placeholder="Nome da rua" />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Número" name="numero" onChange={handleInputChange} />
+                    <Input type="text" label="Número" name="numero" onChange={handleInputChange} placeholder="123" />
                   </div>
                   <div className="w-full h-12 flex justify-evenly items-center">
-                    <Input type="text" label="Bairro" name="bairro" onChange={handleInputChange} />
+                    <Input
+                      type="text"
+                      label="Bairro"
+                      name="bairro"
+                      onChange={handleInputChange}
+                      placeholder="Nome do bairro"
+                    />
                   </div>
                 </Dialog.Description>
                 <Dialog.Description className="w-full">
