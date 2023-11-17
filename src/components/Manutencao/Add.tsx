@@ -110,7 +110,7 @@ const AddMaintenance: React.FC<AddMaintenanceProps> = ({ getMaintances}) => {
 
   React.useEffect(() => {
     getPrestadores();
-  }, []);
+  }, [AddPrestadorModal]);
 
   return (
     <>
