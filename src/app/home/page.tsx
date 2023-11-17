@@ -370,7 +370,7 @@ export default function HomePage() {
                 {pagedItems?.map((item: any, index: any) => (
                   <tr className={`w-[95%] flex justify-between p-2 box-border bg-c1 rounded-full`} key={index}>
                     <td className="w-4/6 truncate">{item?.placa}</td>
-                    <td className="w-2/6 text-left">{item?.localizacao?.descricao}</td>
+                    <td className="w-2/6 text-left truncate">{item?.localizacao?.descricao}</td>
                     <td className="w-2/6 text-left">{item?.origem}</td>
                   </tr>
                 ))}
