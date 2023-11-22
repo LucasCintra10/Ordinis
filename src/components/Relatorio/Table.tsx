@@ -27,14 +27,14 @@ const Table: React.FC<TableProps> = ({ property }) => {
       <tbody className="w-full h-5/6 flex flex-col items-center">
         {property?.map((item: any, index: any) => (
           <tr className={`w-full flex items-center p-4  ${index % 2 == 0 ? `` : `bg-c1`}`} key={index}>
-            <td className="w-1/6 h-full flex items-center">{item?.placa}</td>
-            <td className="w-1/6 h-full flex items-center">{item?.categoria.descricao}</td>
-            <td className="w-1/6 h-full flex items-center">{item?.localizacao.descricao}</td>
-            <td className="w-1/6 h-full flex items-center">{moneyFormat(item?.valor)}</td>
-            <td className="w-1/6 h-full flex items-center">{item?.origem}</td>
-            <td className="w-1/6 h-full flex items-center">{item?.estado}</td>
-            <td className="w-1/6 h-full flex items-center">{moment.utc(item.data_entrada).format("DD/MM/YYYY")}</td>
-            <td className="w-24 h-full flex items-center">{item?.status === 1 ? "Ativo": "Baixado"}</td>
+            <td className="w-1/6 h-full flex items-center truncate">{item?.placa}</td>
+            <td className="w-1/6 h-full flex items-center truncate">{item?.categoria.descricao}</td>
+            <td className="w-1/6 h-full flex items-center truncate">{item?.localizacao.descricao}</td>
+            <td className="w-1/6 h-full flex items-center truncate">{moneyFormat(item?.valor)}</td>
+            <td className="w-1/6 h-full flex items-center truncate">{item?.origem}</td>
+            <td className="w-1/6 h-full flex items-center truncate">{item?.estado}</td>
+            <td className="w-1/6 h-full flex items-center truncate">{moment.utc(item.data_entrada).format("DD/MM/YYYY")}</td>
+            <td className="w-24 h-full flex items-center truncate">{item?.status === 1 ? "Ativo": "Baixado"}</td>
           </tr>
         ))}
       </tbody>

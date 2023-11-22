@@ -18,6 +18,7 @@ import { Transition } from "@headlessui/react";
 import { Maintenance } from "@/models/maintenance";
 import moment from "moment";
 import { ColorRing } from "react-loader-spinner";
+import WarningModal from "@/components/Modals/WarningModal";
 
 export default function HomePage() {
   const [locations, setLocations] = React.useState<Location[]>([]);
@@ -139,6 +140,8 @@ export default function HomePage() {
     const [property, setProperty] = React.useState({} as Property);
     const [selected, setSelected] = React.useState({} as Location);
 
+    const [warningModal, setWarningModal] = React.useState(false);
+
     const getPatrimonio = async () => {
       setLoading({ ...loading, search: true });
       api
@@ -183,18 +186,29 @@ export default function HomePage() {
         })
         .finally(() => {
           setLoading({ ...loading, update: false });
+          setWarningModal(false);
         });
     };
 
     return (
       <>
+        <WarningModal
+          isOpen={warningModal}
+          setIsOpen={setWarningModal}
+          onConfirm={() => {
+            updateLocation();
+          }}
+          onCancel={() => {
+            setWarningModal(false);
+          }}
+        />
         <Icon.ChevronDoubleDownIcon className="w-5 h-5" />
         <p>Mover Patrimônio</p>
         <div className="w-full h-10 flex justify-between items-center">
           <Input
             name="placaLoc"
             placeholder="Placa do Patrimônio"
-            type="text"
+            type="text" 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -237,7 +251,7 @@ export default function HomePage() {
                 (!property || !selected.id) && `hover:opacity-90`
               } ml-4`}
               onClick={() => {
-                updateLocation();
+                setWarningModal(true);
               }}
               disabled={!property || !selected.id}
             >
@@ -369,8 +383,8 @@ export default function HomePage() {
               <tbody className="w-full flex flex-col items-center gap-2 text-c5">
                 {pagedItems?.map((item: any, index: any) => (
                   <tr className={`w-[95%] flex justify-between p-2 box-border bg-c1 rounded-full`} key={index}>
-                    <td className="w-4/6 truncate">{item?.placa}</td>
-                    <td className="w-2/6 text-left truncate">{item?.localizacao?.descricao}</td>
+                    <td className="w-3/6 truncate">{item?.placa}</td>
+                    <td className="w-4/6 text-left truncate">{item?.localizacao?.descricao}</td>
                     <td className="w-2/6 text-left">{item?.origem}</td>
                   </tr>
                 ))}
