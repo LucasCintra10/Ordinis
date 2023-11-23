@@ -129,7 +129,7 @@ const AddUserModal: React.FC<Modal> = ({ isOpen, setIsOpen }) => {
                   </div>
                   <span className="text-xs text-c2 ml-auto">(A senha deve conter no mínimo 6 caracteres) </span>
                   <div className="w-full h-12 flex items-center ">
-                    <label className="w-52">Permissao</label>
+                    <label className="w-52">Permissão</label>
                     <div className=" w-full h-full flex justify-around items-center border-2 border-c1 rounded ">
                       <div className="flex gap-2 cursor-pointer">
                         <input
